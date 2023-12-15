@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">ShopMateMobile</string>
+    <string name="logo_name">ShopMate</string>
+    <string name="welcome">Додаток, де кожна покупка - це нова радість!</string>
+    <string name="register">Зареєструватись</string>
+    <string name="login">Увійти</string>
+    <string name="welcome_info">Онлайн шопінг, де зручність та задоволення зустрічаються!</string>
+    <string name="have_account">Вже маєте акаунт?</string>
+    <string name="devices">Devices</string>
+    <string name="makeup">Makeup</string>
+    <string name="furniture">Furniture</string>
+    <string name="Login">Увійти</string>
 </resources>
