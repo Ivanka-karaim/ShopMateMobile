@@ -10,6 +10,8 @@
     <string name="makeup">Makeup</string>
     <string name="furniture">Furniture</string>
     <string name="Login">Увійти</string>
+    <string name="sign_in">Вхід</string>
+    <string name="need_sign_in">Привіт! Тобі потрібно увійти</string>
     <string name="home">Home</string>
     <string name="basket">Корзина</string>
     <string name="favourite">Favourite</string>
@@ -25,4 +27,13 @@
     <string name="my_addresses">Мої адреси</string>
     <string name="chat">Чат підтримки</string>
     <string name="exit">Вийти</string>
+    <string name="sign_up">Реєстрація</string>
+    <string name="need_sign_up">Привіт! Тобі потрібно зареєструватисья</string>
+    <string name="name">Ім`я</string>
+    <string name="surname">Прізвище</string>
+    <string name="phone_number">Номер телефону</string>
+    <string name="email">Електронна пошта</string>
+    <string name="date_birth">Дата народження</string>
+    <string name="password">Пароль</string>
+    <string name="repeat_password">Повторіть пароль</string>
 </resources>
