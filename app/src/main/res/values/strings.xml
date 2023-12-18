@@ -13,10 +13,16 @@
     <string name="home">Home</string>
     <string name="basket">Корзина</string>
     <string name="favourite">Favourite</string>
-    <string name="profile">Profile</string>
+    <string name="profile">Профіль</string>
     <string name="cost">Вартість:</string>
     <string name="rectangle">rectangle</string>
     <string name="coupon">Оберіть купон:</string>
     <string name="cost_discount">Вартість зі знижкою:</string>
     <string name="order">Замовити</string>
+    <string name="edit_profile">Редагувати профіль</string>
+    <string name="my_orders">Мої замовлення</string>
+    <string name="my_coupons">Мої купони</string>
+    <string name="my_addresses">Мої адреси</string>
+    <string name="chat">Чат підтримки</string>
+    <string name="exit">Вийти</string>
 </resources>
