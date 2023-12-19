@@ -5,6 +5,15 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.example.shopmatemobile.addResources.RetrofitClient
+import com.example.shopmatemobile.addResources.SharedPreferencesFactory
+import com.example.shopmatemobile.api.UserApi
+import com.example.shopmatemobile.model.SignInModel
+import com.example.shopmatemobile.model.User
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
 class Registration : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,41 +27,27 @@ class Registration : AppCompatActivity() {
         val userPassword1: EditText = findViewById(R.id.editPassword1)
         val userPassword2: EditText = findViewById(R.id.editPassword2)
         val button: Button = findViewById(R.id.button)
-
-
         button.setOnClickListener {
             val name = userName.text.toString().trim()
             val surname = userSurname.text.toString().trim()
             val phoneNumber = userPhoneNumber.text.toString().trim()
             val email = userEmail.text.toString().trim()
-            val dateBirth = userDateBirth.text.toString().trim()
+            val dateBirth = java.util.Date(userDateBirth.text.toString())
             val password1 = userPassword1.text.toString().trim()
             val password2 = userPassword2.text.toString().trim()
-
-            if(name =="" || surname =="" || phoneNumber=="" || email=="" || dateBirth=="" || password1=="" || password2==""){
+            if(name =="" || surname =="" || phoneNumber=="" || email==""  || password1=="" || password2==""){
                 Toast.makeText(this, "Не всі поля заповнені", Toast.LENGTH_LONG ).show()
-
             }else{
-
+                val user = User(name, surname, email, password1, dateBirth, phoneNumber)
+                val userApi = RetrofitClient.getInstance().create(UserApi::class.java)
+                button.setOnClickListener {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val token = userApi.signUp(user)
+                        SharedPreferencesFactory(this@Registration).saveToken(token.token)
+                    }
+                }
             }
 
         }
-
-//        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
-//        val data = listOf(
-//            Pair("Ім'я", "Володимир"),
-//            Pair("Прізвище", "Зеленський"),
-//            Pair("Номер телефону", "+38 (000) 000 00 00"),
-//            Pair("Електронна пошта", "aaaaaa@gmail.com"),
-//            Pair("Дата народження", "00.00.0000"),
-//            Pair("Пароль", "*************"),
-//            Pair("Повторіть пароль", "*************")
-//        )
-//
-//        val layoutManager = LinearLayoutManager(this)
-//        val adapter = FormAdapter(data)
-//
-//        recyclerView.layoutManager = layoutManager
-//        recyclerView.adapter = adapter
     }
 }

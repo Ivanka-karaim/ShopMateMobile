@@ -58,10 +58,11 @@
         android:layout_height="0dp"
         android:layout_marginHorizontal="30dp"
         android:backgroundTint="#704F38"
+        android:onClick="startNewActivity"
         android:text="@string/register"
         android:textColor="#F8F0EB"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="parent" />
