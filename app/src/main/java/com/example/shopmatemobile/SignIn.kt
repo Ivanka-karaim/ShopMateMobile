@@ -34,39 +34,33 @@ class SignIn : AppCompatActivity() {
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val userApi = RetrofitClient.getInstance().create(UserApi::class.java)
+        binding.underlinedButton.setOnClickListener {
+            val intent = Intent(this@SignIn, Registration::class.java)
+            startActivity(intent)
+        }
         binding.signInButton.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                val response = userApi.signIn(
-                    SignInModel(
-                        binding.editEmail.text.toString(), binding.editPassword1.text.toString()
-                    )
+            CoroutineScope(Dispatchers.Main).launch {
+                val errors = UserService.signIn(
+                    userApi,
+                    binding.editEmail.text.toString(),
+                    binding.editPassword1.text.toString(),
+                    this@SignIn
                 )
-                if (response.isSuccessful) {
-                    val token = response.body()
-                    SharedPreferencesFactory(this@SignIn).saveToken(token!!.token)
+                if (errors.isEmpty()) {
                     val intent = Intent(this@SignIn, MainActivity2::class.java)
                     startActivity(intent)
-                } else {
-                    val errorMessage = response.errorBody()?.string()
-                    if (errorMessage.toString().contains("UserNoFound")) {
-                        runOnUiThread {
-                            binding.textErrorPassword.text = ""
-                            binding.textErrorEmail.text = "Не існує такого користувача"
-                            binding.editEmail.text.clear()
-                            binding.editPassword1.text.clear()
-                        }
-
-
-                    } else if (errorMessage.toString().contains("WrongPassword")) {
-                        runOnUiThread {
-                            binding.textErrorEmail.text = ""
-                            binding.textErrorPassword.text = "Неправильний пароль"
-                            binding.editPassword1.text.clear()
-                        }
-                    }
-
-
+                } else if (errors == "emailError") {
+                    binding.textErrorPassword.text = ""
+                    binding.textErrorEmail.text = "Не існує такого користувача"
+                    binding.editEmail.text.clear()
+                    binding.editPassword1.text.clear()
+                } else if (errors == "passwordError") {
+                    binding.textErrorEmail.text = ""
+                    binding.textErrorPassword.text = "Неправильний пароль"
+                    binding.editPassword1.text.clear()
                 }
+
+
             }
         }
     }

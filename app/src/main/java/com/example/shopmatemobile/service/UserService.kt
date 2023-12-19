@@ -1,55 +1,56 @@
 package com.example.shopmatemobile.service
 
 import android.content.Context
+import android.content.Intent
+import com.example.shopmatemobile.MainActivity2
 import com.example.shopmatemobile.addResources.SharedPreferencesFactory
 import com.example.shopmatemobile.api.UserApi
 import com.example.shopmatemobile.model.SignInModel
+import com.example.shopmatemobile.model.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 object UserService {
 
-//    fun signIn(userApi: UserApi, email: String, password: String, context: Context): String {
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val response = userApi.signIn(
-//                SignInModel(
-//                    email, password
-//                )
-//            )
-//            if (response.isSuccessful) {
-//                val token = response.body()
-//                SharedPreferencesFactory(context).saveToken(token!!.token)
-//                return@launch "good"
-//
-//            } else {
-//                return@launch response.errorBody().toString()
-//            }
-//        }
-//        userApi.enqueue(object : Callback<UserData> {
-//            override fun onResponse(call: Call<UserData>, response: Response<UserData>) {
-//                if (response.isSuccessful) {
-//                    // Обробка успішного відгуку
-//                } else {
-//                    val error = response.errorBody()?.string()
-//                    // Обробка помилки
-//                    // Можна парсити `error` як JSON у вашому ErrorResponse класі
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<UserData>, t: Throwable) {
-//                // Обробка невдалого запиту
-//            }
-//        })
-//    }
+    suspend fun signIn(
+        userApi: UserApi,
+        email: String,
+        password: String,
+        context: Context
+    ): String {
 
-    fun signUp() {
+        return withContext(Dispatchers.IO) {
+            val response = userApi.signIn(
+                SignInModel(
+                    email, password
+                )
+            )
+            if (response.isSuccessful) {
+                val token = response.body()
+                SharedPreferencesFactory(context).saveToken(token!!.token)
 
+            } else {
+                val errorMessage = response.errorBody()?.string()
+                if (errorMessage.toString().contains("UserNoFound")) {
+                    return@withContext "emailError"
+//                    println(returnData)
+
+
+                } else if (errorMessage.toString().contains("WrongPassword")) {
+                    return@withContext "passwordError"
+
+                }
+            }
+            return@withContext ""
+        }
     }
+
 
     fun logout() {
 
     }
-
-
 }
+
+

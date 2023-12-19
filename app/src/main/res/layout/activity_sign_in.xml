@@ -150,6 +150,21 @@
                 android:textColor="#F8F0EB"
                 android:layout_width="match_parent"
                 app:layout_constraintTop_toBottomOf="@+id/editPassword1"/>
+
+            <Button
+                android:id="@+id/underlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/RegistrUnderLine"
+                android:textColor="@color/brown"
+                android:textStyle="normal"
+
+                android:background="?android:selectableItemBackground"
+                android:padding="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/signInButton"
+                />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

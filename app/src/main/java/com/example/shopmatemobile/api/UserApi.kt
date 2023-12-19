@@ -12,6 +12,6 @@ interface UserApi {
     suspend fun signIn(@Body signInModel: SignInModel): retrofit2.Response<UserToken>
 
     @POST("signup")
-    suspend fun signUp(@Body user: User): UserToken
+    suspend fun signUp(@Body signUpModel: User): retrofit2.Response<UserToken>
 
 }

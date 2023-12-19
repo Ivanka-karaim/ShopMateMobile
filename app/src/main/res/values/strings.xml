@@ -10,6 +10,8 @@
     <string name="makeup">Makeup</string>
     <string name="furniture">Furniture</string>
     <string name="Login">Увійти</string>
+    <string name="LoginUnderLine"><u>Увійти</u></string>
+    <string name="RegistrUnderLine"><u>Зареєструватись</u></string>
     <string name="sign_in">Вхід</string>
     <string name="need_sign_in">Привіт! Тобі потрібно увійти</string>
     <string name="home">Home</string>

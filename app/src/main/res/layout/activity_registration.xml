@@ -38,13 +38,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Registration" />
+            <TextView
+                android:id="@+id/errorRegistration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text=""
+                android:textColor="@color/dark_brown"
+                android:textSize="13sp"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/RegistrationText" />
 
         <TextView
             android:id="@+id/textName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40dp"
             android:text="@string/name"
             android:textSize="16sp"
             android:textColor="@color/dark_brown"
@@ -74,13 +86,27 @@
             app:layout_constraintTop_toBottomOf="@+id/textName"
             tools:ignore="LabelFor,RtlSymmetry" />
 
+            <TextView
+                android:id="@+id/errorName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginStart="20dp"
+                android:text=""
+                android:textSize="13sp"
+                android:textColor="@color/dark_brown"
+                app:layout_constraintTop_toBottomOf="@+id/editName"
+                app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+
+
+            <TextView
         android:id="@+id/textSurname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:text="@string/surname"
         android:textSize="16sp"
         android:textColor="@color/dark_brown"
@@ -109,12 +135,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textSurname"
         tools:ignore="LabelFor,RtlSymmetry" />
+            <TextView
+                android:id="@+id/errorSurname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginStart="20dp"
+                android:text=""
+                android:textSize="13sp"
+                android:textColor="@color/dark_brown"
+                app:layout_constraintTop_toBottomOf="@+id/editSurname"
+                app:layout_constraintStart_toStartOf="parent" />
     <TextView
         android:id="@+id/textPhoneNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:text="@string/phone_number"
         android:textSize="16sp"
         android:textColor="@color/dark_brown"
@@ -143,13 +181,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textPhoneNumber"
         tools:ignore="LabelFor,RtlSymmetry" />
+            <TextView
+                android:id="@+id/errorPhoneNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginStart="20dp"
+                android:text=""
+                android:textSize="13sp"
+                android:textColor="@color/dark_brown"
+                app:layout_constraintTop_toBottomOf="@+id/editPhoneNumber"
+                app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:text="@string/email"
         android:textSize="16sp"
         android:textColor="@color/dark_brown"
@@ -178,12 +228,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textEmail"
         tools:ignore="LabelFor,RtlSymmetry" />
+
+            <TextView
+                android:id="@+id/errorEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginStart="20dp"
+                android:text=""
+                android:textSize="13sp"
+                android:textColor="@color/dark_brown"
+                app:layout_constraintTop_toBottomOf="@+id/editEmail"
+                app:layout_constraintStart_toStartOf="parent" />
     <TextView
         android:id="@+id/textDateBirth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:text="@string/date_birth"
         android:textSize="16sp"
         android:textColor="@color/dark_brown"
@@ -212,13 +275,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textDateBirth"
         tools:ignore="LabelFor,RtlSymmetry" />
+            <TextView
+                android:id="@+id/errorDateBirth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginStart="20dp"
+                android:text=""
+                android:textSize="13sp"
+                android:textColor="@color/dark_brown"
+                app:layout_constraintTop_toBottomOf="@+id/editDateBirth"
+                app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textPassword1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:text="@string/password"
         android:textSize="16sp"
         android:textColor="@color/dark_brown"
@@ -247,13 +322,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textPassword1"
         tools:ignore="LabelFor,RtlSymmetry" />
+            <TextView
+                android:id="@+id/errorPassword1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginStart="20dp"
+                android:text=""
+                android:textSize="13sp"
+                android:textColor="@color/dark_brown"
+                app:layout_constraintTop_toBottomOf="@+id/editPassword1"
+                app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textPassword2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:text="@string/repeat_password"
         android:textSize="16sp"
         android:textColor="@color/dark_brown"
@@ -282,6 +369,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textPassword2"
         tools:ignore="LabelFor,RtlSymmetry" />
+            <TextView
+                android:id="@+id/errorPassword2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginStart="20dp"
+                android:text=""
+                android:textSize="13sp"
+                android:textColor="@color/dark_brown"
+                app:layout_constraintTop_toBottomOf="@+id/editPassword2"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <Button
                 android:id="@+id/button"
