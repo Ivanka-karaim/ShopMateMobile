@@ -1,6 +1,7 @@
 package com.example.shopmatemobile
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,12 +16,10 @@ import com.example.shopmatemobile.databinding.ActivityRegistrationBinding
 import com.example.shopmatemobile.model.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.Period
 import java.time.format.DateTimeFormatter
-import java.util.Date
 
 class Registration : AppCompatActivity() {
 
@@ -32,61 +31,70 @@ class Registration : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRegistrationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.underlinedButton.setOnClickListener {
+            val intent = Intent(this@Registration, SignIn::class.java)
+            startActivity(intent)
+        }
+        binding.button.setOnClickListener {
+            clean()
+            val checkName = checkName()
+            val checkSurname = checkSurname()
+            val checkEmail = checkEmail()
+            val checkPhoneNumber = checkPhoneNumber()
+            val checkDateBirth = checkDateBirth()
+            val checkPasswords = checkPasswords()
+            if (checkName && checkSurname && checkEmail && checkDateBirth && checkPasswords && checkPhoneNumber){
 
+                    val user = User(
+                        binding.editName.text.toString(),
+                        binding.editSurname.text.toString(),
+                        binding.editEmail.text.toString(),
+                        binding.editPassword1.text.toString(),
+                        binding.editDateBirth.text.toString(),
+                        binding.editPhoneNumber.text.toString()
+                    )
 
-        val userName: EditText = binding.editName
-        val userSurname: EditText = findViewById(R.id.editSurname)
-        val userPhoneNumber: EditText = findViewById(R.id.editPhoneNumber)
-        val userEmail: EditText = findViewById(R.id.editEmail)
-        val userDateBirth: EditText = findViewById(R.id.editDateBirth)
-        val userPassword1: EditText = findViewById(R.id.editPassword1)
-        val userPassword2: EditText = findViewById(R.id.editPassword2)
-        val button: Button = findViewById(R.id.button)
-        val errorRegistration: TextView = findViewById(R.id.errorRegistration)
-
-
-        button.setOnClickListener {
-            val date = binding.editDateBirth.text.toString()
-            println(date)
-
-
-
-
-
-            val user = User(
-                binding.editName.text.toString(),
-                binding.editSurname.text.toString(),
-                binding.editEmail.text.toString(),
-                binding.editPassword1.text.toString(),
-                date,
-                binding.editPhoneNumber.text.toString()
-            )
-
-            val userApi = RetrofitClient.getInstance().create(UserApi::class.java)
-                CoroutineScope(Dispatchers.IO).launch {
-                    val response = userApi.signUp(user)
-                    if (response.isSuccessful) {
-                        val token = response.body()
-                        SharedPreferencesFactory(this@Registration).saveToken(token!!.token)
-                    } else {
-                        val error = response.errorBody()?.string()
-                        if (error.toString().contains("UserAlreadyExist")) {
-                            errorRegistration.text = "На дану пошту вже зареєстровано користувача"
+                    val userApi = RetrofitClient.getInstance().create(UserApi::class.java)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val response = userApi.signUp(user)
+                        if (response.isSuccessful) {
+                            val token = response.body()
+                            SharedPreferencesFactory(this@Registration).saveToken(token!!.token)
+                            val intent = Intent(this@Registration, MainActivity2::class.java)
+                            startActivity(intent)
+                        } else {
+                            val error = response.errorBody()?.string()
+                            if (error.toString().contains("UserAlreadyExist")) {
+                                runOnUiThread {
+                                    binding.errorRegistration.text =
+                                        "На дану пошту вже зареєстровано користувача"
+                                }
+                            }
                         }
-                    }
 
+                    }
                 }
 
         }
 
     }
+    fun clean(){
+        binding.errorName.text=""
+        binding.errorSurname.text=""
+        binding.errorEmail.text=""
+        binding.errorPhoneNumber.text=""
+        binding.errorDateBirth.text=""
+        binding.errorPassword1.text=""
+        binding.errorPassword2.text=""
+    }
 
     fun checkName(): Boolean {
         val nameText = binding.editName.text.toString().trim()
-        val regex = Regex("[a-zA-Z]+")
+        val regex = Regex("[a-zA-Zа-яА-ЯҐґЄ-ЇІіЇїЄє]+")
         if (!regex.matches(nameText)) {
             binding.editName.text.clear()
             binding.errorName.text = "Ім'я може складатись лише з літер"
+            return false
         }
         return true
 
@@ -94,10 +102,11 @@ class Registration : AppCompatActivity() {
 
     fun checkSurname(): Boolean {
         val surnameText = binding.editSurname.text.toString().trim()
-        val regex = Regex("[a-zA-Z]+")
+        val regex = Regex("[a-zA-Zа-яА-ЯҐґЄ-ЇІіЇїЄє]+")
         if (!regex.matches(surnameText)) {
             binding.editSurname.text.clear()
             binding.errorSurname.text = "Прізвище може складатись лише з літер"
+            return false
         }
         return true
     }
@@ -109,6 +118,7 @@ class Registration : AppCompatActivity() {
         if (!regex.matches(phoneNumberText)) {
             binding.editPhoneNumber.text.clear()
             binding.errorPhoneNumber.text = "Такого номера телефону не існує"
+            return false
         }
         return true
     }
@@ -116,30 +126,35 @@ class Registration : AppCompatActivity() {
     fun checkEmail(): Boolean {
         val emailText = binding.editEmail.text.toString().trim()
         val regex = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\$")
-        if (regex.matches(emailText)) {
+        if (!regex.matches(emailText)) {
             binding.editEmail.text.clear()
             binding.errorEmail.text = "Такої пошти не існує"
+            return false
         }
         return true
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun checkDateBirth(): Boolean {
-        val dateBirthText = binding.editDateBirth.text.toString().trim()
+        try {
+            val dateBirthText = binding.editDateBirth.text.toString().trim()
 
-        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy") // Формат дати
-        val dateOfBirth =
-            java.time.LocalDate.parse(dateBirthText, formatter) // Парсинг дати з рядка
-        val currentDate = java.time.LocalDate.now() // Поточна дата
-        val age = Period.between(dateOfBirth, currentDate).years
-        if (age < 12) {
+            val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy") // Формат дати
+            val dateOfBirth =
+                java.time.LocalDate.parse(dateBirthText, formatter) // Парсинг дати з рядка
+            val currentDate = java.time.LocalDate.now() // Поточна дата
+            val age = Period.between(dateOfBirth, currentDate).years
+            if (age < 12) {
+                binding.editDateBirth.text.clear()
+                binding.errorDateBirth.text = "Вам менше 12 років. Реєстрація не можлива"
+                return false
+            }
+        }catch (e:Exception){
             binding.editDateBirth.text.clear()
-            binding.errorDateBirth.text = "Вам менше 12 років. Реєстрація не можлива"
+            binding.errorDateBirth.text = "Незрозумілий формат дати"
+            return false
         }
-        if (java.time.LocalDate.parse(dateBirthText, formatter) > java.time.LocalDate.now()) {
-            binding.editDateBirth.text.clear()
-            binding.errorDateBirth.text = "Не можливо"
-        }
+
         return true
     }
 
@@ -149,36 +164,28 @@ class Registration : AppCompatActivity() {
         val digitRegex = Regex("[0-9]")
         val password1 = binding.editPassword1.text.toString().trim()
         val password2 = binding.editPassword2.text.toString().trim()
-        if (password1 != password2) {
-            binding.editPassword2.text.clear()
-            binding.errorPassword2.text = "Паролі не збігаються"
-
-        } else if (uppercaseRegex.containsMatchIn(password1)) {
+        if (!uppercaseRegex.containsMatchIn(password1)) {
             binding.editPassword1.text.clear()
             binding.editPassword2.text.clear()
             binding.errorPassword1.text = "Має бути хоча б 1 велика літера"
-        } else if (lowercaseRegex.containsMatchIn(password1)) {
+            return false
+        } else if (!lowercaseRegex.containsMatchIn(password1)) {
             binding.editPassword1.text.clear()
             binding.editPassword2.text.clear()
             binding.errorPassword1.text = "Має бути хоча б 1 маленька літера"
-        } else if (digitRegex.containsMatchIn(password1)) {
+            return false
+        } else if (!digitRegex.containsMatchIn(password1)) {
             binding.editPassword1.text.clear()
             binding.editPassword2.text.clear()
             binding.errorPassword1.text = "Має бути хоча б 1 цифра"
+            return false
+        } else if (password1 != password2) {
+            binding.editPassword2.text.clear()
+            binding.errorPassword2.text = "Паролі не збігаються"
+            return false
+
         }
         return true
     }
 
-
-    fun checkData(
-        name: EditText,
-        surname: EditText,
-        phoneNumber: EditText,
-        dateBirth: EditText,
-        email: EditText,
-        password1: EditText,
-        password2: EditText
-    ) {
-
-    }
 }

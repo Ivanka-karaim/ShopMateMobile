@@ -393,6 +393,33 @@
                 android:textColor="#F8F0EB"
                 android:layout_width="match_parent"
                 app:layout_constraintTop_toBottomOf="@+id/editPassword2"/>
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:layout_marginStart="88dp"
+                android:layout_marginBottom="40dp"
+                android:text="@string/have_account"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <Button
+                android:id="@+id/underlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="16dp"
+                android:background="?android:selectableItemBackground"
+                android:padding="-5dp"
+                android:text="@string/LoginUnderLine"
+                android:textColor="@color/brown"
+                android:textStyle="normal"
+                app:layout_constraintTop_toBottomOf="@+id/button"
+                app:layout_constraintStart_toEndOf="@+id/text" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
