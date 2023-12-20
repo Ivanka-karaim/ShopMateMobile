@@ -5,6 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.shopmatemobile.adapter.CategoryAdapter
+import com.example.shopmatemobile.addResources.RetrofitClient
+import com.example.shopmatemobile.addResources.RetrofitClient2
+import com.example.shopmatemobile.api.ProductApi
+import com.example.shopmatemobile.api.UserApi
+import com.example.shopmatemobile.databinding.FragmentFavouriteBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,22 +30,38 @@ class Favourite : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    lateinit var binding: FragmentFavouriteBinding
+    private lateinit var adapterCategory: CategoryAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = FragmentFavouriteBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favourite, container, false)
+        return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        adapterCategory = CategoryAdapter(requireContext())
+        binding.RecyclerViewCategory.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.RecyclerViewCategory.adapter = adapterCategory
+
+        val productApi = RetrofitClient2.getInstance().create(ProductApi::class.java)
+        CoroutineScope(Dispatchers.IO).launch {
+            var categories = productApi.getCategories()
+            requireActivity().runOnUiThread {
+                binding.apply {
+                    adapterCategory.submitList(categories)
+                }
+            }
+        }
+    }
+
+
+
+
 
     companion object {
         /**

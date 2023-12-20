@@ -10,4 +10,6 @@ interface FavouriteApi {
     @Headers()
     @GET("favourites")
     suspend fun getFavourites(@Header("Authorization") token: String): List<Favourite>
+
+
 }
