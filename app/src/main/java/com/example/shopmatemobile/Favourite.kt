@@ -5,13 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopmatemobile.adapter.CategoryAdapter
+import com.example.shopmatemobile.adapter.FavouriteAdapter
+import com.example.shopmatemobile.addResources.ButtonClickListener
 import com.example.shopmatemobile.addResources.RetrofitClient
 import com.example.shopmatemobile.addResources.RetrofitClient2
 import com.example.shopmatemobile.api.ProductApi
 import com.example.shopmatemobile.api.UserApi
 import com.example.shopmatemobile.databinding.FragmentFavouriteBinding
+import com.example.shopmatemobile.model.ProductShopMate
+import com.example.shopmatemobile.service.FavouriteService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,12 +31,17 @@ private const val ARG_PARAM2 = "param2"
  * Use the [Favourite.newInstance] factory method to
  * create an instance of this fragment.
  */
-class Favourite : Fragment() {
+class Favourite : Fragment(), ButtonClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     lateinit var binding: FragmentFavouriteBinding
     private lateinit var adapterCategory: CategoryAdapter
+    private lateinit var adapterFavourite: FavouriteAdapter
+
+    private lateinit var favourites: List<ProductShopMate>
+
+    private lateinit var categories: List<String>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,19 +54,58 @@ class Favourite : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapterCategory = CategoryAdapter(requireContext())
+        adapterCategory = CategoryAdapter(requireContext(),  "All",this)
         binding.RecyclerViewCategory.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.RecyclerViewCategory.adapter = adapterCategory
+        val displayMetrics = resources.displayMetrics
+        val screenWidth = displayMetrics.widthPixels
 
-        val productApi = RetrofitClient2.getInstance().create(ProductApi::class.java)
+        val desiredItemWidth = screenWidth / 2
+
+        val layoutManager = object : GridLayoutManager(requireContext(), 2) {
+            fun getMeasuredWidth(): Int {
+                return desiredItemWidth
+            }
+        }
+        adapterFavourite = FavouriteAdapter(requireContext())
+        binding.RecyclerViewProduct.layoutManager = layoutManager
+        binding.RecyclerViewProduct.adapter = adapterFavourite
+
         CoroutineScope(Dispatchers.IO).launch {
-            var categories = productApi.getCategories()
-            requireActivity().runOnUiThread {
-                binding.apply {
-                    adapterCategory.submitList(categories)
+            favourites = FavouriteService.getFavourites(requireContext())
+            var catg = mutableSetOf<String>()
+            catg.add("All")
+            favourites.forEach { product ->
+                catg.add(product.category)
+            }
+            categories = catg.toList()
+
+
+            if (isAdded) {
+                requireActivity().runOnUiThread {
+                    binding.apply {
+                        adapterFavourite.submitList(favourites)
+                        adapterCategory.submitList(categories)
+                    }
                 }
             }
         }
+    }
+
+    override fun onButtonClick(category: String){
+        println(56789)
+        println(category)
+        if(category=="All") {
+            adapterFavourite.submitList(favourites)
+
+        }else{
+            val filteredList = favourites.filter { it.category == category }
+            adapterFavourite.submitList(filteredList)
+        }
+        adapterCategory = CategoryAdapter(requireContext(),  category, this)
+        binding.RecyclerViewCategory.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.RecyclerViewCategory.adapter = adapterCategory
+        adapterCategory.submitList(categories)
     }
 
 
