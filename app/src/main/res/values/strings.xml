@@ -38,4 +38,10 @@
     <string name="date_birth">Дата народження</string>
     <string name="password">Пароль</string>
     <string name="repeat_password">Повторіть пароль</string>
+    <string name="active">Активні</string>
+    <string name="used">Використані</string>
+    <string name="expired">Прострочені</string>
+    <string name="discount">знижка</string>
+    <string name="expire_date">Діє до:</string>
+    <string name="status">Статус:</string>
 </resources>

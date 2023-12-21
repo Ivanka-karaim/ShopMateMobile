@@ -13,7 +13,7 @@ import com.example.shopmatemobile.model.BasketCheckbox
 import com.example.shopmatemobile.databinding.ItemCheckboxBinding
 
 
-class CheckboxAdapter: ListAdapter<BasketCheckbox, CheckboxAdapter.ViewHolder>(CheckboxItemDiffCallback()) {//
+class CheckboxAdapter: ListAdapter<BasketCheckbox, CheckboxAdapter.ViewHolder>(CheckboxItemDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_checkbox, parent, false)
