@@ -36,7 +36,7 @@
             android:elevation="4dp"
             android:background="@drawable/circle_background"
             android:layout_alignParentEnd="true"
-            app:srcCompat="@drawable/baseline_favorite_border_24"
+            app:srcCompat="@drawable/baseline_favorite_24"
             app:tint="@color/brown" />
         <LinearLayout
             android:id="@+id/productWithOutLike"
