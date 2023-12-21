@@ -12,8 +12,15 @@ import com.bumptech.glide.Glide
 import com.example.shopmatemobile.ProductActivity
 import com.example.shopmatemobile.R
 import com.example.shopmatemobile.addResources.ButtonClickListener
+import com.example.shopmatemobile.addResources.RetrofitClient
+import com.example.shopmatemobile.addResources.SharedPreferencesFactory
+import com.example.shopmatemobile.api.FavouriteApi
 import com.example.shopmatemobile.databinding.ItemProductBinding
+import com.example.shopmatemobile.model.Favourite
 import com.example.shopmatemobile.model.ProductShopMate
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class FavouriteAdapter(var context: Context) : ListAdapter<ProductShopMate, FavouriteAdapter.Holder>(Comparator()){
     class Holder(view: View) : RecyclerView.ViewHolder(view){
@@ -21,19 +28,37 @@ class FavouriteAdapter(var context: Context) : ListAdapter<ProductShopMate, Favo
         private val binding = ItemProductBinding.bind(view)
 
         fun bind(product: ProductShopMate, context: Context)= with(binding){
-            productName!!.text = product.title
-            productPrice!!.text = product.price.toString()
-            productGrade!!.text = product.grade.toString()
+            productName.text = product.title
+            productPrice.text = product.price.toString()
+            productGrade.text = product.grade.toString()
+            if(product.isFavourite){
+                likeIcon.setImageResource(R.drawable.baseline_favorite_24)
+            }else{
+                likeIcon.setImageResource(R.drawable.baseline_favorite_border_24)
+            }
             Glide.with(context)
                 .load(product.thumbnail)
-                .into(productPhoto!!)
+                .into(productPhoto)
 
 
-            productWithOutLike!!.setOnClickListener {
+            productWithOutLike.setOnClickListener {
 
                 val intent = Intent(context, ProductActivity::class.java)
                 intent.putExtra("ID", product.id)
                 context.startActivity(intent)
+            }
+
+            likeIcon.setOnClickListener{
+                val favouriteApi = RetrofitClient.getInstance().create(FavouriteApi::class.java)
+                CoroutineScope(Dispatchers.IO).launch {
+                    favouriteApi.changeFavourite(Favourite(product.id.toString()), "Bearer "+SharedPreferencesFactory(context).getToken()!!)
+                }
+                product.isFavourite = !product.isFavourite
+                if(product.isFavourite){
+                    likeIcon.setImageResource(R.drawable.baseline_favorite_24)
+                }else{
+                    likeIcon.setImageResource(R.drawable.baseline_favorite_border_24)
+                }
             }
 
 

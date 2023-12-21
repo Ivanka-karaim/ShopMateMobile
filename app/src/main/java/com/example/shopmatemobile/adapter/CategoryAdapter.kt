@@ -28,10 +28,8 @@ class CategoryAdapter(var context: Context,private var nameActiveCategory: Strin
                 println(12345)
                buttonClickListener.onButtonClick(category)
                 println(999)
-
-
-
             }
+
 
         }
     }

@@ -10,6 +10,6 @@ data class ProductShopMate(
     val thumbnail: String,
     val images: List<String>,
     val grade: Double,
-    val isFavourite: Boolean
+    var isFavourite: Boolean
 
 )
