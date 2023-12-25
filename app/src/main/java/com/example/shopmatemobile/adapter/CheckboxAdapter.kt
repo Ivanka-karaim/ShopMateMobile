@@ -1,7 +1,6 @@
 
 package com.example.shopmatemobile.adapter
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,9 +28,9 @@ class CheckboxAdapter: ListAdapter<BasketCheckbox, CheckboxAdapter.ViewHolder>(C
         private val binding = ItemCheckboxBinding.bind(view)
 
         fun bind(item: BasketCheckbox) = with(binding){
-            productName.text = item.productName
-            productRate.text = item.productRate.toString()
-            productPrice.text = item.productPrice.toString()
+            productName.text = item.title
+            productRate.text = item.grade.toString()
+            productPrice.text = item.price.toString()
             textCount.text = item.count.toString()
             binding.executePendingBindings()
         }
@@ -40,7 +39,7 @@ class CheckboxAdapter: ListAdapter<BasketCheckbox, CheckboxAdapter.ViewHolder>(C
 
 class CheckboxItemDiffCallback : DiffUtil.ItemCallback<BasketCheckbox>() {
     override fun areItemsTheSame(oldItem: BasketCheckbox, newItem: BasketCheckbox): Boolean {
-        return oldItem.productId == newItem.productId
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: BasketCheckbox, newItem: BasketCheckbox): Boolean {
