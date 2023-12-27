@@ -12,7 +12,7 @@ import com.example.shopmatemobile.R
 import com.example.shopmatemobile.addResources.ButtonClickListener
 import com.example.shopmatemobile.databinding.ItemCategoryBinding
 
-class CategoryAdapter(var context: Context,private var nameActiveCategory: String, private val buttonClickListener: ButtonClickListener) : ListAdapter<String,CategoryAdapter.Holder>(Comparator()){
+class CategoryAdapter(var context: Context, private var nameActiveCategory: String, private val buttonClickListener: ButtonClickListener) : ListAdapter<String,CategoryAdapter.Holder>(Comparator()){
 
     class Holder(view: View) : RecyclerView.ViewHolder(view){
 

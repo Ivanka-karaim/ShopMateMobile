@@ -13,6 +13,9 @@ interface ProductApi {
 
     @GET("products?limit=0")
     suspend fun getProducts() : ProductList
+
+    @GET("products/search?limit=0")
+    suspend fun searchProducts(@Query("q") q: String) : ProductList
     @GET("products/categories")
     suspend fun getCategories(): List<String>
 

@@ -104,7 +104,7 @@ class Favourite : Fragment(), ButtonClickListener {
         }
     }
 
-    override fun onButtonClick(category: String){
+    override fun onButtonClick(category: String, filter: String?) {
         println(56789)
         println(category)
         if(category=="All") {
@@ -119,7 +119,6 @@ class Favourite : Fragment(), ButtonClickListener {
         binding.RecyclerViewCategory.adapter = adapterCategory
         adapterCategory.submitList(categories)
     }
-
 
 
 
