@@ -29,7 +29,7 @@ object RetrofitClient {
                 .hostnameVerifier { _, _ -> true }.addInterceptor(interceptor).build()
 
             instance = Retrofit.Builder()
-                .baseUrl("https://192.168.31.22:7019/").client(client).addConverterFactory(
+                .baseUrl("https://10.0.2.2:7019/").client(client).addConverterFactory(
                     GsonConverterFactory.create()).build()
         }
         return instance!!

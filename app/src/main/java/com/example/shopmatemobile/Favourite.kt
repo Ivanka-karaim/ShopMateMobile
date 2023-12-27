@@ -54,8 +54,9 @@ class Favourite : Fragment(), ButtonClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapterCategory = CategoryAdapter(requireContext(),  "All",this)
-        binding.RecyclerViewCategory.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        adapterCategory = CategoryAdapter(requireContext(), "All", this)
+        binding.RecyclerViewCategory.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.RecyclerViewCategory.adapter = adapterCategory
         val displayMetrics = resources.displayMetrics
         val screenWidth = displayMetrics.widthPixels
@@ -73,19 +74,30 @@ class Favourite : Fragment(), ButtonClickListener {
 
         CoroutineScope(Dispatchers.IO).launch {
             favourites = FavouriteService.getFavourites(requireContext())
-            var catg = mutableSetOf<String>()
-            catg.add("All")
-            favourites.forEach { product ->
-                catg.add(product.category)
-            }
-            categories = catg.toList()
+            if (favourites.isNotEmpty()) {
+                var catg = mutableSetOf<String>()
+                catg.add("All")
+                favourites.forEach { product ->
+                    catg.add(product.category)
+                }
+                categories = catg.toList()
 
 
-            if (isAdded) {
-                requireActivity().runOnUiThread {
-                    binding.apply {
-                        adapterFavourite.submitList(favourites)
-                        adapterCategory.submitList(categories)
+                if (isAdded) {
+                    requireActivity().runOnUiThread {
+                        binding.apply {
+                            emptyFavourite.visibility = View.INVISIBLE
+                            adapterFavourite.submitList(favourites)
+                            adapterCategory.submitList(categories)
+                        }
+                    }
+                }
+            } else {
+                if (isAdded) {
+                    requireActivity().runOnUiThread {
+                        binding.apply {
+                            emptyFavourite.visibility = View.VISIBLE
+                        }
                     }
                 }
             }

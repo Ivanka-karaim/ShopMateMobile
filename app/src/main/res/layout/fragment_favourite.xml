@@ -9,6 +9,8 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,6 +48,15 @@
                 android:layout_weight="1" />
 
         </LinearLayout>
+        <TextView
+            android:id="@+id/emptyFavourite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ще немає вподобаних. Оберіть якийсь товар"
+            android:visibility="invisible"
+            >
+
+        </TextView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RecyclerViewCategory"

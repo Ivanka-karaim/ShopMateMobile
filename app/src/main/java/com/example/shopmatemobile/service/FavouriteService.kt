@@ -25,7 +25,7 @@ object FavouriteService {
             println(SharedPreferencesFactory(context).getToken())
             var favourites = favouriteApi.getFavourites("Bearer "+SharedPreferencesFactory(context).getToken()!!)
 
-            if (favourites != null) {
+            if (favourites.isNotEmpty()) {
                 for (favourite in favourites) {
                     val product = productApi.getProductById(favourite.productId)
                     val grade = reviewApi.getGradeForProduct(favourite.productId, "Bearer "+SharedPreferencesFactory(context).getToken()!!)

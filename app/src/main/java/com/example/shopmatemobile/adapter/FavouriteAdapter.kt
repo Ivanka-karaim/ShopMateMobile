@@ -30,7 +30,7 @@ class FavouriteAdapter(var context: Context) : ListAdapter<ProductShopMate, Favo
         fun bind(product: ProductShopMate, context: Context)= with(binding){
             productName.text = product.title
             productPrice.text = product.price.toString()
-            productGrade.text = product.grade.toString()
+//            productGrade.text = product.grade.toString()
             if(product.isFavourite){
                 likeIcon.setImageResource(R.drawable.baseline_favorite_24)
             }else{

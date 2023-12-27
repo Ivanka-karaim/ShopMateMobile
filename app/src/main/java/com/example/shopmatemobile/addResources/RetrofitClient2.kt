@@ -24,7 +24,7 @@ object RetrofitClient2 {
 
 
 
-            val client = OkHttpClient.Builder()// Додати фабрику для довірених сертифікатів
+            val client = OkHttpClient.Builder()
                 .sslSocketFactory(sslContext.socketFactory, trustManager as X509TrustManager)
                 .hostnameVerifier { _, _ -> true }.addInterceptor(interceptor).build()
 
