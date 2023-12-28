@@ -137,7 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:backgroundTint="#704F38"
-                android:onClick="startNewActivity"
+                android:onClick="startActivityOrderCreation"
                 android:text="@string/order"
                 android:textColor="#F8F0EB"
                 app:layout_constraintBottom_toBottomOf="@+id/layoutBasketInfo"

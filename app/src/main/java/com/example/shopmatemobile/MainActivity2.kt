@@ -1,7 +1,9 @@
 package com.example.shopmatemobile
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.shopmatemobile.databinding.ActivityMain2Binding
 
@@ -36,5 +38,15 @@ class MainActivity2 : AppCompatActivity() {
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frame_layout,fragment)
         fragmentTransaction.commit()
+    }
+
+    fun startActivityEditProfile(view: View){
+        val intent = Intent(this, EditProfile::class.java)
+        startActivity(intent)
+    }
+
+    fun startActivityOrderCreation(view: View){
+        val intent = Intent(this, OrderCreation::class.java)
+        startActivity(intent)
     }
 }
