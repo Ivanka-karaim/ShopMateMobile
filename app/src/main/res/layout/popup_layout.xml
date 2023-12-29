@@ -61,7 +61,7 @@
             app:layout_constraintTop_toBottomOf="@id/changing_password_title" />
 
         <EditText
-            android:id="@+id/editPassword1"
+            android:id="@+id/old_password"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -94,7 +94,7 @@
             android:textColor="@color/dark_brown"
             android:textSize="13sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editPassword1" />
+            app:layout_constraintTop_toBottomOf="@+id/old_password" />
 
         <TextView
             android:id="@+id/new_password_text"
@@ -105,10 +105,10 @@
             android:textColor="@color/dark_brown"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editPassword1" />
+            app:layout_constraintTop_toBottomOf="@+id/old_password" />
 
         <EditText
-            android:id="@+id/editPassword2"
+            android:id="@+id/new_password"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -141,7 +141,7 @@
             android:textColor="@color/dark_brown"
             android:textSize="13sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editPassword2" />
+            app:layout_constraintTop_toBottomOf="@+id/new_password" />
 
 
         <TextView
@@ -153,10 +153,10 @@
             android:textColor="@color/dark_brown"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editPassword2" />
+            app:layout_constraintTop_toBottomOf="@+id/new_password" />
 
         <EditText
-            android:id="@+id/editPassword3"
+            android:id="@+id/repeat_new_password"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -178,6 +178,7 @@
             app:layout_constraintTop_toBottomOf="@+id/repeat_password_text"
             tools:ignore="LabelFor,RtlSymmetry" />
 
+
         <TextView
             android:id="@+id/errorPassword3"
             android:layout_width="wrap_content"
@@ -189,10 +190,10 @@
             android:textColor="@color/dark_brown"
             android:textSize="13sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editPassword3" />
+            app:layout_constraintTop_toBottomOf="@+id/repeat_new_password" />
 
         <Button
-            android:id="@+id/button_change_password"
+            android:id="@+id/button_change_password_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

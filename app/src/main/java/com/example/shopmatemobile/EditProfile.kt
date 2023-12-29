@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.shopmatemobile.addResources.RetrofitClient
@@ -15,6 +16,7 @@ import com.example.shopmatemobile.addResources.SharedPreferencesFactory
 import com.example.shopmatemobile.api.ProfileApi
 import com.example.shopmatemobile.databinding.ActivityEditProfileBinding
 import com.example.shopmatemobile.model.EditProfile
+import com.example.shopmatemobile.model.PasswordChange
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -98,6 +100,41 @@ class EditProfile : AppCompatActivity() {
         dialog.setContentView(R.layout.popup_layout)
         dialog.setCancelable(true)
         dialog.show()
+
+        val changePasswordSubmit = dialog.findViewById<View>(R.id.button_change_password_submit)
+        changePasswordSubmit.setOnClickListener{
+            val profileApi = RetrofitClient.getInstance().create(ProfileApi::class.java)
+            val token = SharedPreferencesFactory(this).getToken()!!
+
+            val oldPassword = dialog.findViewById<View>(R.id.old_password) as EditText
+            val newPassword = dialog.findViewById<View>(R.id.new_password) as EditText
+            val newRepeatPassword = dialog.findViewById<View>(R.id.repeat_new_password) as EditText
+            val errorPassword1 = dialog.findViewById<View>(R.id.errorPassword1) as TextView
+            val errorPassword3 = dialog.findViewById<View>(R.id.errorPassword3) as TextView
+
+            errorPassword1.text = ""
+            errorPassword3.text = ""
+            if (newPassword.text.toString()==newRepeatPassword.text.toString()){
+                CoroutineScope(Dispatchers.IO).launch {
+                    val response = profileApi.changePassword(
+                        PasswordChange(oldPassword.text.toString(), newPassword.text.toString()),
+                        "Bearer $token")
+                    if (response.isSuccessful){
+                        dialog.dismiss()
+                        val intent = Intent(this@EditProfile, MainActivity2::class.java)
+                        startActivity(intent)
+                    }else {
+                        runOnUiThread {
+                            binding.apply {
+                                errorPassword1.text = "Неправильний пароль"
+                            }
+                        }
+                    }
+                }
+            }else{
+                errorPassword3.text = "Паролі не збігаються."
+            }
+        }
         val close = dialog.findViewById<View>(R.id.closeButtonPopup)
         close.setOnClickListener{
             dialog.dismiss()
@@ -182,5 +219,6 @@ class EditProfile : AppCompatActivity() {
 
         return true
     }
+
 
 }

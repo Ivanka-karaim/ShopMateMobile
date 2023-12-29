@@ -11,7 +11,6 @@ object ProfileService {
     suspend fun getProfile(context: Context):com.example.shopmatemobile.model.Profile {
         val profileApi = RetrofitClient.getInstance().create(ProfileApi::class.java)
         return withContext(Dispatchers.IO) {
-            println(SharedPreferencesFactory(context).getToken())
             return@withContext profileApi.getProfile("Bearer " + SharedPreferencesFactory(context).getToken()!!);
         }
     }
