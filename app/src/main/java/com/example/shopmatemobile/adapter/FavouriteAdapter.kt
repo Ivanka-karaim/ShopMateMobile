@@ -44,7 +44,7 @@ class FavouriteAdapter(var context: Context) : ListAdapter<ProductShopMate, Favo
             productWithOutLike.setOnClickListener {
 
                 val intent = Intent(context, ProductActivity::class.java)
-                intent.putExtra("ID", product.id)
+                intent.putExtra("ID", product.id.toString())
                 context.startActivity(intent)
             }
 

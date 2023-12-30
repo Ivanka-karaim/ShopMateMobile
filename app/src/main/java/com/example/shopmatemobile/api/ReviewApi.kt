@@ -1,5 +1,6 @@
 package com.example.shopmatemobile.api
 
+import com.example.shopmatemobile.model.Review
 import com.example.shopmatemobile.model.ReviewProduct
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -14,4 +15,7 @@ interface ReviewApi{
 
     @GET("getListRating")
     suspend fun getListGradeForProduct(@Query("idProducts") idProducts: List<String>, @Header("Authorization") token: String): List<ReviewProduct>
+
+    @GET("reviews")
+    suspend fun getReviews(@Header("Authorization") token: String, @Query("idProduct") idProduct: String ): List<Review>
 }
