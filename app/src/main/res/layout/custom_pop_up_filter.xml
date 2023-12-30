@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@drawable/dialog_products_background"
     android:padding="16dp">
         <TextView
             android:id="@+id/textCategory"
@@ -42,6 +43,120 @@
 
         />
 
+    <TextView
+        android:id="@+id/textSort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Сортувати за"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/dark_brown"
+        android:layout_below="@+id/recyclerViewBrand"
+        android:textSize="20sp"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewSort"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textSort" />
+
+    <TextView
+        android:id="@+id/textPrices"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Діапазон цін"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/dark_brown"
+        android:layout_below="@+id/recyclerViewSort"
+        android:textSize="20sp"
+        />
+
+    <LinearLayout
+        android:id="@+id/prices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/textPrices">
+        <EditText
+            android:id="@+id/minPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/form_search"
+            android:textSize="14sp"
+            android:paddingStart="12dp"
+            android:paddingTop="14dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="14dp"
+            android:inputType="text"
+            android:textColorHint="@color/brown"
+            android:text=""
+            android:hint="від">
+
+        </EditText>
+        <View
+            android:layout_width="10dp"
+            android:layout_height="match_parent">
+
+        </View>
+        <EditText
+            android:id="@+id/maxPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/form_search"
+            android:textSize="14sp"
+            android:paddingStart="12dp"
+            android:paddingTop="14dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="14dp"
+            android:inputType="text"
+            android:textColorHint="@color/brown"
+            android:text=""
+            android:hint="до">
+
+        </EditText>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/prices"
+        android:layout_marginTop="30dp">
+        <Button
+            android:id="@+id/buttonCancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/light_beige"
+
+            android:padding="8dp"
+            android:text="Скинути фільтр"
+            android:textColor="@color/brown"
+            android:textStyle="normal" />
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/buttonSubmit"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:backgroundTint="@color/brown"
+            android:text="Застосувати"
+            android:textColor="@color/light_beige"
+            android:textStyle="normal" />
+
+
+
+    </LinearLayout>
+
 
     <ImageButton
         android:id="@+id/closeButton"
@@ -55,6 +170,8 @@
         android:background="@android:color/transparent"
         android:src="@drawable/baseline_close_24"
         />
+
+
 
 
 </RelativeLayout>

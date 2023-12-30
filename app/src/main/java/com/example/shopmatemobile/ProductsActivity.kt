@@ -5,6 +5,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
@@ -39,7 +41,6 @@ class ProductsActivity : AppCompatActivity(), ButtonClickListener {
     private lateinit var adapterCategory: CategoryAdapter
     private lateinit var categories: List<String>
     private lateinit var recyclerViewCategory: RecyclerView
-    private lateinit var nowProducts: ArrayList<ProductShopMate>
 
     private var jsonSelectFilter= mutableMapOf<String, String>()
 
@@ -62,17 +63,7 @@ class ProductsActivity : AppCompatActivity(), ButtonClickListener {
             onBackPressed()
         }
 
-
-        val displayMetrics = resources.displayMetrics
-        val screenWidth = displayMetrics.widthPixels
-
-        val desiredItemWidth = screenWidth / 2
-
-        val layoutManager = object : GridLayoutManager(this, 2) {
-            fun getMeasuredWidth(): Int {
-                return desiredItemWidth
-            }
-        }
+        val layoutManager = object : GridLayoutManager(this, 2) {        }
         adapterFavourite = FavouriteAdapter(this)
         binding.RecyclerViewProduct.layoutManager = layoutManager
         binding.RecyclerViewProduct.adapter = adapterFavourite
@@ -93,17 +84,21 @@ class ProductsActivity : AppCompatActivity(), ButtonClickListener {
                 val enteredText = binding.searchChange.text.toString()
                 println(enteredText)
                 getProducts(productApi, enteredText)
-
                 true
             } else {
                 false
             }
         }
+
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.custom_pop_up_filter)
         dialog.setCancelable(true)
         val recyclerView = dialog.findViewById<RecyclerView>(R.id.recyclerViewCategory)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+        val recyclerViewSort = dialog.findViewById<RecyclerView>(R.id.recyclerViewSort)
+        recyclerViewSort.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        recyclerViewSort.adapter = RadioAdapter(listOf("Рекомендовані","Спочатку найдешевші","Спочатку найдорожчі" ),this, "sort")
         CoroutineScope(Dispatchers.IO).launch {
             var categoriesApi = productApi.getCategories()
             categories = listOf("All") + categoriesApi
@@ -115,18 +110,30 @@ class ProductsActivity : AppCompatActivity(), ButtonClickListener {
             }
         }
 
+        var submitButton = dialog.findViewById<Button>(R.id.buttonSubmit)
+        var cancelButton = dialog.findViewById<Button>(R.id.buttonCancel)
+        submitButton.setOnClickListener {
+            var products = filterProducts(dialog)
+            adapterFavourite.submitList(products)
+            dialog.dismiss()
+        }
 
+        cancelButton.setOnClickListener {
+            adapterFavourite.submitList(productsModel)
+            dialog.dismiss()
+        }
 
         binding.filterButton.setOnClickListener {
             val closeButton = dialog.findViewById<ImageButton>(R.id.closeButton)
             closeButton.setOnClickListener {
                 dialog.dismiss()
             }
-
             dialog.show()
 
 
         }
+
+
     }
 
 
@@ -159,16 +166,39 @@ class ProductsActivity : AppCompatActivity(), ButtonClickListener {
         }
     }
 
-    override fun onButtonClick(category: String, filter: String?) {
-        println(jsonSelectFilter)
-        if(category=="All"){
-            jsonSelectFilter.remove(filter!!)
-        }else {
-            jsonSelectFilter.put(filter!!, category)
-        }
+    fun filterProducts(dialog: Dialog): ArrayList<ProductShopMate>{
         var products = filtered()
-        adapterFavourite.submitList(products)
+        println(products)
+        println(products.size)
+        var minPrice = dialog.findViewById<EditText>(R.id.minPrice)
+        var maxPrice = dialog.findViewById<EditText>(R.id.maxPrice)
+        if(minPrice.text.isNotEmpty()){
+            products = products.filter {it.price>=minPrice.text.toString().toDouble()  } as ArrayList<ProductShopMate>
+        }
+        if (maxPrice.text.isNotEmpty()){
+            products = products.filter { it.price<=maxPrice.text.toString().toDouble() } as ArrayList<ProductShopMate>
+        }
+        println(products.size)
 
+        if (jsonSelectFilter.get("sort")!=null){
+            var sort = jsonSelectFilter.get("sort")
+            if (sort == "Спочатку найдешевші") {
+                products = products.sortedBy { it.price }.toCollection(ArrayList())
+                println(products.size)
+            }
+            else if(sort == "Спочатку найдорожчі") {
+                products = products.sortedByDescending { it.price }.toCollection(ArrayList())
+                println(products.size)
+            }
+        }
+        println(products.size)
+        println(products)
+
+        return products
+    }
+
+    override fun onButtonClick(category: String, filter: String?) {
+        jsonSelectFilter.put(filter!!, category)
     }
 
     fun filtered(): ArrayList<ProductShopMate>{
@@ -178,8 +208,9 @@ class ProductsActivity : AppCompatActivity(), ButtonClickListener {
             filteredProducts = filteredProducts.filter { product ->
                 jsonSelectFilter.any { json ->
                     when (json.key) {
-                        "category" -> product.category == json.value
+                        "category" -> {if(json.value!="All") product.category == json.value else true }
                         "brand" -> product.brand == json.value
+                        "sort" -> false
                         else -> true
                     }
                 }
