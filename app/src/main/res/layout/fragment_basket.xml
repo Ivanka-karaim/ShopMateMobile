@@ -72,10 +72,10 @@
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/textView7"
+                    android:id="@+id/cost_basket"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text="0"
                     android:textSize="17sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -98,7 +98,7 @@
                     android:textSize="15sp" />
 
                 <Spinner
-                    android:id="@+id/spinner"
+                    android:id="@+id/spinnerCouponsBasket"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -123,7 +123,7 @@
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/textView11"
+                    android:id="@+id/cost_discount_basket"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TextView"

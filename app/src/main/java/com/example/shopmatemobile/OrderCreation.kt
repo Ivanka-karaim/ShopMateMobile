@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.shopmatemobile.adapter.OrderProductAdapter
 import com.example.shopmatemobile.databinding.ActivityOrderCreationBinding
 import com.example.shopmatemobile.model.OrderProduct
+import com.example.shopmatemobile.service.PriceService
 
 
 class OrderCreation : AppCompatActivity() {
@@ -26,7 +27,7 @@ class OrderCreation : AppCompatActivity() {
             OrderProduct("2", "Text", "", 5.0, 200.0, 1),
             OrderProduct("3", "Text1", "", 5.0, 2100.0, 1),
         )
-        binding.costOrder.text = calcCost(products).toString()
+        binding.costOrder.text = PriceService.calcCost(products).toString()
         println(binding.costOrder.text)
         val spinnerCoupon: Spinner = findViewById(R.id.spinnerCoupons)
         val spinnerArray = listOf(
@@ -51,7 +52,7 @@ class OrderCreation : AppCompatActivity() {
                 discount = discount.drop(1).dropLast(1)
                 val price = binding.costOrder.text.toString().toDouble()
                 val discountValue = discount.toDouble()
-                val costDiscount = calcCostDiscount(price, discountValue)
+                val costDiscount = PriceService.calcCostDiscount(price, discountValue)
                 binding.costDiscountOrder.text = costDiscount.toString()
             }
         }
@@ -73,9 +74,7 @@ class OrderCreation : AppCompatActivity() {
                 println("ok")
             }
         }
-
             val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
-
             val layoutManager = LinearLayoutManager(this)
             val adapter = OrderProductAdapter()
             adapter.submitList(products)
@@ -84,18 +83,7 @@ class OrderCreation : AppCompatActivity() {
             recyclerView.adapter = adapter
         }
 
-        fun calcCostDiscount(price: Double, discount: Double): Double {
-            return price * (1 - discount * 0.01)
-        }
 
-        fun calcCost(products: List<OrderProduct>): Double {
-            var cost = 0.0
-            for (product in products) {
-                cost += product.productPrice * product.count
-            }
-            return cost
-
-    }
 
     fun clean() {
         binding.errorName.text = ""

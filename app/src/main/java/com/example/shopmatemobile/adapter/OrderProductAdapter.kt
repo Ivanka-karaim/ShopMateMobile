@@ -26,16 +26,16 @@ class OrderProductAdapter: ListAdapter<OrderProduct, OrderProductAdapter.Holder>
         private val binding = ItemOrderProductBinding.bind(view)
 
         fun bind(item: OrderProduct) = with(binding){
-            productName.text = item.productName
-            productRate.text = item.productRate.toString()
-            productPrice.text = item.productPrice.toString()
+            productName.text = item.title
+            productRate.text = item.grade.toString()
+            productPrice.text = item.price.toString()
             textCount.text = item.count.toString()
             binding.executePendingBindings()
         }
     }
     class Comparator : DiffUtil.ItemCallback<OrderProduct>() {
         override fun areItemsTheSame(oldItem: OrderProduct, newItem: OrderProduct): Boolean {
-            return oldItem.productId == newItem.productId
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: OrderProduct, newItem: OrderProduct): Boolean {

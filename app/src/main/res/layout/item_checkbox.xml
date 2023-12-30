@@ -13,7 +13,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="8dp"
-            android:checked="true"
+            android:checked="false"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <ImageView
@@ -42,29 +42,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/dark_brown"
                 android:textSize="16sp" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp">
 
-                <ImageView
-                    android:id="@+id/starIcon"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    app:srcCompat="@drawable/star_foreground" />
-
-
-                <TextView
-                    android:id="@+id/productRate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center|center_vertical"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/dark_brown"
-                    android:textSize="13sp" />
-            </LinearLayout>
 
 
             <TextView

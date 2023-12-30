@@ -5,11 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopmatemobile.adapter.CheckboxAdapter
+import com.example.shopmatemobile.addResources.BasketProductCountChangedListener
+import com.example.shopmatemobile.addResources.CheckboxChangedListener
 import com.example.shopmatemobile.databinding.FragmentBasketBinding
-import com.example.shopmatemobile.model.BasketCheckbox
+import com.example.shopmatemobile.model.OrderProduct
 import com.example.shopmatemobile.service.BasketService
+import com.example.shopmatemobile.service.PriceService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,13 +29,32 @@ private const val ARG_PARAM2 = "param2"
  * Use the [Basket.newInstance] factory method to
  * create an instance of this fragment.
  */
-class Basket : Fragment() {
+class Basket : Fragment(), CheckboxChangedListener, BasketProductCountChangedListener  {
     lateinit var binding : FragmentBasketBinding
     private lateinit var adapter: CheckboxAdapter
-    private lateinit var basket: List<BasketCheckbox>
+    private lateinit var basket: List<OrderProduct>
 
     private var param1: String? = null
     private var param2: String? = null
+
+    override fun onCheckboxChanged() {
+        setPrice(adapter.getSelectedItems())
+    }
+
+    override fun onCountChanged() {
+        setPrice(adapter.getSelectedItems())
+    }
+
+    private fun setPrice(checkboxes: List<OrderProduct>){
+        binding.costBasket.text = PriceService.calcCost(checkboxes).toString()
+        var discount: String = binding.spinnerCouponsBasket.selectedItem.toString()
+        discount = discount.drop(1).dropLast(1)
+        val price = binding.costBasket.text.toString().toDouble()
+        val discountValue = discount.toDouble()
+        val costDiscount = PriceService.calcCostDiscount(price, discountValue)
+        binding.costDiscountBasket.text = costDiscount.toString()
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +62,7 @@ class Basket : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-        adapter = CheckboxAdapter()
+        adapter = CheckboxAdapter(this, this)
     }
 
     override fun onCreateView(
@@ -53,6 +77,33 @@ class Basket : Fragment() {
         binding = FragmentBasketBinding.bind(view)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = adapter
+
+        val spinnerArray = listOf(
+            "-5%", "-1%"
+        )
+        val spinnerAdapter =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, spinnerArray)
+        binding.spinnerCouponsBasket.adapter = spinnerAdapter
+        binding.spinnerCouponsBasket.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+
+                var discount: String = binding.spinnerCouponsBasket.selectedItem.toString()
+                discount = discount.drop(1).dropLast(1)
+                val price = binding.costBasket.text.toString().toDouble()
+                val discountValue = discount.toDouble()
+                val costDiscount = PriceService.calcCostDiscount(price, discountValue)
+                binding.costDiscountBasket.text = costDiscount.toString()
+            }
+        }
         CoroutineScope(Dispatchers.IO).launch {
             basket = BasketService.getBasket(requireContext())
             if (isAdded) {

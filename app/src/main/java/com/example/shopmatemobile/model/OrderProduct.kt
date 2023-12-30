@@ -1,31 +1,31 @@
 package com.example.shopmatemobile.model
 
-class OrderProduct(val productId: String,
-                   val productName: String,
-                   val productImage: String,
-                   val productRate: Double,
-                   val productPrice: Double,
-                   val count: Int){
+class OrderProduct(val id: String,
+                   val title: String,
+                   val thumbnail: String,
+                   val grade: Double,
+                   val price: Double,
+                   var count: Int){
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
         other as OrderProduct
 
-        if (productId != other.productId) return false
-        if (productName != other.productName) return false
-        if (productImage != other.productImage) return false
-        if (productRate != other.productRate) return false
-        if (productPrice != other.productPrice) return false
+        if (id != other.id) return false
+        if (title != other.title) return false
+        if (thumbnail != other.thumbnail) return false
+        if (grade != other.grade) return false
+        if (price != other.price) return false
         return count == other.count
     }
 
     override fun hashCode(): Int {
-        var result = productId.hashCode()
-        result = 31 * result + productName.hashCode()
-        result = 31 * result + productImage.hashCode()
-        result = 31 * result + productRate.hashCode()
-        result = 31 * result + productPrice.hashCode()
+        var result = id.hashCode()
+        result = 31 * result + title.hashCode()
+        result = 31 * result + thumbnail.hashCode()
+        result = 31 * result + grade.hashCode()
+        result = 31 * result + price.hashCode()
         result = 31 * result + count
         return result
     }
