@@ -3,6 +3,7 @@ package com.example.shopmatemobile
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -99,7 +100,7 @@ class ProductActivity : AppCompatActivity() {
                 binding.categoryProduct.text = product.category
                 binding.price.text = product.price.toString()
 
-                for(image in product.images){
+                for(i in 0..product.images.count()-1){
                     val imageView = ImageView(this@ProductActivity)
                     val params = LinearLayout.LayoutParams(
                         dpToPx(40),
@@ -108,9 +109,20 @@ class ProductActivity : AppCompatActivity() {
                     params.setMargins(dpToPx(5), 0, dpToPx(5), 0)
 
                     imageView.layoutParams = params
+                    imageView.setOnClickListener {
+                        val dialogFragment = ImageDialogFragment()
+                        val args = Bundle()
+                        dialogFragment.imageUrls = product.images
+                        dialogFragment.currentPosition = i
+                        args.putStringArrayList("imageUrls", ArrayList(product.images))
+                        args.putInt("position", i)
+                        dialogFragment.arguments = args
+                        dialogFragment.show(supportFragmentManager, "ImageDialogFragment")
+                    }
+
 
                     Glide.with(this@ProductActivity)
-                        .load(image)
+                        .load(product.images[i])
                         .into(imageView)
                     binding.photos.addView(imageView)
                 }
@@ -194,16 +206,19 @@ class ProductActivity : AppCompatActivity() {
 
             }
         val dialog = Dialog(this)
+        val window = dialog.window
+        window!!.setGravity(Gravity.BOTTOM)
+        dialog.setTitle(null)
         dialog.setContentView(R.layout.custom_pop_up_add_review)
         dialog.setCancelable(true)
         var linearLayoutGrade = dialog.findViewById<LinearLayout>(R.id.gradesForAdd)
         for(i in 1..5) {
             val imageView = ImageView(this)
             val params = LinearLayout.LayoutParams(
-                dpToPx(20),
-                dpToPx(20)
+                dpToPx(30),
+                dpToPx(30)
             )
-            imageView.setImageResource(R.drawable.baseline_grade_dark_24)
+            imageView.setImageResource(R.drawable.baseline_grade_24)
             imageView.setOnClickListener {
                 editGrade(i, dialog)
             }
@@ -213,12 +228,20 @@ class ProductActivity : AppCompatActivity() {
 
         }
         dialog.findViewById<Button>(R.id.addReview).setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                var review = ReviewForAdd(productId, dialog.findViewById<EditText>(R.id.textReview).text.toString(), grade.toDouble())
-                reviewApi.addReview("Bearer "+token, review)
+            if (grade==0){
+                dialog.findViewById<TextView>(R.id.errorGrade).text = "Виберіть оцінку"
+            }else {
+                CoroutineScope(Dispatchers.IO).launch {
+                    var review = ReviewForAdd(
+                        productId,
+                        dialog.findViewById<EditText>(R.id.textReview).text.toString(),
+                        grade.toDouble()
+                    )
+                    reviewApi.addReview("Bearer " + token, review)
+                }
+                finish()
+                startActivity(intent)
             }
-            finish()
-            startActivity(intent)
         }
 
 
@@ -254,21 +277,27 @@ class ProductActivity : AppCompatActivity() {
         for(i in 1..i) {
             val imageView = ImageView(this@ProductActivity)
             val params = LinearLayout.LayoutParams(
-                dpToPx(20),
-                dpToPx(20)
+                dpToPx(30),
+                dpToPx(30)
             )
             imageView.setImageResource(R.drawable.baseline_grade_dark_24)
             imageView.layoutParams = params
+            imageView.setOnClickListener {
+                editGrade(i, dialog)
+            }
             linearLayout.addView(imageView)
         }
         for (i in i+1..5){
             val imageView = ImageView(this@ProductActivity)
             val params = LinearLayout.LayoutParams(
-                dpToPx(20),
-                dpToPx(20)
+                dpToPx(30),
+                dpToPx(30)
             )
             imageView.setImageResource(R.drawable.baseline_grade_24)
             imageView.layoutParams = params
+            imageView.setOnClickListener {
+                editGrade(i, dialog)
+            }
             linearLayout.addView(imageView)
         }
 
