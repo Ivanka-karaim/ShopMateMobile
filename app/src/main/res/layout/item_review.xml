@@ -48,6 +48,22 @@
                     android:textColor="@color/black"
                     android:textSize="15dp" />
 
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/deleteReview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Видалити"
+                    android:textColor="@color/brown"
+
+                    android:padding="0dp">
+
+                </Button>
+
             </LinearLayout>
 
             <LinearLayout
@@ -93,6 +109,14 @@
 
 
                 </LinearLayout>
+                <TextView
+                    android:id="@+id/dateReview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/beige"
+                    android:textSize="13dp">
+
+                </TextView>
 
 
             </LinearLayout>

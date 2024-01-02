@@ -7,10 +7,14 @@ import com.example.shopmatemobile.addResources.SharedPreferencesFactory
 import com.example.shopmatemobile.api.UserApi
 import com.example.shopmatemobile.model.SignInModel
 import com.example.shopmatemobile.model.User
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.ResponseBody
+import org.json.JSONObject
 
 object UserService {
 
@@ -33,9 +37,9 @@ object UserService {
 
             } else {
                 val errorMessage = response.errorBody()?.string()
+                println(errorMessage)
                 if (errorMessage.toString().contains("UserNoFound")) {
                     return@withContext "emailError"
-//                    println(returnData)
 
 
                 } else if (errorMessage.toString().contains("WrongPassword")) {

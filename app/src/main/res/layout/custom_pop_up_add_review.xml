@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:padding="16dp">
+    <ImageButton
+        android:id="@+id/closeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/baseline_close_24"
+        />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Додавання коментарю"
+        android:textSize="20dp"
+        android:layout_below="@+id/closeButton"
+        />
+
+    <TextView
+        android:id="@+id/setGrade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="Поставте оцінку"
+        android:textSize="16dp"
+        android:layout_below="@+id/title">
+
+    </TextView>
+
+    <LinearLayout
+        android:id="@+id/gradesForAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/setGrade">
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/setDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="Напишіть відгук"
+        android:textSize="16dp"
+        android:layout_below="@+id/gradesForAdd">
+
+    </TextView>
+
+    <EditText
+        android:id="@+id/textReview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:autofillHints=""
+        android:background="@drawable/form_search"
+        android:hint="Text"
+        android:inputType="textMultiLine"
+        android:minLines="5"
+        android:paddingStart="12dp"
+        android:paddingTop="14dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="14dp"
+        android:text=""
+        android:textColorHint="@color/light_beige"
+        android:textSize="14sp"
+        android:layout_below="@+id/setDesc"/>
+    <Button
+        android:id="@+id/addReview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="#704F38"
+        android:text="Додати коментар"
+        android:textColor="#F8F0EB"
+        android:layout_below="@+id/textReview" />
+</RelativeLayout>

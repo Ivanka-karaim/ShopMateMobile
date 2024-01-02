@@ -1,8 +1,12 @@
 package com.example.shopmatemobile
 
+import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -19,10 +23,19 @@ import com.example.shopmatemobile.databinding.ActivityProductBinding
 import com.example.shopmatemobile.databinding.ItemReviewBinding
 import com.example.shopmatemobile.model.Favourite
 import com.example.shopmatemobile.model.ProductShopMate
+import com.example.shopmatemobile.model.ReviewForAdd
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.create
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Date
+import java.util.Locale
+
 
 
 class ProductActivity : AppCompatActivity() {
@@ -30,10 +43,13 @@ class ProductActivity : AppCompatActivity() {
     var productId: String = ""
     var isFavourite: Boolean = false
     lateinit var product: ProductShopMate
+     var grade: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
 
 
         val receivedId = intent.getStringExtra("ID")
@@ -108,6 +124,8 @@ class ProductActivity : AppCompatActivity() {
                     val userSurname = itemView.findViewById<TextView>(R.id.reviewUserSurname)
                     val submitOrder = itemView.findViewById<LinearLayout>(R.id.submitOrder)
                     var description = itemView.findViewById<TextView>(R.id.descriptionReview)
+                    var date = itemView.findViewById<TextView>(R.id.dateReview)
+
 
                     userName.text = review.userForReview.firstName
                     userSurname.text = review.userForReview.lastName
@@ -118,9 +136,30 @@ class ProductActivity : AppCompatActivity() {
                         submitOrder.layoutParams = LinearLayout.LayoutParams(0, 0)
                     }
                     description.text = review.text
+                    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
+                    val outputFormat = SimpleDateFormat("d MMMM yyyy", Locale("uk", "UA"))
 
+                    try {
+                        val dateTime = inputFormat.parse(review.date)
+                        val formattedDate = outputFormat.format(dateTime)
+                        date.text = formattedDate
+                    } catch (e: ParseException) {
+                        e.printStackTrace()
+                    }
+                    if (review.isThisUser){
 
+                        itemView.findViewById<Button>(R.id.deleteReview).visibility = View.VISIBLE
+                    } else{
+                        itemView.findViewById<Button>(R.id.deleteReview).visibility = View.INVISIBLE
+                    }
 
+                    itemView.findViewById<Button>(R.id.deleteReview).setOnClickListener {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            reviewApi.deleteReview("Bearer " + token, review.id);
+                        }
+                        finish()
+                        startActivity(intent)
+                    }
                     var linearLayoutGrade = itemView.findViewById<LinearLayout>(R.id.grades)
                     for(i in 1..review.rating.toInt()) {
                         val imageView = ImageView(this@ProductActivity)
@@ -154,6 +193,44 @@ class ProductActivity : AppCompatActivity() {
 
 
             }
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.custom_pop_up_add_review)
+        dialog.setCancelable(true)
+        var linearLayoutGrade = dialog.findViewById<LinearLayout>(R.id.gradesForAdd)
+        for(i in 1..5) {
+            val imageView = ImageView(this)
+            val params = LinearLayout.LayoutParams(
+                dpToPx(20),
+                dpToPx(20)
+            )
+            imageView.setImageResource(R.drawable.baseline_grade_dark_24)
+            imageView.setOnClickListener {
+                editGrade(i, dialog)
+            }
+            imageView.layoutParams = params
+            linearLayoutGrade.addView(imageView)
+
+
+        }
+        dialog.findViewById<Button>(R.id.addReview).setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                var review = ReviewForAdd(productId, dialog.findViewById<EditText>(R.id.textReview).text.toString(), grade.toDouble())
+                reviewApi.addReview("Bearer "+token, review)
+            }
+            finish()
+            startActivity(intent)
+        }
+
+
+        binding.addReview.setOnClickListener {
+            val closeButton = dialog.findViewById<ImageButton>(R.id.closeButton)
+            closeButton.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialog.show()
+
+
+        }
         binding.likeIcon.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 favouriteApi.changeFavourite(Favourite(product.id.toString()), "Bearer "+SharedPreferencesFactory(this@ProductActivity).getToken()!!)
@@ -170,6 +247,33 @@ class ProductActivity : AppCompatActivity() {
             onBackPressed()
         }
         }
+    fun editGrade(i:Int, dialog: Dialog){
+        grade = i
+        val linearLayout = dialog.findViewById<LinearLayout>(R.id.gradesForAdd)
+        linearLayout.removeAllViews()
+        for(i in 1..i) {
+            val imageView = ImageView(this@ProductActivity)
+            val params = LinearLayout.LayoutParams(
+                dpToPx(20),
+                dpToPx(20)
+            )
+            imageView.setImageResource(R.drawable.baseline_grade_dark_24)
+            imageView.layoutParams = params
+            linearLayout.addView(imageView)
+        }
+        for (i in i+1..5){
+            val imageView = ImageView(this@ProductActivity)
+            val params = LinearLayout.LayoutParams(
+                dpToPx(20),
+                dpToPx(20)
+            )
+            imageView.setImageResource(R.drawable.baseline_grade_24)
+            imageView.layoutParams = params
+            linearLayout.addView(imageView)
+        }
+
+
+    }
     fun dpToPx(dp: Int): Int {
         val density = resources.displayMetrics.density
         return (dp * density).toInt()
