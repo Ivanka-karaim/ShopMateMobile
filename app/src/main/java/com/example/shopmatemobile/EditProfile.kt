@@ -17,6 +17,7 @@ import com.example.shopmatemobile.api.ProfileApi
 import com.example.shopmatemobile.databinding.ActivityEditProfileBinding
 import com.example.shopmatemobile.model.EditProfile
 import com.example.shopmatemobile.model.PasswordChange
+import com.example.shopmatemobile.service.DateService.Companion.parseDate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -46,12 +47,7 @@ class EditProfile : AppCompatActivity() {
             changeSurname.setText(profile.lastName)
             changePhoneNumber.setText(profile.phoneNumber)
             changeEmail.setText(profile.email)
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
-            val formatterNeeded = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-            val dateOfBirth =
-                java.time.LocalDate.parse(profile.dateBirth, formatter)
-            val dateOfBirthFormatted = dateOfBirth.format(formatterNeeded)
-            changeDateBirth.setText(dateOfBirthFormatted)
+            changeDateBirth.setText(parseDate(profile.dateBirth))
         }
 
 

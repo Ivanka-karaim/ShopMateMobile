@@ -8,11 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import com.example.shopmatemobile.databinding.FragmentProfileBinding
+import com.example.shopmatemobile.service.DateService.Companion.parseDate
 import com.example.shopmatemobile.service.ProfileService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.time.format.DateTimeFormatter
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -57,18 +57,12 @@ class Profile : Fragment() {
                         binding.nameSurname.text = profile.firstName+' '+profile.lastName
                         binding.email.text = profile.email
                         binding.phoneNumber.text = profile.phoneNumber
-                        val formatterNeeded = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-                        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
-                        val dateOfBirth =
-                            java.time.LocalDate.parse(profile.dateBirth, formatter)
-                        val dateOfBirthFormatted = dateOfBirth.format(formatterNeeded)
-                        binding.dateBirth.text = dateOfBirthFormatted
+                        binding.dateBirth.text = parseDate(profile.dateBirth)
                     }
                 }
             }
         }
     }
-
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -88,6 +82,7 @@ class Profile : Fragment() {
                 }
             }
     }
+
 
 
 }
