@@ -27,10 +27,9 @@
                     android:id="@+id/reviewUserName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ffffff"
                     android:textColor="@color/black"
                     android:fontFamily="sans-serif-medium"
-                    android:textSize="15dp" />
+                    android:textSize="15sp" />
 
                 <View
                     android:layout_width="5dp"
@@ -43,10 +42,10 @@
                     android:id="@+id/reviewUserSurname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ffffff"
+
                     android:fontFamily="sans-serif-medium"
                     android:textColor="@color/black"
-                    android:textSize="15dp" />
+                    android:textSize="15sp" />
 
                 <View
                     android:layout_width="0dp"
@@ -57,7 +56,7 @@
                     android:id="@+id/deleteReview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Видалити"
+                    android:text="@string/delete"
                     android:textColor="@color/brown"
 
                     android:padding="0dp">
@@ -88,10 +87,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Покупку підтверджено"
+                    android:text="@string/submit_order"
 
                     android:textColor="@color/brown"
-                    android:textSize="13dp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
             <LinearLayout
@@ -101,7 +100,7 @@
 
                 <LinearLayout
                     android:id="@+id/grades"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="horizontal">
@@ -114,7 +113,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/beige"
-                    android:textSize="13dp">
+                    android:textSize="13sp">
 
                 </TextView>
 
@@ -124,7 +123,7 @@
                 android:id="@+id/descriptionReview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="dfvb"/>
+                />
 
         </LinearLayout>
     </RelativeLayout>

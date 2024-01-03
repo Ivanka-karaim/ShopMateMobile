@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
-                android:text="Сорочка"
+
                 android:textSize="18sp"
                 android:maxLines="1"
                 android:ellipsize="end"
@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:fontFamily="sans-serif-light"
-                    android:text="450"
+
                     android:textColor="@color/brown"
                     android:textSize="18sp"
                     />
@@ -67,28 +67,10 @@
                     android:layout_height="25dp"
                     android:elevation="4dp"
 
-                    android:layout_alignParentEnd="true"
+
                     app:srcCompat="@drawable/baseline_favorite_24"
                     app:tint="@color/brown" />
 
-<!--                <ImageView-->
-
-<!--                    android:layout_width="22dp"-->
-<!--                    android:layout_height="22dp"-->
-<!--                    android:layout_gravity="end"-->
-<!--                    android:src="@drawable/star"-->
-<!--                    android:contentDescription="TODO" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/productGrade"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:fontFamily="sans-serif-light"-->
-<!--                    android:text="4.9"-->
-<!--                    android:textColor="@color/brown"-->
-<!--                    android:textSize="18sp"-->
-
-<!--                    />-->
             </LinearLayout>
 
 

@@ -15,7 +15,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/popup_rectangle" />
+        app:srcCompat="@drawable/popup_rectangle"
+        android:contentDescription="pop_up" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -35,7 +36,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/baseline_close_24" />
+            android:src="@drawable/baseline_close_24"
+            android:contentDescription="close" />
 
         <TextView
             android:id="@+id/title"
@@ -43,8 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/closeButton"
             android:layout_centerHorizontal="true"
-            android:text="Додавання коментарю"
-            android:textSize="20dp" />
+            android:text="@string/add_comment"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/setGrade"
@@ -52,8 +54,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/title"
             android:layout_marginTop="18dp"
-            android:text="Поставте оцінку"
-            android:textSize="16dp">
+            android:text="@string/set_grade"
+            android:textSize="16sp">
 
         </TextView>
 
@@ -83,8 +85,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/errorGrade"
             android:layout_marginTop="18dp"
-            android:text="Напишіть відгук"
-            android:textSize="16dp">
+            android:text="@string/write_review"
+            android:textSize="16sp">
 
         </TextView>
 
@@ -96,7 +98,6 @@
             android:layout_marginTop="10dp"
             android:autofillHints=""
             android:background="@drawable/form_search"
-            android:hint="Text"
             android:inputType="textMultiLine"
             android:minLines="3"
             android:maxLines="6"
@@ -115,7 +116,7 @@
             android:layout_below="@+id/textReview"
             android:layout_marginTop="20dp"
             android:backgroundTint="#704F38"
-            android:text="Додати коментар"
+            android:text="@string/add_review"
             android:textColor="#F8F0EB" />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

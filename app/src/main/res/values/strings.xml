@@ -56,6 +56,38 @@
     <string name="old_password">Старий пароль</string>
     <string name="new_password">Новий пароль</string>
     <string name="repeat_new_password">Повторіть новий пароль</string>
-
+    <string name="add_address">Додати адресу</string>
+<string name="categories">Категорії</string>
+    <string name="like">Вподобати</string>
+    <string name="back">Повернутись</string>
+    <string name="generalPhoto">Головне фото</string>
+    <string name="description">Опис</string>
+    <string name="brand">Бренд: </string>
+    <string name="category">Категорія: </string>
+    <string name="reviews">Відгуки</string>
+    <string name="add_review">Додати відгук</string>
+    <string name="price">Ціна</string>
+    <string name="add_to_cart">Додати в корзину</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search">Пошук</string>
+    <string name="filter">Фільтр</string>
+    <string name="edit_address">Зміна адреси</string>
+    <string name="city">Місто</string>
+    <string name="street">Вулиця</string>
+    <string name="house">Будинок</string>
+    <string name="flat">Квартира</string>
+    <string name="add_comment">Додавання коментарю</string>
+    <string name="set_grade">Поставте оцінку</string>
+    <string name="write_review">Напишіть відгук</string>
+    <string name="sorted_by">Сортувати за</string>
+    <string name="prices">Діапазон цін</string>
+    <string name="submit">Скинути фільтр</string>
+    <string name="my_favourite">Мої вподобані</string>
+    <string name="no_favourites">Ще немає вподобаних. Оберіть якийсь товар</string>
+    <string name="delete">Видалити</string>
+    <string name="edit_text">Редагувати</string>
+    <string name="submit_order">Покупку підтверджено</string>
+
+
+
 </resources>

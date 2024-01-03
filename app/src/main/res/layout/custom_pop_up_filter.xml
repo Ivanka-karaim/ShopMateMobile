@@ -4,13 +4,14 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@drawable/dialog_products_background"
-    android:padding="16dp">
+    android:padding="16dp"
+    >
         <TextView
             android:id="@+id/textCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="Категорії"
+            android:text="@string/categories"
             android:fontFamily="sans-serif-medium"
             android:textColor="@color/dark_brown"
             android:textSize="20sp"
@@ -29,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="Сортувати за"
+        android:text="@string/sorted_by"
         android:fontFamily="sans-serif-medium"
         android:textColor="@color/dark_brown"
         android:layout_below="@+id/recyclerViewCategory"
@@ -47,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="Діапазон цін"
+        android:text="@string/prices"
         android:fontFamily="sans-serif-medium"
         android:textColor="@color/dark_brown"
         android:layout_below="@+id/recyclerViewSort"
@@ -115,7 +116,7 @@
             android:backgroundTint="@color/light_beige"
 
             android:padding="8dp"
-            android:text="Скинути фільтр"
+            android:text="@string/submit"
             android:textColor="@color/brown"
             android:textStyle="normal" />
 
@@ -130,7 +131,7 @@
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:backgroundTint="@color/brown"
-            android:text="Застосувати"
+            android:text="@string/edit"
             android:textColor="@color/light_beige"
             android:textStyle="normal" />
 
