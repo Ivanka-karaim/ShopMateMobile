@@ -12,11 +12,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopmatemobile.adapter.AddressAdapter
 import com.example.shopmatemobile.addResources.AddressClickListener
-import com.example.shopmatemobile.addResources.RetrofitClient
-import com.example.shopmatemobile.addResources.SharedPreferencesFactory
-import com.example.shopmatemobile.api.AddressApi
 import com.example.shopmatemobile.databinding.ActivityAddressBinding
-import com.example.shopmatemobile.model.Address
+import com.example.shopmatemobile.service.AddressService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,8 +21,6 @@ import kotlinx.coroutines.launch
 
 class AddressActivity : AppCompatActivity(), AddressClickListener {
     lateinit var binding: ActivityAddressBinding
-    lateinit var token: String
-    lateinit var addressApi: AddressApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddressBinding.inflate(layoutInflater)
@@ -43,35 +38,30 @@ class AddressActivity : AppCompatActivity(), AddressClickListener {
         toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
-        token = SharedPreferencesFactory(this).getToken()!!
-
-        addressApi = RetrofitClient.getInstance().create(AddressApi::class.java)
         val recyclerView = binding.RecyclerViewAddresses
         recyclerView.layoutManager =
             LinearLayoutManager(this@AddressActivity, LinearLayoutManager.VERTICAL, false)
         val adapter = AddressAdapter(this@AddressActivity, this@AddressActivity)
         recyclerView.adapter = adapter
         CoroutineScope(Dispatchers.IO).launch {
-            val addresses = addressApi.getAddresses("Bearer " + token)
-
-            runOnUiThread {
-                binding.apply {
+            try {
+                val addresses = AddressService.getAddress(this@AddressActivity)
+                runOnUiThread{
                     println(addresses)
                     adapter.submitList(addresses)
                 }
+            } catch (e: Exception) {
+                println(e)
             }
         }
         binding.addAddress.setOnClickListener {
-            addAddress()
+            this.addAddress()
         }
     }
 
 
     override fun deleteAddress(id: Int) {
-        println(id)
-        CoroutineScope(Dispatchers.IO).launch {
-            addressApi.deleteAddresses("Bearer " + token, id)
-        }
+        AddressService.deleteAddress(id, this)
         finish()
         startActivity(intent)
     }
@@ -95,44 +85,49 @@ class AddressActivity : AppCompatActivity(), AddressClickListener {
         val buttonChangeAddressSubmit =
             dialog.findViewById<Button>(R.id.button_change_address_submit)
         buttonChangeAddressSubmit.setOnClickListener {
-            var cityNew = dialog.findViewById<EditText>(R.id.old_city)
+            val cityNew = dialog.findViewById<EditText>(R.id.old_city)
             val errorCity = dialog.findViewById<TextView>(R.id.error_city)
             errorCity.text = ""
-            var streetNew = dialog.findViewById<EditText>(R.id.old_street)
+            val streetNew = dialog.findViewById<EditText>(R.id.old_street)
             val errorStreet = dialog.findViewById<TextView>(R.id.error_street)
             errorCity.text = ""
-            var houseNew = dialog.findViewById<EditText>(R.id.old_house)
+            val houseNew = dialog.findViewById<EditText>(R.id.old_house)
             val errorHouse = dialog.findViewById<TextView>(R.id.error_house)
             errorHouse.text = ""
-            var flatNew = dialog.findViewById<EditText>(R.id.old_flat)
+            val flatNew = dialog.findViewById<EditText>(R.id.old_flat)
             val errorFlat = dialog.findViewById<TextView>(R.id.error_flat)
             errorFlat.text = ""
-            if (checkCityAndStreet(cityNew, errorCity) && checkCityAndStreet(
+            if (AddressService.checkCityAndStreet(
+                    cityNew,
+                    errorCity
+                ) && AddressService.checkCityAndStreet(
                     streetNew,
                     errorStreet
-                ) && checkHouseAndFlat(houseNew, errorHouse) && checkHouseAndFlat(
+                ) && AddressService.checkHouseAndFlat(
+                    houseNew,
+                    errorHouse
+                ) && (flatNew.text.toString().isEmpty() || AddressService.checkHouseAndFlat(
                     flatNew,
                     errorFlat
-                )
+                ))
             ) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    addressApi.editAddresses(
-                        "Bearer " + token,
-                        Address(
-                            id,
-                            cityNew.text.toString(),
-                            streetNew.text.toString(),
-                            houseNew.text.toString(),
-                            flatNew.text.toString()
-                        )
-                    )
 
-                }
+
+                AddressService.editAddress(
+                    id,
+                    cityNew.text.toString(),
+                    streetNew.text.toString(),
+                    houseNew.text.toString(),
+                    flatNew.text.toString(),
+                    this
+                )
                 finish()
                 startActivity(intent)
             }
+
         }
     }
+
 
     fun addAddress() {
         val dialog = Dialog(this)
@@ -146,67 +141,51 @@ class AddressActivity : AppCompatActivity(), AddressClickListener {
         closeButton.setOnClickListener {
             dialog.dismiss()
         }
-        dialog.show()
+        if(!isFinishing) {
+            dialog.show()
+        }
         val buttonChangeAddressSubmit =
             dialog.findViewById<Button>(R.id.button_change_address_submit)
         buttonChangeAddressSubmit.setOnClickListener {
-            var cityNew = dialog.findViewById<EditText>(R.id.old_city)
+            val cityNew = dialog.findViewById<EditText>(R.id.old_city)
             val errorCity = dialog.findViewById<TextView>(R.id.error_city)
-            errorCity.text=""
-            var streetNew = dialog.findViewById<EditText>(R.id.old_street)
+            errorCity.text = ""
+            val streetNew = dialog.findViewById<EditText>(R.id.old_street)
             val errorStreet = dialog.findViewById<TextView>(R.id.error_street)
-            errorCity.text=""
-            var houseNew = dialog.findViewById<EditText>(R.id.old_house)
+            errorCity.text = ""
+            val houseNew = dialog.findViewById<EditText>(R.id.old_house)
             val errorHouse = dialog.findViewById<TextView>(R.id.error_house)
-            errorHouse.text=""
-            var flatNew = dialog.findViewById<EditText>(R.id.old_flat)
+            errorHouse.text = ""
+            val flatNew = dialog.findViewById<EditText>(R.id.old_flat)
             val errorFlat = dialog.findViewById<TextView>(R.id.error_flat)
-            errorFlat.text=""
+            errorFlat.text = ""
 
-            if (checkCityAndStreet(cityNew, errorCity) && checkCityAndStreet(
+            if (AddressService.checkCityAndStreet(
+                    cityNew,
+                    errorCity
+                ) && AddressService.checkCityAndStreet(
                     streetNew,
                     errorStreet
-                ) && checkHouseAndFlat(houseNew, errorHouse) && checkHouseAndFlat(
+                ) && AddressService.checkHouseAndFlat(
+                    houseNew,
+                    errorHouse
+                ) && (flatNew.text.toString().isEmpty() || AddressService.checkHouseAndFlat(
                     flatNew,
                     errorFlat
-                )
+                ))
             ) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    addressApi.addAddress(
-                        "Bearer " + token,
-                        Address(
-                            0,
-                            cityNew.text.toString(),
-                            streetNew.text.toString(),
-                            houseNew.text.toString(),
-                            flatNew.text.toString()
-                        )
-                    )
-                }
+                AddressService.addAddress(
+                    this,
+                    cityNew.text.toString(),
+                    streetNew.text.toString(),
+                    houseNew.text.toString(),
+                    flatNew.text.toString()
+                )
                 finish()
                 startActivity(intent)
             }
         }
-
     }
 
-    fun checkCityAndStreet(editText: EditText, error: TextView): Boolean {
-        val regex = Regex("[a-zA-Zа-яА-ЯҐґЄ-ЇІіЇїЄє]+")
-        if (!regex.matches(editText.text.toString())) {
-            editText.text.clear()
-            error.text = "Може складатись лише з літер"
-            return false
-        }
-        return true
-    }
 
-    fun checkHouseAndFlat(editText: EditText, error: TextView): Boolean {
-        val regex = Regex("[0-9]+")
-        if (!regex.matches(editText.text.toString())) {
-            editText.text.clear()
-            error.text = "Може складатись лише з цифр"
-            return false
-        }
-        return true
-    }
 }

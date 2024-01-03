@@ -11,8 +11,6 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
-import androidx.core.view.marginEnd
 import com.bumptech.glide.Glide
 import com.example.shopmatemobile.addResources.RetrofitClient
 import com.example.shopmatemobile.addResources.RetrofitClient2
@@ -21,20 +19,14 @@ import com.example.shopmatemobile.api.FavouriteApi
 import com.example.shopmatemobile.api.ProductApi
 import com.example.shopmatemobile.api.ReviewApi
 import com.example.shopmatemobile.databinding.ActivityProductBinding
-import com.example.shopmatemobile.databinding.ItemReviewBinding
 import com.example.shopmatemobile.model.Favourite
 import com.example.shopmatemobile.model.ProductShopMate
 import com.example.shopmatemobile.model.ReviewForAdd
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.create
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.OffsetDateTime
-import java.time.format.DateTimeFormatter
-import java.util.Date
 import java.util.Locale
 
 
@@ -60,13 +52,13 @@ class ProductActivity : AppCompatActivity() {
         }
 
 
-        var favouriteApi = RetrofitClient.getInstance().create(FavouriteApi::class.java)
-        var productApi = RetrofitClient2.getInstance().create(ProductApi::class.java)
-        var reviewApi = RetrofitClient.getInstance().create(ReviewApi::class.java)
-        var token = SharedPreferencesFactory(this).getToken()!!
+        val favouriteApi = RetrofitClient.getInstance().create(FavouriteApi::class.java)
+        val productApi = RetrofitClient2.getInstance().create(ProductApi::class.java)
+        val reviewApi = RetrofitClient.getInstance().create(ReviewApi::class.java)
+        val token = SharedPreferencesFactory(this).getToken()!!
 
         CoroutineScope(Dispatchers.IO).launch {
-            isFavourite = favouriteApi.checkFavourite( "Bearer " + token, productId)
+            isFavourite = favouriteApi.checkFavourite("Bearer $token", productId)
             var productDB = productApi.getProductById(productId)
             product = ProductShopMate(
                 id = productDB.id,
@@ -78,9 +70,9 @@ class ProductActivity : AppCompatActivity() {
                 thumbnail = productDB.thumbnail,
                 images = productDB.images,
                 isFavourite = isFavourite,
-                grade = reviewApi.getGradeForProduct(productDB.id.toString(), "Bearer " + token)
+                grade = reviewApi.getGradeForProduct(productDB.id.toString(), "Bearer $token")
             )
-            val reviewList = reviewApi.getReviews(token="Bearer " + token, idProduct = productDB.id.toString() )
+            val reviewList = reviewApi.getReviews(token= "Bearer $token", idProduct = productDB.id.toString() )
             runOnUiThread {
                 Glide.with(this@ProductActivity)
                     .load(product.thumbnail)

@@ -15,17 +15,17 @@
         android:theme="@style/Theme.ShopMateMobile"
         tools:targetApi="31">
         <activity
-            android:name=".EditProfile"
+            android:name=".AddressActivity"
             android:exported="false" />
         <activity
-            android:name=".Coupons"
+            android:name=".EditProfile"
             android:exported="false" />
         <activity
             android:name=".OrderCreation"
             android:exported="false" />
         <activity
             android:name=".ProductActivity"
-            android:exported="false" />
+            android:exported="false"></activity>
         <activity
             android:name=".ProductsActivity"
             android:exported="false" />
