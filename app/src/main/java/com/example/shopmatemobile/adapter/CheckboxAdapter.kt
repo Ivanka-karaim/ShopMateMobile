@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopmatemobile.R
-import com.example.shopmatemobile.addResources.BasketProductCountChangedListener
 import com.example.shopmatemobile.addResources.CheckboxChangedListener
 import com.example.shopmatemobile.addResources.RetrofitClient
 import com.example.shopmatemobile.addResources.SharedPreferencesFactory
@@ -22,8 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class CheckboxAdapter(private val changedListener: CheckboxChangedListener,
-                      private val basketCountListener:BasketProductCountChangedListener):
+class CheckboxAdapter(private val changedListener: CheckboxChangedListener):
     ListAdapter<OrderProduct, CheckboxAdapter.ViewHolder>(CheckboxItemDiffCallback()) {
 
     companion object {
@@ -54,14 +52,13 @@ class CheckboxAdapter(private val changedListener: CheckboxChangedListener,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item, changedListener, basketCountListener)
+        holder.bind(item, changedListener)
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ItemCheckboxBinding.bind(view)
 
-        fun bind(item: OrderProduct, changedListener: CheckboxChangedListener,
-                 basketCountListener: BasketProductCountChangedListener) = with(binding){
+        fun bind(item: OrderProduct, changedListener: CheckboxChangedListener) = with(binding){
             checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (isChecked){
                     addCheckbox(item)
@@ -81,7 +78,7 @@ class CheckboxAdapter(private val changedListener: CheckboxChangedListener,
                             binding.apply {
                                 textCount.text = item.count.toString()
                             }
-                            basketCountListener.onCountChanged()
+                            changedListener.onCheckboxChanged()
                         }
                     }
                 }
@@ -96,7 +93,7 @@ class CheckboxAdapter(private val changedListener: CheckboxChangedListener,
                         binding.apply {
                             textCount.text = item.count.toString()
                         }
-                        basketCountListener.onCountChanged()
+                        changedListener.onCheckboxChanged()
                     }
                 }
             }
