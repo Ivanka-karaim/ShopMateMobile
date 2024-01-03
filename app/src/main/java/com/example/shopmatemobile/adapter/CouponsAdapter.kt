@@ -9,8 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.shopmatemobile.R
 import com.example.shopmatemobile.databinding.ItemCouponBinding
 import com.example.shopmatemobile.model.Coupon
+import com.example.shopmatemobile.model.CouponStatus
 
-class CouponsAdapter:ListAdapter<Coupon, CouponsAdapter.Holder>(Comparator()) {
+class CouponsAdapter:ListAdapter<CouponStatus, CouponsAdapter.Holder>(Comparator()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_coupon, parent, false)
@@ -25,21 +26,21 @@ class CouponsAdapter:ListAdapter<Coupon, CouponsAdapter.Holder>(Comparator()) {
     class Holder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ItemCouponBinding.bind(view)
 
-        fun bind(item: Coupon) = with(binding){
-            discount.text = item.discount.toString()
-            dateExpiration.text = item.dateExpiration
+        fun bind(item: CouponStatus) = with(binding){
+            discount.text = "-${item.coupon.discount.toInt()}%"
+            dateExpiration.text = item.coupon.dateExpiration
             status.text = item.status
             binding.executePendingBindings()
         }
     }
 }
 
-class Comparator : DiffUtil.ItemCallback<Coupon>() {
-    override fun areItemsTheSame(oldItem: Coupon, newItem: Coupon): Boolean {
-        return oldItem.couponId == newItem.couponId
+class Comparator : DiffUtil.ItemCallback<CouponStatus>() {
+    override fun areItemsTheSame(oldItem: CouponStatus, newItem: CouponStatus): Boolean {
+        return oldItem.coupon.id == newItem.coupon.id
     }
 
-    override fun areContentsTheSame(oldItem: Coupon, newItem: Coupon): Boolean {
+    override fun areContentsTheSame(oldItem: CouponStatus, newItem: CouponStatus): Boolean {
         return oldItem == newItem
     }
 }

@@ -49,4 +49,9 @@ class MainActivity2 : AppCompatActivity() {
         val intent = Intent(this, OrderCreation::class.java)
         startActivity(intent)
     }
+
+    fun startActivityCoupons(view: View){
+        val intent = Intent(this, Coupons::class.java)
+        startActivity(intent)
+    }
 }
