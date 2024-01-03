@@ -1,10 +1,13 @@
 package com.example.shopmatemobile
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.fragment.app.DialogFragment
 import androidx.viewpager.widget.ViewPager
 import com.example.shopmatemobile.adapter.ImagePagerAdapter
@@ -12,10 +15,18 @@ import com.example.shopmatemobile.adapter.ImagePagerAdapter
 class ImageDialogFragment : DialogFragment() {
 
     private lateinit var viewPager: ViewPager
-    private lateinit var closeButton: Button
+    private lateinit var closeButton: ImageButton
 
     lateinit var imageUrls: List<String>
      var currentPosition: Int = 0
+
+    override fun onResume() {
+        super.onResume()
+        val params = dialog?.window?.attributes
+        params?.width = ViewGroup.LayoutParams.MATCH_PARENT
+        params?.height = ViewGroup.LayoutParams.MATCH_PARENT
+        dialog?.window?.attributes = params as WindowManager.LayoutParams
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,11 +44,12 @@ class ImageDialogFragment : DialogFragment() {
         viewPager.adapter = adapter
         viewPager.currentItem = currentPosition
 
-        // Обробник подій для закриття діалогового вікна при натисканні на кнопку "Закрити"
         closeButton.setOnClickListener {
             dismiss()
         }
 
+        dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        view?.setBackgroundColor(Color.parseColor("#СС000000"))
         return view
     }
 

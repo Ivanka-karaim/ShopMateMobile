@@ -51,8 +51,6 @@ class ProductActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-
-
         val receivedId = intent.getStringExtra("ID")
         if (receivedId != null) {
             productId = receivedId
