@@ -9,7 +9,6 @@ import android.widget.ImageButton
 import android.widget.TextView
 import com.example.shopmatemobile.R
 import com.example.shopmatemobile.addResources.RetrofitClient
-import com.example.shopmatemobile.addResources.ServiceCallback
 import com.example.shopmatemobile.addResources.SharedPreferencesFactory
 import com.example.shopmatemobile.api.AddressApi
 import com.example.shopmatemobile.model.Address

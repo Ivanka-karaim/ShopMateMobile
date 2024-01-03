@@ -49,7 +49,7 @@ class ImageDialogFragment : DialogFragment() {
         }
 
         dialog?.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        view?.setBackgroundColor(Color.parseColor("#СС000000"))
+        view?.setBackgroundColor(Color.parseColor("#33000000"))
         return view
     }
 
