@@ -2,12 +2,14 @@
 package com.example.shopmatemobile.adapter
 
 import android.app.Activity
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.shopmatemobile.R
 import com.example.shopmatemobile.addResources.CheckboxChangedListener
 import com.example.shopmatemobile.addResources.RetrofitClient
@@ -21,7 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class CheckboxAdapter(private val changedListener: CheckboxChangedListener):
+class CheckboxAdapter(private val changedListener: CheckboxChangedListener, var context: Context):
     ListAdapter<OrderProduct, CheckboxAdapter.ViewHolder>(CheckboxItemDiffCallback()) {
 
     companion object {
@@ -52,13 +54,13 @@ class CheckboxAdapter(private val changedListener: CheckboxChangedListener):
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item, changedListener)
+        holder.bind(item, changedListener, context)
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ItemCheckboxBinding.bind(view)
 
-        fun bind(item: OrderProduct, changedListener: CheckboxChangedListener) = with(binding){
+        fun bind(item: OrderProduct, changedListener: CheckboxChangedListener, context: Context) = with(binding){
             checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (isChecked){
                     addCheckbox(item)
@@ -101,6 +103,9 @@ class CheckboxAdapter(private val changedListener: CheckboxChangedListener):
             productName.text = item.title
             productPrice.text = item.price.toString()
             textCount.text = item.count.toString()
+            Glide.with(context)
+                .load(item.thumbnail)
+                .into(productImage)
             binding.executePendingBindings()
         }
     }

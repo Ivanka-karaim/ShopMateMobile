@@ -20,6 +20,14 @@
             android:layout_marginTop="45dp"
             android:text="@string/basket"
             android:textSize="24sp" />
+        <TextView
+            android:id="@+id/basket_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:text=""
+            android:textSize="16sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -38,6 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="298dp"
             android:src="@drawable/rectangle"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -48,6 +57,7 @@
             android:id="@+id/layoutBasketInfo"
             android:layout_width="311dp"
             android:layout_height="189dp"
+            android:visibility="invisible"
             android:layout_marginTop="25dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"

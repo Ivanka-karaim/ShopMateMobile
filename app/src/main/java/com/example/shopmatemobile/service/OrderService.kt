@@ -43,13 +43,22 @@ object OrderService {
         return productsOrder
     }
 
-    suspend fun createOrder(context: Context, orderInfo:CreateOrder){
+    suspend fun createOrder(context: Context, orderInfo:CreateOrder):Int{
         val orderApi = RetrofitClient.getInstance().create(OrderApi::class.java)
         val token = SharedPreferencesFactory(context).getToken()!!
-        val createOrder = orderApi.createOrder("Bearer $token", orderInfo)
-        if (createOrder.isSuccessful){
-            println("successful")
+        return withContext(Dispatchers.IO) {
+            val createOrder = orderApi.createOrder("Bearer $token", orderInfo)
+            return@withContext createOrder
+
         }
+
+    }
+
+    suspend fun getOrderById(context: Context, id:Int){
+        val orderApi = RetrofitClient.getInstance().create(OrderApi::class.java)
+        val token = SharedPreferencesFactory(context).getToken()!!
+        val orderById = orderApi.getOrderById("Bearer $token", id)
+
 
     }
 }

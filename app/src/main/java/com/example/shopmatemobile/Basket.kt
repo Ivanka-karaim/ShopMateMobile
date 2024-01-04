@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.annotation.RequiresApi
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopmatemobile.adapter.CheckboxAdapter
 import com.example.shopmatemobile.addResources.CheckboxChangedListener
@@ -23,16 +24,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [Basket.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class Basket : Fragment(), CheckboxChangedListener {
     lateinit var binding : FragmentBasketBinding
     private lateinit var adapter: CheckboxAdapter
@@ -42,7 +37,17 @@ class Basket : Fragment(), CheckboxChangedListener {
     private var param2: String? = null
 
     override fun onCheckboxChanged() {
-        setPrice(adapter.getSelectedItems())
+        val selected = adapter.getSelectedItems()
+        if (selected.isEmpty()){
+            binding.basketError.text = "Товари не вибрано."
+            binding.layoutBasketInfo.isVisible = false
+            binding.rectimage.isVisible = false
+        }else {
+            binding.basketError.text = ""
+            binding.layoutBasketInfo.isVisible = true
+            binding.rectimage.isVisible = true
+            setPrice(selected)
+        }
     }
     private fun setPrice(checkboxes: List<OrderProduct>){
         binding.costBasket.text = PriceService.calcCost(checkboxes).toString()
@@ -65,7 +70,7 @@ class Basket : Fragment(), CheckboxChangedListener {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-        adapter = CheckboxAdapter(this)
+        adapter = CheckboxAdapter(this, requireContext())
     }
 
     override fun onCreateView(
@@ -81,6 +86,8 @@ class Basket : Fragment(), CheckboxChangedListener {
         binding = FragmentBasketBinding.bind(view)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = adapter
+
+
         val spinnerIds = mutableListOf<Int>()
         val spinnerArray = mutableListOf<String>()
         CoroutineScope(Dispatchers.IO).launch {
@@ -119,9 +126,7 @@ class Basket : Fragment(), CheckboxChangedListener {
                                 position: Int,
                                 id: Long
                             ) {
-                                println(position)
                                 if (position!=0) {
-
                                     var discount: String =
                                         binding.spinnerCouponsBasket.selectedItem.toString()
                                     discount = discount.drop(1).dropLast(1)
@@ -144,6 +149,10 @@ class Basket : Fragment(), CheckboxChangedListener {
                 if (isAdded) {
                     requireActivity().runOnUiThread {
                         binding.apply {
+                            binding.basketError.text = ""
+                            binding.layoutBasketInfo.isVisible = true
+                            binding.rectimage.isVisible = true
+                            setPrice(basket)
                             adapter.submitList(basket)
                         }
                     }
@@ -151,7 +160,9 @@ class Basket : Fragment(), CheckboxChangedListener {
             }else{
                 requireActivity().runOnUiThread {
                     binding.apply {
-                        //
+                        binding.basketError.text = "Корзина порожня."
+                        binding.layoutBasketInfo.isVisible = false
+                        binding.rectimage.isVisible = false
                     }
                 }
             }

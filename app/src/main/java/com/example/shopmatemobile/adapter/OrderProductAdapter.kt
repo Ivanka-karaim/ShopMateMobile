@@ -1,16 +1,18 @@
 package com.example.shopmatemobile.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.shopmatemobile.R
 import com.example.shopmatemobile.databinding.ItemOrderProductBinding
 import com.example.shopmatemobile.model.OrderProduct
 
-class OrderProductAdapter: ListAdapter<OrderProduct, OrderProductAdapter.Holder>(Comparator()) {
+class OrderProductAdapter(var context: Context): ListAdapter<OrderProduct, OrderProductAdapter.Holder>(Comparator()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_order_product, parent, false)
@@ -19,17 +21,19 @@ class OrderProductAdapter: ListAdapter<OrderProduct, OrderProductAdapter.Holder>
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(item, context)
     }
 
     class Holder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ItemOrderProductBinding.bind(view)
 
-        fun bind(item: OrderProduct) = with(binding){
+        fun bind(item: OrderProduct, context: Context) = with(binding){
             productName.text = item.title
-            productRate.text = item.grade.toString()
             productPrice.text = item.price.toString()
             textCount.text = item.count.toString()
+            Glide.with(context)
+                .load(item.thumbnail)
+                .into(productImage)
             binding.executePendingBindings()
         }
     }

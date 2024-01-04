@@ -57,7 +57,7 @@
     <string name="new_password">Новий пароль</string>
     <string name="repeat_new_password">Повторіть новий пароль</string>
     <string name="add_address">Додати адресу</string>
-<string name="categories">Категорії</string>
+    <string name="categories">Категорії</string>
     <string name="like">Вподобати</string>
     <string name="back">Повернутись</string>
     <string name="generalPhoto">Головне фото</string>
@@ -87,7 +87,9 @@
     <string name="delete">Видалити</string>
     <string name="edit_text">Редагувати</string>
     <string name="submit_order">Покупку підтверджено</string>
-
+    <string name="ordering">Замовлення</string>
+    <string name="total">Усього:</string>
+    <string name="status_order">Статус замовлення</string>
 
 
 </resources>

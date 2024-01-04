@@ -1,13 +1,17 @@
 package com.example.shopmatemobile.service
 
+import android.app.Activity
 import android.content.Context
 import com.example.shopmatemobile.addResources.RetrofitClient
 import com.example.shopmatemobile.addResources.RetrofitClient2
 import com.example.shopmatemobile.addResources.SharedPreferencesFactory
 import com.example.shopmatemobile.api.BasketApi
 import com.example.shopmatemobile.api.ProductApi
+import com.example.shopmatemobile.model.Basket
 import com.example.shopmatemobile.model.OrderProduct
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 object BasketService {
@@ -37,4 +41,13 @@ object BasketService {
             return@withContext productsBasket
         }
     }
+
+    suspend fun addToBasket(context: Context, id:String){
+        val basketApi = RetrofitClient.getInstance().create(BasketApi::class.java)
+        val token = SharedPreferencesFactory(context).getToken()!!
+        return withContext(Dispatchers.IO) {
+            basketApi.addToBasket("Bearer $token", Basket(id, 1))
+        }
+    }
+
 }

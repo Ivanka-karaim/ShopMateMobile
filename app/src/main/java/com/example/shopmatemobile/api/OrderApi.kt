@@ -3,6 +3,7 @@ package com.example.shopmatemobile.api
 import com.example.shopmatemobile.model.CreateOrder
 import com.example.shopmatemobile.model.Favourite
 import com.example.shopmatemobile.model.OrderCreation
+import com.example.shopmatemobile.model.OrderInfo
 import com.squareup.okhttp.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -16,5 +17,11 @@ interface OrderApi {
     suspend fun getOrderInfo(@Header("Authorization") token: String, @Query("ProductsId") productsId: ArrayList<String>): OrderCreation
 
     @POST("/order/create")
-    suspend fun createOrder(@Header("Authorization") token: String, @Body createOrder: CreateOrder): Response<ResponseBody>
+    suspend fun createOrder(@Header("Authorization") token: String, @Body createOrder: CreateOrder): Int
+
+    @POST("/order/{id}")
+    suspend fun getOrderById(@Header("Authorization") token: String, @Body id: Int): OrderInfo
+
+    @POST("/orders")
+    suspend fun getOrders(@Header("Authorization") token: String): List<OrderInfo>
 }

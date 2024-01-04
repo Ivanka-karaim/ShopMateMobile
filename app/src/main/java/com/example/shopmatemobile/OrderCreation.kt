@@ -45,7 +45,7 @@ class OrderCreation : AppCompatActivity() {
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         val layoutManager = LinearLayoutManager(this)
-        val adapter = OrderProductAdapter()
+        val adapter = OrderProductAdapter(this)
 
 
         recyclerView.layoutManager = layoutManager
