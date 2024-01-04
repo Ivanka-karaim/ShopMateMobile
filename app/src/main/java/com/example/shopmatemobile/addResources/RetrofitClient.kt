@@ -40,8 +40,3 @@ object RetrofitClient {
         return instance!!
     }
 }
-
-
-
-
-

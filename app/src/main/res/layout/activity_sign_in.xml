@@ -128,6 +128,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textPassword1"
                 tools:ignore="LabelFor,RtlSymmetry" />
+            <ImageView
+                android:id="@+id/hidden"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_margin="10dp"
+
+                android:onClick="togglePasswordVisibility"
+                android:src="@drawable/baseline_key_off_24"
+                app:layout_constraintEnd_toEndOf="@+id/editPassword1"
+                app:layout_constraintTop_toTopOf="@+id/editPassword1" />
 
             <TextView
                 android:id="@+id/textErrorPassword"

@@ -27,9 +27,6 @@
             android:name=".ProductActivity"
             android:exported="false"/>
         <activity
-            android:name=".ProductsActivity"
-            android:exported="false" />
-        <activity
             android:name=".Registration"
             android:exported="false" />
         <activity
@@ -42,13 +39,13 @@
             android:name=".OrdersActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".SignIn"
             android:exported="false" />
         <activity
             android:name=".Coupons"
             android:exported="false" />
         <activity
-            android:name=".SignIn"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

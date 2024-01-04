@@ -5,8 +5,13 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputType
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.example.shopmatemobile.addResources.RetrofitClient
@@ -73,11 +78,45 @@ class Registration : AppCompatActivity() {
                         }
 
                     }
-                }
+
+            }
 
         }
 
     }
+    fun togglePasswordVisibility(view: View) {
+        val editText = findViewById<EditText>(R.id.editPassword1)
+        val currentInputType = editText.inputType
+        println(currentInputType)
+        if (currentInputType ==144) {
+            println(888)
+            binding.hidden1.setImageResource(R.drawable.baseline_key_off_24)
+            editText.inputType = 129
+        } else {
+            // Пароль прихований, переключаємо на видимий
+            binding.hidden1.setImageResource(R.drawable.baseline_key_24)
+            editText.inputType = 144
+        }
+        editText.setSelection(editText.text.length)
+    }
+    fun togglePassword2Visibility(view: View) {
+        val editText = findViewById<EditText>(R.id.editPassword2)
+        val currentInputType = editText.inputType
+        println(currentInputType)
+        if (currentInputType ==144) {
+            println(888)
+            binding.hidden2.setImageResource(R.drawable.baseline_key_off_24)
+            editText.inputType = 129
+        } else {
+            // Пароль прихований, переключаємо на видимий
+            binding.hidden2.setImageResource(R.drawable.baseline_key_24)
+            editText.inputType = 144
+        }
+        editText.setSelection(editText.text.length)
+    }
+
+
+
     fun clean(){
         binding.errorName.text=""
         binding.errorSurname.text=""

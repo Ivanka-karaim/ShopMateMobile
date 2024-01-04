@@ -9,7 +9,7 @@
     <item
          android:title=""
         android:id="@+id/basket"
-        android:icon="@drawable/baseline_home_25"/>
+        android:icon="@drawable/baseline_local_grocery_store_24"/>
     <item
          android:title=""
         android:id="@+id/favourite"
@@ -18,5 +18,5 @@
 
          android:title=""
         android:id="@+id/profile"
-        android:icon="@drawable/baseline_home_25"/>
+        android:icon="@drawable/outline_account_circle_24"/>
 </menu>

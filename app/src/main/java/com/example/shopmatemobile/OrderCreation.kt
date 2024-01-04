@@ -88,11 +88,14 @@ class OrderCreation : AppCompatActivity() {
         val spinnerArrayAddressIds = mutableListOf<Int>()
         val addressApi = RetrofitClient.getInstance().create(AddressApi::class.java)
         CoroutineScope(Dispatchers.IO).launch {
-            val addresses = addressApi.getAddresses("Bearer $token")
-            if (addresses.isNotEmpty()) {
-                for (address in addresses) {
-                    spinnerArrayAddressIds.add(address.id)
-                    spinnerArrayAddress.add("м.${address.city} вул.${address.house} буд.${address.house} кв.${address.flat}")
+            val response = addressApi.getAddresses("Bearer $token")
+            if(response.isSuccessful) {
+                val addresses = response.body()!!
+                if (addresses.isNotEmpty()) {
+                    for (address in addresses) {
+                        spinnerArrayAddressIds.add(address.id)
+                        spinnerArrayAddress.add("м.${address.city} вул.${address.house} буд.${address.house} кв.${address.flat}")
+                    }
                 }
             }
         }

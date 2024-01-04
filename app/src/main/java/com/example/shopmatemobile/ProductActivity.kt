@@ -1,6 +1,7 @@
 package com.example.shopmatemobile
 
 import android.app.Dialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
@@ -12,7 +13,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import com.bumptech.glide.Glide
+import com.example.shopmatemobile.addResources.ErrorHandler
 import com.example.shopmatemobile.addResources.RetrofitClient
 import com.example.shopmatemobile.addResources.RetrofitClient2
 import com.example.shopmatemobile.addResources.SharedPreferencesFactory
@@ -27,6 +30,7 @@ import com.example.shopmatemobile.service.BasketService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -60,21 +64,54 @@ class ProductActivity : AppCompatActivity() {
         val token = SharedPreferencesFactory(this).getToken()!!
 
         CoroutineScope(Dispatchers.IO).launch {
-            isFavourite = favouriteApi.checkFavourite("Bearer $token", productId)
+            val response = favouriteApi.checkFavourite("Bearer $token", productId)
+            if(response.isSuccessful){
+                isFavourite = response.body()!!
+            }else{
+                if(response.code()==401){
+                    ErrorHandler.unauthorizedUser(this@ProductActivity, this@ProductActivity)
+                }else {
+                    ErrorHandler.generalError(this@ProductActivity)
+                }
+            }
             var productDB = productApi.getProductById(productId)
-            product = ProductShopMate(
-                id = productDB.id,
-                title = productDB.title,
-                description = productDB.description,
-                price = productDB.price,
-                brand = productDB.brand,
-                category = productDB.category,
-                thumbnail = productDB.thumbnail,
-                images = productDB.images,
-                isFavourite = isFavourite,
-                grade = reviewApi.getGradeForProduct(productDB.id.toString(), "Bearer $token")
-            )
-            val reviewList = reviewApi.getReviews(token= "Bearer $token", idProduct = productDB.id.toString() )
+            var responseGrade = reviewApi.getGradeForProduct(productDB.id.toString(), "Bearer $token")
+            if(response.isSuccessful){
+                product = ProductShopMate(
+                    id = productDB.id,
+                    title = productDB.title,
+                    description = productDB.description,
+                    price = productDB.price,
+                    brand = productDB.brand,
+                    category = productDB.category,
+                    thumbnail = productDB.thumbnail,
+                    images = productDB.images,
+                    isFavourite = isFavourite,
+                    grade = responseGrade.body()!!
+                )
+            }else{
+                if(response.code()==401){
+                    ErrorHandler.unauthorizedUser(this@ProductActivity, this@ProductActivity)
+                }else{
+                    ErrorHandler.generalError(this@ProductActivity)
+                }
+                product = ProductShopMate(
+                    id = productDB.id,
+                    title = productDB.title,
+                    description = productDB.description,
+                    price = productDB.price,
+                    brand = productDB.brand,
+                    category = productDB.category,
+                    thumbnail = productDB.thumbnail,
+                    images = productDB.images,
+                    isFavourite = isFavourite,
+                    grade = 0.0
+                )
+            }
+
+            val responseReview = reviewApi.getReviews(token= "Bearer $token", idProduct = productDB.id.toString() )
+
+
             runOnUiThread {
                 Glide.with(this@ProductActivity)
                     .load(product.thumbnail)
@@ -122,73 +159,93 @@ class ProductActivity : AppCompatActivity() {
 
 
                 val linearLayout = findViewById<LinearLayout>(R.id.reviews)
-
-                for (review in reviewList) {
-                    val itemView = layoutInflater.inflate(R.layout.item_review, null)
-                    val userName = itemView.findViewById<TextView>(R.id.reviewUserName)
-                    val userSurname = itemView.findViewById<TextView>(R.id.reviewUserSurname)
-                    val submitOrder = itemView.findViewById<LinearLayout>(R.id.submitOrder)
-                    var description = itemView.findViewById<TextView>(R.id.descriptionReview)
-                    var date = itemView.findViewById<TextView>(R.id.dateReview)
+                if(responseReview.isSuccessful) {
 
 
-                    userName.text = review.userForReview.firstName
-                    userSurname.text = review.userForReview.lastName
-                    if(review.isVerified)
-                    submitOrder.visibility = View.VISIBLE
-                    else {
-                        submitOrder.visibility = View.GONE
-                        submitOrder.layoutParams = LinearLayout.LayoutParams(0, 0)
-                    }
-                    description.text = review.text
-                    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
-                    val outputFormat = SimpleDateFormat("d MMMM yyyy", Locale("uk", "UA"))
+                    for (review in responseReview.body()!!) {
+                        val itemView = layoutInflater.inflate(R.layout.item_review, null)
+                        val userName = itemView.findViewById<TextView>(R.id.reviewUserName)
+                        val userSurname = itemView.findViewById<TextView>(R.id.reviewUserSurname)
+                        val submitOrder = itemView.findViewById<LinearLayout>(R.id.submitOrder)
+                        var description = itemView.findViewById<TextView>(R.id.descriptionReview)
+                        var date = itemView.findViewById<TextView>(R.id.dateReview)
 
-                    try {
-                        val dateTime = inputFormat.parse(review.date)
-                        val formattedDate = outputFormat.format(dateTime)
-                        date.text = formattedDate
-                    } catch (e: ParseException) {
-                        e.printStackTrace()
-                    }
-                    if (review.isThisUser){
 
-                        itemView.findViewById<Button>(R.id.deleteReview).visibility = View.VISIBLE
-                    } else{
-                        itemView.findViewById<Button>(R.id.deleteReview).visibility = View.INVISIBLE
-                    }
-
-                    itemView.findViewById<Button>(R.id.deleteReview).setOnClickListener {
-                        CoroutineScope(Dispatchers.IO).launch {
-                            reviewApi.deleteReview("Bearer " + token, review.id);
+                        userName.text = review.userForReview.firstName
+                        userSurname.text = review.userForReview.lastName
+                        if (review.isVerified)
+                            submitOrder.visibility = View.VISIBLE
+                        else {
+                            submitOrder.visibility = View.GONE
+                            submitOrder.layoutParams = LinearLayout.LayoutParams(0, 0)
                         }
-                        finish()
-                        startActivity(intent)
-                    }
-                    var linearLayoutGrade = itemView.findViewById<LinearLayout>(R.id.grades)
-                    for(i in 1..review.rating.toInt()) {
-                        val imageView = ImageView(this@ProductActivity)
-                        val params = LinearLayout.LayoutParams(
-                            dpToPx(20),
-                            dpToPx(20)
-                        )
-                        imageView.setImageResource(R.drawable.baseline_grade_dark_24)
-                        imageView.layoutParams = params
-                        linearLayoutGrade.addView(imageView)
-                    }
-                    for (i in review.rating.toInt()+1..5){
-                        val imageView = ImageView(this@ProductActivity)
-                        val params = LinearLayout.LayoutParams(
-                            dpToPx(20),
-                            dpToPx(20)
-                        )
-                        imageView.setImageResource(R.drawable.baseline_grade_24)
-                        imageView.layoutParams = params
-                        linearLayoutGrade.addView(imageView)
-                    }
-                    linearLayout.addView(itemView)
+                        description.text = review.text
+                        val inputFormat =
+                            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
+                        val outputFormat = SimpleDateFormat("d MMMM yyyy", Locale("uk", "UA"))
+
+                        try {
+                            val dateTime = inputFormat.parse(review.date)
+                            val formattedDate = outputFormat.format(dateTime)
+                            date.text = formattedDate
+                        } catch (e: ParseException) {
+                            e.printStackTrace()
+                        }
+                        if (review.isThisUser) {
+
+                            itemView.findViewById<Button>(R.id.deleteReview).visibility =
+                                View.VISIBLE
+                        } else {
+                            itemView.findViewById<Button>(R.id.deleteReview).visibility =
+                                View.INVISIBLE
+                        }
+
+                        itemView.findViewById<Button>(R.id.deleteReview).setOnClickListener {
+                            CoroutineScope(Dispatchers.IO).launch {
+                                var responseDeleteReview = reviewApi.deleteReview("Bearer " + token, review.id);
+                                if(!responseDeleteReview.isSuccessful){
+                                    if(responseDeleteReview.code()==401){
+                                        ErrorHandler.unauthorizedUser(this@ProductActivity, this@ProductActivity)
+
+                                    }else{
+                                        ErrorHandler.generalError(this@ProductActivity)
+                                    }
+                                }
+                            }
+                            finish()
+                            startActivity(intent)
+                        }
+                        var linearLayoutGrade = itemView.findViewById<LinearLayout>(R.id.grades)
+                        for (i in 1..review.rating.toInt()) {
+                            val imageView = ImageView(this@ProductActivity)
+                            val params = LinearLayout.LayoutParams(
+                                dpToPx(20),
+                                dpToPx(20)
+                            )
+                            imageView.setImageResource(R.drawable.baseline_grade_dark_24)
+                            imageView.layoutParams = params
+                            linearLayoutGrade.addView(imageView)
+                        }
+                        for (i in review.rating.toInt() + 1..5) {
+                            val imageView = ImageView(this@ProductActivity)
+                            val params = LinearLayout.LayoutParams(
+                                dpToPx(20),
+                                dpToPx(20)
+                            )
+                            imageView.setImageResource(R.drawable.baseline_grade_24)
+                            imageView.layoutParams = params
+                            linearLayoutGrade.addView(imageView)
+                        }
+                        linearLayout.addView(itemView)
 
 
+                    }
+                }else{
+                    if (responseReview.code() == 401){
+                        ErrorHandler.unauthorizedUser(this@ProductActivity, this@ProductActivity)
+                    }else{
+                        ErrorHandler.generalError(this@ProductActivity)
+                    }
                 }
 
 
@@ -230,7 +287,14 @@ class ProductActivity : AppCompatActivity() {
                         dialog.findViewById<EditText>(R.id.textReview).text.toString(),
                         grade.toDouble()
                     )
-                    reviewApi.addReview("Bearer " + token, review)
+                    var responseAddReview = reviewApi.addReview("Bearer " + token, review)
+                    if(!responseAddReview.isSuccessful){
+                        if(responseAddReview.code()==401){
+                            ErrorHandler.unauthorizedUser(this@ProductActivity, this@ProductActivity)
+                        }else{
+                            ErrorHandler.generalError(this@ProductActivity)
+                        }
+                    }
                 }
                 finish()
                 startActivity(intent)

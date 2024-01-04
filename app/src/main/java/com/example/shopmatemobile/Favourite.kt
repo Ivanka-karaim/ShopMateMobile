@@ -1,25 +1,30 @@
 package com.example.shopmatemobile
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopmatemobile.adapter.CategoryAdapter
 import com.example.shopmatemobile.adapter.FavouriteAdapter
 import com.example.shopmatemobile.addResources.ButtonClickListener
+import com.example.shopmatemobile.addResources.ErrorHandler
 import com.example.shopmatemobile.addResources.RetrofitClient
 import com.example.shopmatemobile.addResources.RetrofitClient2
+import com.example.shopmatemobile.addResources.SharedPreferencesFactory
+import com.example.shopmatemobile.api.FavouriteApi
 import com.example.shopmatemobile.api.ProductApi
-import com.example.shopmatemobile.api.UserApi
+import com.example.shopmatemobile.api.ReviewApi
 import com.example.shopmatemobile.databinding.FragmentFavouriteBinding
 import com.example.shopmatemobile.model.ProductShopMate
-import com.example.shopmatemobile.service.FavouriteService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -67,12 +72,12 @@ class Favourite : Fragment(), ButtonClickListener {
                 return desiredItemWidth
             }
         }
-        adapterFavourite = FavouriteAdapter(requireContext())
+        adapterFavourite = FavouriteAdapter(requireContext(), requireActivity())
         binding.RecyclerViewProduct.layoutManager = layoutManager
         binding.RecyclerViewProduct.adapter = adapterFavourite
 
         CoroutineScope(Dispatchers.IO).launch {
-            favourites = FavouriteService.getFavourites(requireContext())
+            favourites = getFavourites()
             if (favourites.isNotEmpty()) {
                 var catg = mutableSetOf<String>()
                 catg.add("All")
@@ -117,6 +122,62 @@ class Favourite : Fragment(), ButtonClickListener {
         binding.RecyclerViewCategory.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.RecyclerViewCategory.adapter = adapterCategory
         adapterCategory.submitList(categories)
+    }
+
+    suspend fun getFavourites(): List<ProductShopMate> {
+        var productsShopMate = ArrayList<ProductShopMate>()
+        var favouriteApi = RetrofitClient.getInstance().create(FavouriteApi::class.java)
+        var productApi = RetrofitClient2.getInstance().create(ProductApi::class.java)
+        var reviewApi = RetrofitClient.getInstance().create(ReviewApi::class.java)
+        return withContext(Dispatchers.IO) {
+            println(SharedPreferencesFactory(requireContext()).getToken())
+            var response = favouriteApi.getFavourites("Bearer "+ SharedPreferencesFactory(requireContext()).getToken()!!)
+            if (response.isSuccessful) {
+                var favourites = response.body()
+
+                if (favourites != null) {
+                    if (favourites.isNotEmpty()) {
+                        for (favourite in favourites) {
+                            val product = productApi.getProductById(favourite.productId)
+                            val response = reviewApi.getGradeForProduct(
+                                favourite.productId,
+                                "Bearer " + SharedPreferencesFactory(requireContext()).getToken()!!
+                            )
+                            if(response.isSuccessful) {
+                                productsShopMate.add(
+                                    ProductShopMate(
+                                        id = product.id,
+                                        title = product.title,
+                                        description = product.description,
+                                        price = product.price,
+                                        brand = product.brand,
+                                        category = product.category,
+                                        thumbnail = product.thumbnail,
+                                        images = product.images,
+                                        grade = response.body()!!,
+                                        isFavourite = true
+                                    )
+                                )
+                            }else{
+                                if(response.code()==401){
+                                    ErrorHandler.unauthorizedUser(requireContext(), requireActivity())
+                                }else{
+                                    ErrorHandler.generalError(requireContext())
+                                }
+                            }
+                        }
+                    }
+                }
+                return@withContext productsShopMate;
+            }else{
+                if(response.code()==401){
+                    ErrorHandler.unauthorizedUser(requireContext(), requireActivity())
+                }else{
+                    ErrorHandler.generalError(requireContext())
+                }
+                return@withContext emptyList()
+            }
+        }
     }
 
 

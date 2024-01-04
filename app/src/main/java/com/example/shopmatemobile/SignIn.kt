@@ -3,6 +3,8 @@ package com.example.shopmatemobile
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.EditText
 import com.example.shopmatemobile.addResources.RetrofitClient
 import com.example.shopmatemobile.addResources.SharedPreferencesFactory
 import com.example.shopmatemobile.api.ProductApi
@@ -64,6 +66,19 @@ class SignIn : AppCompatActivity() {
 
             }
         }
+    }
+    fun togglePasswordVisibility(view: View) {
+        val editText = findViewById<EditText>(R.id.editPassword1)
+        val currentInputType = editText.inputType
+        println(currentInputType)
+        if (currentInputType ==144) {
+            binding.hidden.setImageResource(R.drawable.baseline_key_off_24)
+            editText.inputType = 129
+        } else {
+            binding.hidden.setImageResource(R.drawable.baseline_key_24)
+            editText.inputType = 144
+        }
+        editText.setSelection(editText.text.length)
     }
 }
 

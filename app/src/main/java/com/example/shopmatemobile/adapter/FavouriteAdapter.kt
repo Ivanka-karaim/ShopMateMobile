@@ -1,5 +1,6 @@
 package com.example.shopmatemobile.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.shopmatemobile.ProductActivity
 import com.example.shopmatemobile.R
 import com.example.shopmatemobile.addResources.ButtonClickListener
+import com.example.shopmatemobile.addResources.ErrorHandler
 import com.example.shopmatemobile.addResources.RetrofitClient
 import com.example.shopmatemobile.addResources.SharedPreferencesFactory
 import com.example.shopmatemobile.api.FavouriteApi
@@ -22,12 +24,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class FavouriteAdapter(var context: Context) : ListAdapter<ProductShopMate, FavouriteAdapter.Holder>(Comparator()){
+class FavouriteAdapter(var context: Context, var activity: Activity) : ListAdapter<ProductShopMate, FavouriteAdapter.Holder>(Comparator()){
     class Holder(view: View) : RecyclerView.ViewHolder(view){
 
         private val binding = ItemProductBinding.bind(view)
 
-        fun bind(product: ProductShopMate, context: Context)= with(binding){
+        fun bind(product: ProductShopMate, context: Context, activity: Activity)= with(binding){
             productName.text = product.title
             productPrice.text = product.price.toString()
 //            productGrade.text = product.grade.toString()
@@ -51,7 +53,14 @@ class FavouriteAdapter(var context: Context) : ListAdapter<ProductShopMate, Favo
             likeIcon.setOnClickListener{
                 val favouriteApi = RetrofitClient.getInstance().create(FavouriteApi::class.java)
                 CoroutineScope(Dispatchers.IO).launch {
-                    favouriteApi.changeFavourite(Favourite(product.id.toString()), "Bearer "+SharedPreferencesFactory(context).getToken()!!)
+                    var response = favouriteApi.changeFavourite(Favourite(product.id.toString()), "Bearer "+SharedPreferencesFactory(context).getToken()!!)
+                    if(!response.isSuccessful){
+                        if(response.code()==401){
+                            ErrorHandler.unauthorizedUser(context, activity)
+                        }else{
+                            ErrorHandler.generalError(context)
+                        }
+                    }
                 }
                 product.isFavourite = !product.isFavourite
                 if(product.isFavourite){
@@ -81,7 +90,7 @@ class FavouriteAdapter(var context: Context) : ListAdapter<ProductShopMate, Favo
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.bind(getItem(position), context)
+        holder.bind(getItem(position), context, activity)
     }
 
 }
