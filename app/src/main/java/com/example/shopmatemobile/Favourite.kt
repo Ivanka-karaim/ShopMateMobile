@@ -79,7 +79,7 @@ class Favourite : Fragment(), ButtonClickListener {
         CoroutineScope(Dispatchers.IO).launch {
             favourites = getFavourites()
             if (favourites.isNotEmpty()) {
-                var catg = mutableSetOf<String>()
+                val catg = mutableSetOf<String>()
                 catg.add("All")
                 favourites.forEach { product ->
                     catg.add(product.category)
@@ -124,26 +124,26 @@ class Favourite : Fragment(), ButtonClickListener {
         adapterCategory.submitList(categories)
     }
 
-    suspend fun getFavourites(): List<ProductShopMate> {
-        var productsShopMate = ArrayList<ProductShopMate>()
-        var favouriteApi = RetrofitClient.getInstance().create(FavouriteApi::class.java)
-        var productApi = RetrofitClient2.getInstance().create(ProductApi::class.java)
-        var reviewApi = RetrofitClient.getInstance().create(ReviewApi::class.java)
+    private suspend fun getFavourites(): List<ProductShopMate> {
+        val productsShopMate = ArrayList<ProductShopMate>()
+        val favouriteApi = RetrofitClient.getInstance().create(FavouriteApi::class.java)
+        val productApi = RetrofitClient2.getInstance().create(ProductApi::class.java)
+        val reviewApi = RetrofitClient.getInstance().create(ReviewApi::class.java)
         return withContext(Dispatchers.IO) {
             println(SharedPreferencesFactory(requireContext()).getToken())
-            var response = favouriteApi.getFavourites("Bearer "+ SharedPreferencesFactory(requireContext()).getToken()!!)
+            val response = favouriteApi.getFavourites("Bearer "+ SharedPreferencesFactory(requireContext()).getToken()!!)
             if (response.isSuccessful) {
-                var favourites = response.body()
+                val favourites = response.body()
 
                 if (favourites != null) {
                     if (favourites.isNotEmpty()) {
                         for (favourite in favourites) {
                             val product = productApi.getProductById(favourite.productId)
-                            val response = reviewApi.getGradeForProduct(
+                            val responseGrade = reviewApi.getGradeForProduct(
                                 favourite.productId,
                                 "Bearer " + SharedPreferencesFactory(requireContext()).getToken()!!
                             )
-                            if(response.isSuccessful) {
+                            if(responseGrade.isSuccessful) {
                                 productsShopMate.add(
                                     ProductShopMate(
                                         id = product.id,
@@ -154,12 +154,12 @@ class Favourite : Fragment(), ButtonClickListener {
                                         category = product.category,
                                         thumbnail = product.thumbnail,
                                         images = product.images,
-                                        grade = response.body()!!,
+                                        grade = responseGrade.body()!!,
                                         isFavourite = true
                                     )
                                 )
                             }else{
-                                if(response.code()==401){
+                                if(responseGrade.code()==401){
                                     ErrorHandler.unauthorizedUser(requireContext(), requireActivity())
                                 }else{
                                     ErrorHandler.generalError(requireContext())

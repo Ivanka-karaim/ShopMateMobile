@@ -79,9 +79,9 @@ class Home : Fragment(), ButtonClickListener{
         adapterFavourite = FavouriteAdapter(requireContext(), requireActivity())
         binding.RecyclerViewProduct.layoutManager = layoutManager
         binding.RecyclerViewProduct.adapter = adapterFavourite
-        var favouriteApi = RetrofitClient.getInstance().create(FavouriteApi::class.java)
-        var productApi = RetrofitClient2.getInstance().create(ProductApi::class.java)
-        var token = SharedPreferencesFactory(requireContext()).getToken()!!
+        val favouriteApi = RetrofitClient.getInstance().create(FavouriteApi::class.java)
+        val productApi = RetrofitClient2.getInstance().create(ProductApi::class.java)
+        val token = SharedPreferencesFactory(requireContext()).getToken()!!
         CoroutineScope(Dispatchers.IO).launch {
             val response = favouriteApi.getFavourites("Bearer " + token)
             if (response.isSuccessful) {
@@ -106,7 +106,7 @@ class Home : Fragment(), ButtonClickListener{
                 val enteredText = binding.searchChange.text.toString()
                 println(enteredText)
                 CoroutineScope(Dispatchers.IO).launch {
-                    var products = productApi.searchProducts(enteredText).products
+                    val products = productApi.searchProducts(enteredText).products
                     productsModel = ArrayList<ProductShopMate>()
                     for (product in products) {
                         productsModel.add(
@@ -150,7 +150,7 @@ class Home : Fragment(), ButtonClickListener{
         recyclerViewSort.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recyclerViewSort.adapter = RadioAdapter(listOf("Рекомендовані","Спочатку найдешевші","Спочатку найдорожчі" ),this, "sort")
         CoroutineScope(Dispatchers.IO).launch {
-            var categoriesApi = productApi.getCategories()
+            val categoriesApi = productApi.getCategories()
             categories = listOf("All") + categoriesApi
             requireActivity().runOnUiThread {
                 binding.apply {
@@ -161,10 +161,10 @@ class Home : Fragment(), ButtonClickListener{
             }
         }
 
-        var submitButton = dialog.findViewById<Button>(R.id.buttonSubmit)
-        var cancelButton = dialog.findViewById<Button>(R.id.buttonCancel)
+        val submitButton = dialog.findViewById<Button>(R.id.buttonSubmit)
+        val cancelButton = dialog.findViewById<Button>(R.id.buttonCancel)
         submitButton.setOnClickListener {
-            var products = filterProducts(dialog)
+            val products = filterProducts(dialog)
             adapterFavourite.submitList(products)
             dialog.dismiss()
         }
@@ -190,7 +190,7 @@ class Home : Fragment(), ButtonClickListener{
 
     fun getProducts(productApi: ProductApi, searchText: String? = "") {
         CoroutineScope(Dispatchers.IO).launch {
-            var products = productApi.searchProducts(searchText.toString()).products
+            val products = productApi.searchProducts(searchText.toString()).products
             productsModel = ArrayList<ProductShopMate>()
             for (product in products) {
                 productsModel.add(
@@ -222,8 +222,8 @@ class Home : Fragment(), ButtonClickListener{
         println(products)
         println(products.size)
         if(dialog!=null) {
-            var minPrice = dialog.findViewById<EditText>(R.id.minPrice)
-            var maxPrice = dialog.findViewById<EditText>(R.id.maxPrice)
+            val minPrice = dialog.findViewById<EditText>(R.id.minPrice)
+            val maxPrice = dialog.findViewById<EditText>(R.id.maxPrice)
             if (minPrice.text.isNotEmpty()) {
                 this.minPrice = minPrice.text.toString().toDouble()
             }else{
@@ -244,7 +244,7 @@ class Home : Fragment(), ButtonClickListener{
         } as ArrayList<ProductShopMate>
 
         if (jsonSelectFilter.get("sort")!=null){
-            var sort = jsonSelectFilter.get("sort")
+            val sort = jsonSelectFilter.get("sort")
             if (sort == "Спочатку найдешевші") {
                 products = products.sortedBy { it.price }.toCollection(ArrayList())
                 println(products.size)

@@ -74,8 +74,8 @@ class ProductActivity : AppCompatActivity() {
                     ErrorHandler.generalError(this@ProductActivity)
                 }
             }
-            var productDB = productApi.getProductById(productId)
-            var responseGrade = reviewApi.getGradeForProduct(productDB.id.toString(), "Bearer $token")
+            val productDB = productApi.getProductById(productId)
+            val responseGrade = reviewApi.getGradeForProduct(productDB.id.toString(), "Bearer $token")
             if(response.isSuccessful){
                 product = ProductShopMate(
                     id = productDB.id,
@@ -167,8 +167,8 @@ class ProductActivity : AppCompatActivity() {
                         val userName = itemView.findViewById<TextView>(R.id.reviewUserName)
                         val userSurname = itemView.findViewById<TextView>(R.id.reviewUserSurname)
                         val submitOrder = itemView.findViewById<LinearLayout>(R.id.submitOrder)
-                        var description = itemView.findViewById<TextView>(R.id.descriptionReview)
-                        var date = itemView.findViewById<TextView>(R.id.dateReview)
+                        val description = itemView.findViewById<TextView>(R.id.descriptionReview)
+                        val date = itemView.findViewById<TextView>(R.id.dateReview)
 
 
                         userName.text = review.userForReview.firstName
@@ -202,7 +202,7 @@ class ProductActivity : AppCompatActivity() {
 
                         itemView.findViewById<Button>(R.id.deleteReview).setOnClickListener {
                             CoroutineScope(Dispatchers.IO).launch {
-                                var responseDeleteReview = reviewApi.deleteReview("Bearer " + token, review.id);
+                                val responseDeleteReview = reviewApi.deleteReview("Bearer " + token, review.id);
                                 if(!responseDeleteReview.isSuccessful){
                                     if(responseDeleteReview.code()==401){
                                         ErrorHandler.unauthorizedUser(this@ProductActivity, this@ProductActivity)
@@ -215,7 +215,7 @@ class ProductActivity : AppCompatActivity() {
                             finish()
                             startActivity(intent)
                         }
-                        var linearLayoutGrade = itemView.findViewById<LinearLayout>(R.id.grades)
+                        val linearLayoutGrade = itemView.findViewById<LinearLayout>(R.id.grades)
                         for (i in 1..review.rating.toInt()) {
                             val imageView = ImageView(this@ProductActivity)
                             val params = LinearLayout.LayoutParams(
@@ -261,7 +261,7 @@ class ProductActivity : AppCompatActivity() {
         dialog.setTitle(null)
         dialog.setContentView(R.layout.custom_pop_up_add_review)
         dialog.setCancelable(true)
-        var linearLayoutGrade = dialog.findViewById<LinearLayout>(R.id.gradesForAdd)
+        val linearLayoutGrade = dialog.findViewById<LinearLayout>(R.id.gradesForAdd)
         for(i in 1..5) {
             val imageView = ImageView(this)
             val params = LinearLayout.LayoutParams(
@@ -282,12 +282,12 @@ class ProductActivity : AppCompatActivity() {
                 dialog.findViewById<TextView>(R.id.errorGrade).text = "Виберіть оцінку"
             }else {
                 CoroutineScope(Dispatchers.IO).launch {
-                    var review = ReviewForAdd(
+                    val review = ReviewForAdd(
                         productId,
                         dialog.findViewById<EditText>(R.id.textReview).text.toString(),
                         grade.toDouble()
                     )
-                    var responseAddReview = reviewApi.addReview("Bearer " + token, review)
+                    val responseAddReview = reviewApi.addReview("Bearer " + token, review)
                     if(!responseAddReview.isSuccessful){
                         if(responseAddReview.code()==401){
                             ErrorHandler.unauthorizedUser(this@ProductActivity, this@ProductActivity)
@@ -346,7 +346,7 @@ class ProductActivity : AppCompatActivity() {
         grade = i
         val linearLayout = dialog.findViewById<LinearLayout>(R.id.gradesForAdd)
         linearLayout.removeAllViews()
-        for(i in 1..i) {
+        for(j in 1..i) {
             val imageView = ImageView(this@ProductActivity)
             val params = LinearLayout.LayoutParams(
                 dpToPx(30),
@@ -355,11 +355,11 @@ class ProductActivity : AppCompatActivity() {
             imageView.setImageResource(R.drawable.baseline_grade_dark_24)
             imageView.layoutParams = params
             imageView.setOnClickListener {
-                editGrade(i, dialog)
+                editGrade(j, dialog)
             }
             linearLayout.addView(imageView)
         }
-        for (i in i+1..5){
+        for (j in i+1..5){
             val imageView = ImageView(this@ProductActivity)
             val params = LinearLayout.LayoutParams(
                 dpToPx(30),
@@ -368,7 +368,7 @@ class ProductActivity : AppCompatActivity() {
             imageView.setImageResource(R.drawable.baseline_grade_24)
             imageView.layoutParams = params
             imageView.setOnClickListener {
-                editGrade(i, dialog)
+                editGrade(j, dialog)
             }
             linearLayout.addView(imageView)
         }
