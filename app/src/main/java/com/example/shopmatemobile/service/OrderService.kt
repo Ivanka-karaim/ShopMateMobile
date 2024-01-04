@@ -9,6 +9,8 @@ import com.example.shopmatemobile.api.ProductApi
 import com.example.shopmatemobile.model.Basket
 import com.example.shopmatemobile.model.CreateOrder
 import com.example.shopmatemobile.model.OrderCreation
+import com.example.shopmatemobile.model.OrderInfo
+import com.example.shopmatemobile.model.OrderInfoProducts
 import com.example.shopmatemobile.model.OrderProduct
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,7 +19,8 @@ object OrderService {
     suspend fun getOrderInfo(context: Context, productsIds: ArrayList<String>): OrderCreation {
 
         val orderApi = RetrofitClient.getInstance().create(OrderApi::class.java)
-
+        println(productsIds)
+        println("hereeeeeeee")
         val token = SharedPreferencesFactory(context).getToken()!!
         return withContext(Dispatchers.IO) {
             return@withContext orderApi.getOrderInfo("Bearer $token", productsIds);
@@ -54,11 +57,34 @@ object OrderService {
 
     }
 
-    suspend fun getOrderById(context: Context, id:Int){
+    suspend fun getOrderById(context: Context, id:Int):OrderInfo{
         val orderApi = RetrofitClient.getInstance().create(OrderApi::class.java)
         val token = SharedPreferencesFactory(context).getToken()!!
-        val orderById = orderApi.getOrderById("Bearer $token", id)
+        return withContext(Dispatchers.IO) {
+            println("in service")
+            println(id)
+            val orderById = orderApi.getOrderById("Bearer $token", id)
+            return@withContext orderById;
+        }
 
+    }
+
+    suspend fun getOrders(context: Context):List<OrderInfoProducts>{
+        val orderApi = RetrofitClient.getInstance().create(OrderApi::class.java)
+        val token = SharedPreferencesFactory(context).getToken()!!
+        val orderInfoProducts = mutableListOf<OrderInfoProducts>()
+        return withContext(Dispatchers.IO) {
+            val orders = orderApi.getOrders("Bearer $token")
+            for (order in orders) {
+                orderInfoProducts.add(
+                    OrderInfoProducts(
+                        order.orderId,
+                        order.date,
+                        order.totalPrice,
+                        getOrderProducts(order.productBaskets)))
+            }
+            return@withContext orderInfoProducts;
+        }
 
     }
 }

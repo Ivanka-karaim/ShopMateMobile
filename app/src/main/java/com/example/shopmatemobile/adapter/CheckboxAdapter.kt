@@ -61,6 +61,7 @@ class CheckboxAdapter(private val changedListener: CheckboxChangedListener, var 
         private val binding = ItemCheckboxBinding.bind(view)
 
         fun bind(item: OrderProduct, changedListener: CheckboxChangedListener, context: Context) = with(binding){
+            addCheckbox(item)
             checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (isChecked){
                     addCheckbox(item)

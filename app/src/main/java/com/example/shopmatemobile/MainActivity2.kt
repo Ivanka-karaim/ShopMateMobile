@@ -57,6 +57,11 @@ class MainActivity2 : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun startActivityOrders(view: View) {
+        val intent = Intent(this, OrdersActivity::class.java)
+        startActivity(intent)
+    }
+
     fun startActivityAddresses(view: View) {
         val intent = Intent(this, AddressActivity::class.java)
         startActivity(intent)

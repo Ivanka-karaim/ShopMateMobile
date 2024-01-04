@@ -1,9 +1,9 @@
 package com.example.shopmatemobile
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +11,11 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopmatemobile.adapter.CheckboxAdapter
 import com.example.shopmatemobile.addResources.CheckboxChangedListener
 import com.example.shopmatemobile.databinding.FragmentBasketBinding
-import com.example.shopmatemobile.model.CouponStatus
 import com.example.shopmatemobile.model.OrderProduct
 import com.example.shopmatemobile.service.BasketService
 import com.example.shopmatemobile.service.CouponsService
@@ -23,6 +23,7 @@ import com.example.shopmatemobile.service.PriceService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -111,7 +112,7 @@ class Basket : Fragment(), CheckboxChangedListener {
                     android.R.layout.simple_spinner_dropdown_item,
                     spinnerArray
                 )
-            requireActivity().runOnUiThread {
+            activity?.runOnUiThread {
                 binding.apply {
                     binding.spinnerCouponsBasket.adapter = spinnerAdapter
                     binding.spinnerCouponsBasket.onItemSelectedListener =

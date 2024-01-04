@@ -1,5 +1,6 @@
 package com.example.shopmatemobile
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -120,7 +121,12 @@ class OrderCreation : AppCompatActivity() {
                     val selectedAddress = spinnerArrayAddressIds[spinnerAddress.selectedItemPosition]
                     val orderInfo = CreateOrder(productsBasket as List<String>, userOrder, couponId, selectedAddress)
                     val order = OrderService.createOrder(currentContext, orderInfo)
-                    println("okay")
+                    val intent = Intent(currentContext, OrderActivity::class.java)
+                    intent.putExtra("orderId", order.toString())
+                    println("hereeeeeeeeee")
+                    println(order)
+                    println(intent.getStringExtra("orderId"))
+                    startActivity(intent)
                 }
             }
         }

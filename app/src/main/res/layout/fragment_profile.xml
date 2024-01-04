@@ -134,7 +134,7 @@
                     android:layout_toEndOf="@+id/test_button_image"
                     android:gravity="center"
                     android:text="@string/edit_profile"
-                    android:textSize="20sp" />
+                    android:textSize="16sp" />
 
                 <ImageView
                     android:id="@+id/test_button"
@@ -144,6 +144,42 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
                     android:layout_toEndOf="@+id/test_button_text2"
+                    android:scaleType="fitEnd"
+                    android:src="@drawable/arrow_foreground" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:onClick="startActivityOrders">
+
+                <ImageView
+                    android:id="@+id/button_image_orders"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:src="@drawable/logo" />
+
+                <TextView
+                    android:id="@+id/button_text_orders"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/button_image_orders"
+                    android:gravity="center"
+                    android:text="@string/my_orders"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/button_orders"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:layout_toEndOf="@+id/button_text_orders"
                     android:scaleType="fitEnd"
                     android:src="@drawable/arrow_foreground" />
             </RelativeLayout>
@@ -169,7 +205,7 @@
                     android:layout_toEndOf="@+id/button_image_coupons"
                     android:gravity="center"
                     android:text="@string/my_coupons"
-                    android:textSize="20sp" />
+                    android:textSize="16sp" />
 
                 <ImageView
                     android:id="@+id/button_coupons"
@@ -205,7 +241,7 @@
                     android:layout_toEndOf="@+id/button_image_address"
                     android:gravity="center"
                     android:text="@string/my_addresses"
-                    android:textSize="20sp" />
+                    android:textSize="16sp" />
 
                 <ImageView
                     android:id="@+id/button_addresses"
@@ -218,9 +254,11 @@
                     android:scaleType="fitEnd"
                     android:src="@drawable/arrow_foreground" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:onClick="exitAccount">
 
@@ -240,7 +278,7 @@
                     android:layout_toEndOf="@+id/button_image_exit"
                     android:gravity="center"
                     android:text="@string/exit"
-                    android:textSize="20sp" />
+                    android:textSize="16sp" />
 
                 <ImageView
                     android:id="@+id/button_exit"

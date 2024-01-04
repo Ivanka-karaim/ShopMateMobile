@@ -10,6 +10,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface OrderApi {
@@ -19,9 +20,9 @@ interface OrderApi {
     @POST("/order/create")
     suspend fun createOrder(@Header("Authorization") token: String, @Body createOrder: CreateOrder): Int
 
-    @POST("/order/{id}")
-    suspend fun getOrderById(@Header("Authorization") token: String, @Body id: Int): OrderInfo
+    @GET("/order/{id}")
+    suspend fun getOrderById(@Header("Authorization") token: String, @Path("id") id: Int): OrderInfo
 
-    @POST("/orders")
+    @GET("/orders")
     suspend fun getOrders(@Header("Authorization") token: String): List<OrderInfo>
 }
