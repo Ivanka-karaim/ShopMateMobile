@@ -85,9 +85,11 @@ class Home : Fragment(), ButtonClickListener{
         CoroutineScope(Dispatchers.IO).launch {
             val response = favouriteApi.getFavourites("Bearer " + token)
             if (response.isSuccessful) {
+                println(1112121212)
                 favourites = response.body()!!
             }else{
                 if(response.code()==401){
+                    println(5435435345)
                     ErrorHandler.unauthorizedUser(requireContext(), requireActivity())
                 }else{
                     ErrorHandler.generalError(requireContext())

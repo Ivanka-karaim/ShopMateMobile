@@ -29,7 +29,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:fontFamily="sans-serif-medium"
-                    android:textSize="15sp" />
+                    android:textSize="15dp" />
 
                 <View
                     android:layout_width="5dp"
@@ -45,7 +45,7 @@
 
                     android:fontFamily="sans-serif-medium"
                     android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:textSize="15dp" />
 
                 <View
                     android:layout_width="0dp"
@@ -57,6 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/delete"
+                    android:backgroundTint="@color/background"
                     android:textColor="@color/brown"
 
                     android:padding="0dp">
@@ -90,7 +91,7 @@
                     android:text="@string/submit_order"
 
                     android:textColor="@color/brown"
-                    android:textSize="13sp" />
+                    android:textSize="13dp" />
 
             </LinearLayout>
             <LinearLayout
@@ -113,7 +114,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/beige"
-                    android:textSize="13sp">
+                    android:textSize="13dp">
 
                 </TextView>
 
@@ -123,6 +124,8 @@
                 android:id="@+id/descriptionReview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:textColor="@color/dark_brown"
                 />
 
         </LinearLayout>

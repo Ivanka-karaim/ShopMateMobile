@@ -12,5 +12,6 @@
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
     android:text="@string/used"
+    android:textSize="16dp"
     android:textColor="@color/radio_flat_text_selector"
     xmlns:android="http://schemas.android.com/apk/res/android" />

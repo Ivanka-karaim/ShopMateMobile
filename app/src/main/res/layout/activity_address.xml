@@ -17,6 +17,7 @@
         android:padding="0dp"
         android:layout_marginHorizontal="15dp"
         android:text="@string/add_address"
+        android:background="@color/background"
         android:textColor="@color/brown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout" />

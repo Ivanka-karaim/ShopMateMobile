@@ -28,7 +28,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/city"
-                    android:textSize="16sp"
+                    android:textSize="16dp"
                     android:textColor="@color/brown"
                     android:layout_marginEnd="10dp"
                     android:fontFamily="sans-serif-light"
@@ -37,7 +37,7 @@
                         android:id="@+id/city"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
+                        android:textSize="16dp"
                         android:textColor="@color/dark_brown"
                         />
 
@@ -51,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/street"
-                    android:textSize="16sp"
+                    android:textSize="16dp"
                     android:textColor="@color/brown"
                     android:layout_marginEnd="10dp"
                     android:fontFamily="sans-serif-light"
@@ -60,7 +60,7 @@
                     android:id="@+id/street"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="16dp"
                     android:textColor="@color/dark_brown"
                     />
 
@@ -74,7 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/house"
-                    android:textSize="16sp"
+                    android:textSize="16dp"
                     android:textColor="@color/brown"
                     android:layout_marginEnd="10dp"
                     android:fontFamily="sans-serif-light"
@@ -83,7 +83,7 @@
                     android:id="@+id/house"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="16dp"
                     android:textColor="@color/dark_brown"
                     />
 
@@ -97,7 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/flat"
-                    android:textSize="16sp"
+                    android:textSize="16dp"
                     android:textColor="@color/brown"
                     android:layout_marginEnd="10dp"
                     android:fontFamily="sans-serif-light"
@@ -106,7 +106,7 @@
                     android:id="@+id/flat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="16dp"
                     android:textColor="@color/dark_brown"
                     />
 
@@ -124,6 +124,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/delete"
+                android:backgroundTint="@color/background"
                 android:textColor="@color/brown"
                 android:padding="0dp">
             </Button>
@@ -131,6 +132,7 @@
                 android:id="@+id/editAddresss"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/background"
                 android:text="@string/edit_text"
                 android:textColor="@color/brown"
 

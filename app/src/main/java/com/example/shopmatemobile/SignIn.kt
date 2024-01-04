@@ -52,6 +52,7 @@ class SignIn : AppCompatActivity() {
                 if (errors.isEmpty()) {
                     val intent = Intent(this@SignIn, MainActivity2::class.java)
                     startActivity(intent)
+                    finishAffinity()
                 } else if (errors == "emailError") {
                     binding.textErrorPassword.text = ""
                     binding.textErrorEmail.text = "Не існує такого користувача"

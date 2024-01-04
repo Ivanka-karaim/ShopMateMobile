@@ -67,6 +67,7 @@ class Registration : AppCompatActivity() {
                             SharedPreferencesFactory(this@Registration).saveToken(token!!.token)
                             val intent = Intent(this@Registration, MainActivity2::class.java)
                             startActivity(intent)
+                            finishAffinity()
                         } else {
                             val error = response.errorBody()?.string()
                             if (error.toString().contains("UserAlreadyExist")) {

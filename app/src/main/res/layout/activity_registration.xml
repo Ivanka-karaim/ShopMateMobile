@@ -24,7 +24,7 @@
                 android:layout_marginTop="40dp"
                 android:text="@string/sign_up"
                 android:textColor="@color/dark_brown"
-                android:textSize="32sp"
+                android:textSize="32dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
                 android:layout_gravity="center"
                 android:text="@string/need_sign_up"
                 android:textColor="@color/dark_brown"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 android:textStyle="normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +50,7 @@
                 android:layout_gravity="center"
                 android:text=""
                 android:textColor="@color/dark_brown"
-                android:textSize="13sp"
+                android:textSize="13dp"
                 android:textStyle="normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -64,7 +64,7 @@
                 android:layout_marginBottom="30dp"
                 android:text="@string/name"
                 android:textColor="@color/dark_brown"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/RegistrationText" />
 
@@ -83,8 +83,9 @@
                 android:paddingEnd="12dp"
                 android:paddingBottom="14dp"
                 android:text=""
+                android:textColor="@color/dark_brown"
                 android:textColorHint="@color/light_beige"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -100,7 +101,7 @@
                 android:layout_marginBottom="30dp"
                 android:text=""
                 android:textColor="@color/dark_brown"
-                android:textSize="13sp"
+                android:textSize="13dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editName" />
 
@@ -113,7 +114,7 @@
                 android:layout_marginBottom="30dp"
                 android:text="@string/surname"
                 android:textColor="@color/dark_brown"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editName" />
 
@@ -132,8 +133,9 @@
                 android:paddingEnd="12dp"
                 android:paddingBottom="14dp"
                 android:text=""
+                android:textColor="@color/dark_brown"
                 android:textColorHint="@color/light_beige"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -149,7 +151,7 @@
                 android:layout_marginBottom="30dp"
                 android:text=""
                 android:textColor="@color/dark_brown"
-                android:textSize="13sp"
+                android:textSize="13dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editSurname" />
 
@@ -161,7 +163,7 @@
                 android:layout_marginBottom="30dp"
                 android:text="@string/phone_number"
                 android:textColor="@color/dark_brown"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editSurname" />
 
@@ -181,7 +183,7 @@
                 android:paddingBottom="14dp"
                 android:text=""
                 android:textColorHint="@color/light_beige"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -197,7 +199,7 @@
                 android:layout_marginBottom="30dp"
                 android:text=""
                 android:textColor="@color/dark_brown"
-                android:textSize="13sp"
+                android:textSize="13dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editPhoneNumber" />
 
@@ -209,7 +211,7 @@
                 android:layout_marginBottom="30dp"
                 android:text="@string/email"
                 android:textColor="@color/dark_brown"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editPhoneNumber" />
 
@@ -228,8 +230,9 @@
                 android:paddingEnd="12dp"
                 android:paddingBottom="14dp"
                 android:text=""
+                android:textColor="@color/dark_brown"
                 android:textColorHint="@color/light_beige"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -245,7 +248,7 @@
                 android:layout_marginBottom="30dp"
                 android:text=""
                 android:textColor="@color/dark_brown"
-                android:textSize="13sp"
+                android:textSize="13dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editEmail" />
 
@@ -257,7 +260,7 @@
                 android:layout_marginBottom="30dp"
                 android:text="@string/date_birth"
                 android:textColor="@color/dark_brown"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editEmail" />
 
@@ -270,14 +273,15 @@
                 android:background="@drawable/form_style"
                 android:ems="10"
                 android:hint="00.00.0000"
-                android:inputType="date"
+                android:inputType="text"
                 android:paddingStart="12dp"
                 android:paddingTop="14dp"
                 android:paddingEnd="12dp"
                 android:paddingBottom="14dp"
                 android:text=""
+                android:textColor="@color/dark_brown"
                 android:textColorHint="@color/light_beige"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -292,8 +296,9 @@
                 android:layout_marginTop="0dp"
                 android:layout_marginBottom="30dp"
                 android:text=""
+
                 android:textColor="@color/dark_brown"
-                android:textSize="13sp"
+                android:textSize="13dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editDateBirth" />
 
@@ -305,7 +310,7 @@
                 android:layout_marginBottom="30dp"
                 android:text="@string/password"
                 android:textColor="@color/dark_brown"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editDateBirth" />
 
@@ -324,8 +329,9 @@
                 android:paddingEnd="12dp"
                 android:paddingBottom="14dp"
                 android:text=""
+                android:textColor="@color/dark_brown"
                 android:textColorHint="@color/light_beige"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -355,7 +361,7 @@
                 android:layout_marginBottom="30dp"
                 android:text=""
                 android:textColor="@color/dark_brown"
-                android:textSize="13sp"
+                android:textSize="13dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editPassword1" />
 
@@ -367,7 +373,7 @@
                 android:layout_marginBottom="30dp"
                 android:text="@string/repeat_password"
                 android:textColor="@color/dark_brown"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editPassword1" />
 
@@ -386,8 +392,9 @@
                 android:paddingEnd="12dp"
                 android:paddingBottom="14dp"
                 android:text=""
+                android:textColor="@color/dark_brown"
                 android:textColorHint="@color/light_beige"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -413,7 +420,7 @@
                 android:layout_marginBottom="30dp"
                 android:text=""
                 android:textColor="@color/dark_brown"
-                android:textSize="13sp"
+                android:textSize="13dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editPassword2" />
 
@@ -436,6 +443,7 @@
                 android:layout_marginStart="88dp"
                 android:layout_marginTop="14dp"
                 android:layout_marginBottom="40dp"
+                android:textColor="@color/dark_brown"
                 android:text="@string/have_account"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

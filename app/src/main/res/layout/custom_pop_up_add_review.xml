@@ -17,12 +17,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/popup_rectangle"
         android:contentDescription="pop_up" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:backgroundTint="@color/background"
+        android:background="@color/background">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:orientation="vertical"
         android:padding="16dp"
+        android:backgroundTint="@color/background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -35,7 +41,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:background="@android:color/transparent"
+            android:background="@color/background"
             android:src="@drawable/baseline_close_24"
             android:contentDescription="close" />
 
@@ -44,9 +50,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/closeButton"
+            android:textColor="@color/dark_brown"
             android:layout_centerHorizontal="true"
             android:text="@string/add_comment"
-            android:textSize="20sp" />
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/setGrade"
@@ -54,8 +61,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/title"
             android:layout_marginTop="18dp"
+            android:textColor="@color/dark_brown"
             android:text="@string/set_grade"
-            android:textSize="16sp">
+            android:textSize="16dp">
 
         </TextView>
 
@@ -73,10 +81,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="0dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="15dp"
             android:text=""
             android:textColor="@color/dark_brown"
-            android:textSize="13sp"
+            android:textSize="13dp"
             android:layout_below="@+id/gradesForAdd" />
 
         <TextView
@@ -84,9 +92,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/errorGrade"
-            android:layout_marginTop="18dp"
+            android:textColor="@color/dark_brown"
             android:text="@string/write_review"
-            android:textSize="16sp">
+            android:textSize="16dp">
 
         </TextView>
 
@@ -99,15 +107,16 @@
             android:autofillHints=""
             android:background="@drawable/form_search"
             android:inputType="textMultiLine"
-            android:minLines="3"
-            android:maxLines="6"
+            android:minLines="2"
+            android:maxLines="4"
             android:paddingStart="12dp"
             android:paddingTop="14dp"
             android:paddingEnd="12dp"
             android:paddingBottom="14dp"
             android:text=""
+            android:textColor="@color/dark_brown"
             android:textColorHint="@color/light_beige"
-            android:textSize="14sp" />
+            android:textSize="14dp" />
 
         <Button
             android:id="@+id/addReview"
@@ -119,4 +128,5 @@
             android:text="@string/add_review"
             android:textColor="#F8F0EB" />
     </RelativeLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

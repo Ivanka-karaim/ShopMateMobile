@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopmatemobile.adapter.AddressAdapter
 import com.example.shopmatemobile.addResources.AddressClickListener
@@ -33,6 +34,8 @@ class AddressActivity : AppCompatActivity(), AddressClickListener {
         supportActionBar?.apply {
             title = "Адреси"
             setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.baseline_arrow_back_brown_24) // Якщо потрібно змінити значок кнопки "назад"
+            toolbar.setTitleTextColor(ContextCompat.getColor(this@AddressActivity, R.color.dark_brown))
         }
 
         toolbar.setNavigationOnClickListener {
