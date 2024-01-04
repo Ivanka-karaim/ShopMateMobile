@@ -42,11 +42,12 @@ object BasketService {
         }
     }
 
-    suspend fun addToBasket(context: Context, id:String){
+    suspend fun addToBasket(context: Context, id:String):Boolean{
         val basketApi = RetrofitClient.getInstance().create(BasketApi::class.java)
         val token = SharedPreferencesFactory(context).getToken()!!
         return withContext(Dispatchers.IO) {
-            basketApi.addToBasket("Bearer $token", Basket(id, 1))
+            val response = basketApi.addToBasket("Bearer $token", Basket(id, 1))
+            return@withContext true
         }
     }
 

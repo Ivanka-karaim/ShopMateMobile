@@ -11,6 +11,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.shopmatemobile.addResources.RetrofitClient
 import com.example.shopmatemobile.addResources.RetrofitClient2
@@ -22,6 +23,7 @@ import com.example.shopmatemobile.databinding.ActivityProductBinding
 import com.example.shopmatemobile.model.Favourite
 import com.example.shopmatemobile.model.ProductShopMate
 import com.example.shopmatemobile.model.ReviewForAdd
+import com.example.shopmatemobile.service.BasketService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -232,6 +234,21 @@ class ProductActivity : AppCompatActivity() {
                 }
                 finish()
                 startActivity(intent)
+            }
+        }
+
+        binding.addToCart.setOnClickListener{
+            CoroutineScope(Dispatchers.IO).launch {
+                val response = BasketService.addToBasket(applicationContext, product.id.toString())
+                if (response){
+                    runOnUiThread {
+                        Toast.makeText(
+                            applicationContext,
+                            "Додано в корзину.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
             }
         }
 
