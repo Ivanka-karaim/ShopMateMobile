@@ -37,6 +37,7 @@ class SignIn : AppCompatActivity() {
         binding.underlinedButton.setOnClickListener {
             val intent = Intent(this@SignIn, Registration::class.java)
             startActivity(intent)
+            finishAffinity()
         }
         binding.signInButton.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {

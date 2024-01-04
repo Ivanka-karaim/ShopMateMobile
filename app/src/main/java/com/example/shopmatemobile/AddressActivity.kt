@@ -45,7 +45,7 @@ class AddressActivity : AppCompatActivity(), AddressClickListener {
         recyclerView.adapter = adapter
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val addresses = AddressService.getAddress(this@AddressActivity)
+                val addresses = AddressService(this@AddressActivity).getAddress()
                 runOnUiThread{
                     println(addresses)
                     adapter.submitList(addresses)
@@ -61,7 +61,7 @@ class AddressActivity : AppCompatActivity(), AddressClickListener {
 
 
     override fun deleteAddress(id: Int) {
-        AddressService.deleteAddress(id, this)
+        AddressService(this).deleteAddress(id)
         finish()
         startActivity(intent)
     }
@@ -97,29 +97,28 @@ class AddressActivity : AppCompatActivity(), AddressClickListener {
             val flatNew = dialog.findViewById<EditText>(R.id.old_flat)
             val errorFlat = dialog.findViewById<TextView>(R.id.error_flat)
             errorFlat.text = ""
-            if (AddressService.checkCityAndStreet(
+            if (AddressService(this).checkCityAndStreet(
                     cityNew,
                     errorCity
-                ) && AddressService.checkCityAndStreet(
+                ) && AddressService(this).checkCityAndStreet(
                     streetNew,
                     errorStreet
-                ) && AddressService.checkHouseAndFlat(
+                ) && AddressService(this).checkHouseAndFlat(
                     houseNew,
                     errorHouse
-                ) && (flatNew.text.toString().isEmpty() || AddressService.checkHouseAndFlat(
+                ) && (flatNew.text.toString().isEmpty() || AddressService(this).checkHouseAndFlat(
                     flatNew,
                     errorFlat
                 ))
             ) {
 
 
-                AddressService.editAddress(
+                AddressService(this).editAddress(
                     id,
                     cityNew.text.toString(),
                     streetNew.text.toString(),
                     houseNew.text.toString(),
-                    flatNew.text.toString(),
-                    this
+                    flatNew.text.toString()
                 )
                 finish()
                 startActivity(intent)
@@ -160,22 +159,22 @@ class AddressActivity : AppCompatActivity(), AddressClickListener {
             val errorFlat = dialog.findViewById<TextView>(R.id.error_flat)
             errorFlat.text = ""
 
-            if (AddressService.checkCityAndStreet(
+            if (AddressService(this).checkCityAndStreet(
                     cityNew,
                     errorCity
-                ) && AddressService.checkCityAndStreet(
+                ) && AddressService(this).checkCityAndStreet(
                     streetNew,
                     errorStreet
-                ) && AddressService.checkHouseAndFlat(
+                ) && AddressService(this).checkHouseAndFlat(
                     houseNew,
                     errorHouse
-                ) && (flatNew.text.toString().isEmpty() || AddressService.checkHouseAndFlat(
+                ) && (flatNew.text.toString().isEmpty() || AddressService(this).checkHouseAndFlat(
                     flatNew,
                     errorFlat
                 ))
             ) {
-                AddressService.addAddress(
-                    this,
+                AddressService(this).addAddress(
+
                     cityNew.text.toString(),
                     streetNew.text.toString(),
                     houseNew.text.toString(),

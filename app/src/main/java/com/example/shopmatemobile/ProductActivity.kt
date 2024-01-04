@@ -89,8 +89,9 @@ class ProductActivity : AppCompatActivity() {
                 binding.brandProduct.text = product.brand
                 binding.categoryProduct.text = product.category
                 binding.price.text = product.price.toString()
+                binding.grade.text = String.format("%.1f", product.grade)
 
-                for(i in 0..product.images.count()-1){
+                for(i in 0..<product.images.count()){
                     val imageView = ImageView(this@ProductActivity)
                     val params = LinearLayout.LayoutParams(
                         dpToPx(40),

@@ -1,12 +1,16 @@
 package com.example.shopmatemobile.addResources
 
+
 import okhttp3.OkHttpClient
+
 import okhttp3.logging.HttpLoggingInterceptor
+
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
+
 
 object RetrofitClient {
     private var instance: Retrofit?=null
@@ -24,7 +28,8 @@ object RetrofitClient {
 
 
 
-            val client = OkHttpClient.Builder()// Додати фабрику для довірених сертифікатів
+
+            val client = OkHttpClient.Builder()
                 .sslSocketFactory(sslContext.socketFactory, trustManager as X509TrustManager)
                 .hostnameVerifier { _, _ -> true }.addInterceptor(interceptor).build()
 
@@ -35,3 +40,8 @@ object RetrofitClient {
         return instance!!
     }
 }
+
+
+
+
+
