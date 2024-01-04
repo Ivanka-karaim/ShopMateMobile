@@ -23,6 +23,6 @@ interface OrderApi {
     @GET("/order/{id}")
     suspend fun getOrderById(@Header("Authorization") token: String, @Path("id") id: Int): OrderInfo
 
-    @GET("/orders")
-    suspend fun getOrders(@Header("Authorization") token: String): List<OrderInfo>
+    @GET("/orders/status")
+    suspend fun getOrders(@Header("Authorization") token: String, @Query("Status") status: String?): List<OrderInfo>
 }

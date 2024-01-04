@@ -123,7 +123,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:src="@drawable/logo" />
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/edit" />
 
                 <TextView
                     android:id="@+id/test_button_text2"
@@ -159,7 +160,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:src="@drawable/logo" />
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/clipboard" />
 
                 <TextView
                     android:id="@+id/button_text_orders"
@@ -194,7 +196,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:src="@drawable/logo" />
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/coupons_image" />
 
                 <TextView
                     android:id="@+id/button_text_coupons"
@@ -230,7 +233,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:src="@drawable/logo" />
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/location" />
 
                 <TextView
                     android:id="@+id/button_text_address"
@@ -267,7 +271,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:src="@drawable/logo" />
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/logout" />
 
                 <TextView
                     android:id="@+id/button_text_exit"

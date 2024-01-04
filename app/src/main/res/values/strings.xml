@@ -91,5 +91,6 @@
     <string name="total">Усього:</string>
     <string name="status_order">Статус замовлення</string>
     <string name="more">Більше</string>
+    <string name="done">Виконані</string>
 
 </resources>

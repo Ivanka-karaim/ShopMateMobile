@@ -11,7 +11,7 @@ class DateService {
     companion object {
         @RequiresApi(Build.VERSION_CODES.O)
         fun parseDate(date: String): String? {
-            val patterns = listOf("yyyy-MM-dd'T'HH:mm:ss.SSS", "yyyy-MM-dd'T'HH:mm:ss")
+            val patterns = listOf("yyyy-MM-dd'T'HH:mm:ss.SSS", "yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS")
             val formatterNeeded = DateTimeFormatter.ofPattern("dd.MM.yyyy")
             for (pattern in patterns) {
                 try {
@@ -22,7 +22,7 @@ class DateService {
                     println("invalid date")
                 }
             }
-            return null
+            return date
         }
     }
 }

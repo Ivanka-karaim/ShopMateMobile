@@ -45,6 +45,9 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
+            android:name=".Coupons"
+            android:exported="false" />
+        <activity
             android:name=".SignIn"
             android:exported="true">
             <intent-filter>

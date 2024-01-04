@@ -69,21 +69,23 @@ object OrderService {
 
     }
 
-    suspend fun getOrders(context: Context):List<OrderInfoProducts>{
+    suspend fun getOrders(context: Context, status:String?):List<OrderInfoProducts>{
         val orderApi = RetrofitClient.getInstance().create(OrderApi::class.java)
         val token = SharedPreferencesFactory(context).getToken()!!
         val orderInfoProducts = mutableListOf<OrderInfoProducts>()
         return withContext(Dispatchers.IO) {
-            val orders = orderApi.getOrders("Bearer $token")
-            for (order in orders) {
-                orderInfoProducts.add(
-                    OrderInfoProducts(
-                        order.orderId,
-                        order.date,
-                        order.totalPrice,
-                        getOrderProducts(order.productBaskets)))
-            }
-            return@withContext orderInfoProducts;
+                val orders = orderApi.getOrders("Bearer $token", status)
+                for (order in orders) {
+                    orderInfoProducts.add(
+                        OrderInfoProducts(
+                            order.orderId,
+                            order.date,
+                            order.totalPrice,
+                            getOrderProducts(order.productBaskets)
+                        )
+                    )
+                }
+                return@withContext orderInfoProducts;
         }
 
     }
