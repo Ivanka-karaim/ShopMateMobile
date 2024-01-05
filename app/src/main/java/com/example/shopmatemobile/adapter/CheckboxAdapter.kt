@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.shopmatemobile.R
 import com.example.shopmatemobile.addResources.CheckboxChangedListener
+import com.example.shopmatemobile.addResources.RemoveFromBasket
 import com.example.shopmatemobile.addResources.RetrofitClient
 import com.example.shopmatemobile.addResources.SharedPreferencesFactory
 import com.example.shopmatemobile.api.BasketApi
@@ -24,7 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class CheckboxAdapter(private val changedListener: CheckboxChangedListener, var context: Context):
+class CheckboxAdapter(private val changedListener: CheckboxChangedListener, private val removeListener: RemoveFromBasket, var context: Context):
     ListAdapter<OrderProduct, CheckboxAdapter.ViewHolder>(CheckboxItemDiffCallback()) {
 
     companion object {
@@ -66,14 +67,14 @@ class CheckboxAdapter(private val changedListener: CheckboxChangedListener, var 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item, changedListener, context)
+        holder.bind(item, changedListener, removeListener, context)
     }
 
     class ViewHolder(view: View, private val adapter: CheckboxAdapter) : RecyclerView.ViewHolder(view) {
         private val binding = ItemCheckboxBinding.bind(view)
 
 
-        fun bind(item: OrderProduct, changedListener: CheckboxChangedListener, context: Context) = with(binding){
+        fun bind(item: OrderProduct, changedListener: CheckboxChangedListener, removeListener: RemoveFromBasket, context: Context) = with(binding){
             addCheckbox(item)
             checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (isChecked){
@@ -121,11 +122,13 @@ class CheckboxAdapter(private val changedListener: CheckboxChangedListener, var 
                 CoroutineScope(Dispatchers.IO).launch {
                     item.count = 0
                     removeCheckbox(item)
+                    basketApi.removeFromBasket("Bearer $token", item.id)
                     (itemView.context as? Activity)?.runOnUiThread {
                         adapter.removeItem(item)
                         changedListener.onCheckboxChanged()
+                        removeListener.onRemoveBasket(item.id)
                     }
-                    basketApi.removeFromBasket("Bearer $token", item.id)
+
                 }
             }
 

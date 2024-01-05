@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopmatemobile.adapter.CheckboxAdapter
 import com.example.shopmatemobile.addResources.CheckboxChangedListener
+import com.example.shopmatemobile.addResources.RemoveFromBasket
 import com.example.shopmatemobile.databinding.FragmentBasketBinding
 import com.example.shopmatemobile.model.OrderProduct
 import com.example.shopmatemobile.service.BasketService
@@ -29,13 +30,40 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 
-class Basket : Fragment(), CheckboxChangedListener {
+class Basket : Fragment(), CheckboxChangedListener, RemoveFromBasket {
     lateinit var binding : FragmentBasketBinding
     private lateinit var adapter: CheckboxAdapter
     private lateinit var basket: List<OrderProduct>
 
     private var param1: String? = null
     private var param2: String? = null
+
+    override fun onRemoveBasket(id:String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            basket = BasketService.getBasket(requireContext())
+            if (basket.isNotEmpty()) {
+                if (isAdded) {
+                    requireActivity().runOnUiThread {
+                        binding.apply {
+                            binding.basketError.text = ""
+                            binding.layoutBasketInfo.isVisible = true
+                            binding.rectimage.isVisible = true
+                            setPrice(basket)
+                            adapter.submitList(basket)
+                        }
+                    }
+                }
+            } else {
+                requireActivity().runOnUiThread {
+                    binding.apply {
+                        binding.basketError.text = "Корзина порожня."
+                        binding.layoutBasketInfo.isVisible = false
+                        binding.rectimage.isVisible = false
+                    }
+                }
+            }
+        }
+    }
 
     override fun onCheckboxChanged() {
         val selected = adapter.getSelectedItems()
@@ -71,7 +99,7 @@ class Basket : Fragment(), CheckboxChangedListener {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-        adapter = CheckboxAdapter(this, requireContext())
+        adapter = CheckboxAdapter(this, this, requireContext())
     }
 
     override fun onCreateView(
