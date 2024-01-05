@@ -36,6 +36,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/list_products"
+                    android:textColor="@color/dark_brown"
                     android:layout_marginTop="10dp"
                     android:textSize="20sp" />
 
@@ -56,6 +57,7 @@
                     android:id="@+id/orderInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/dark_brown"
                     android:text="@string/order_info"
                     android:textSize="20sp" />
 
@@ -79,6 +81,7 @@
                     android:background="@drawable/form_style"
                     android:ems="10"
                     android:hint="Володимир"
+                    android:textColor="@color/dark_brown"
                     android:inputType="textPersonName"
                     android:paddingStart="12dp"
                     android:paddingTop="14dp"
@@ -124,6 +127,7 @@
                     android:autofillHints=""
                     android:background="@drawable/form_style"
                     android:ems="10"
+                    android:textColor="@color/dark_brown"
                     android:hint="Зеленський"
                     android:inputType="textPersonName"
                     android:paddingStart="12dp"
@@ -170,6 +174,7 @@
                     android:autofillHints=""
                     android:background="@drawable/form_style"
                     android:ems="10"
+                    android:textColor="@color/dark_brown"
                     android:hint="+38 (000) 000 00 00"
                     android:inputType="phone"
                     android:paddingStart="12dp"
@@ -227,6 +232,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/form_style"
                     android:ems="10"
+                    android:textColor="@color/dark_brown"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp" />
 
@@ -282,6 +288,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
+                android:textColor="@color/dark_brown"
                 android:text="@string/cost"
                 android:textSize="15sp" />
 
@@ -290,6 +297,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
+                android:textColor="@color/dark_brown"
                 android:textSize="17sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -308,12 +316,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
+                android:textColor="@color/dark_brown"
                 android:text="@string/coupon"
                 android:textSize="15sp" />
 
             <Spinner
                 android:id="@+id/spinnerCoupons"
                 android:layout_width="180dp"
+                android:textColor="@color/dark_brown"
                 android:layout_height="match_parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutBasketInfo" />
@@ -333,6 +343,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
+                android:textColor="@color/dark_brown"
                 android:text="@string/cost_discount"
                 android:textSize="15sp" />
 
@@ -341,6 +352,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
+                android:textColor="@color/dark_brown"
                 android:textSize="17sp"
                 android:textStyle="bold" />
         </LinearLayout>

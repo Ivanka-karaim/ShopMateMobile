@@ -16,6 +16,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.content.IntentCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -52,6 +53,13 @@ class OrderCreation : AppCompatActivity() {
         supportActionBar?.apply {
             title = "Оформлення замовлення"
             setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.baseline_arrow_back_brown_24) // Якщо потрібно змінити значок кнопки "назад"
+            toolbar.setTitleTextColor(
+                ContextCompat.getColor(
+                    this@OrderCreation,
+                    R.color.dark_brown
+                )
+            )
         }
 
         toolbar.setNavigationOnClickListener {

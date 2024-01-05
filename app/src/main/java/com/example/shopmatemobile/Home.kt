@@ -160,7 +160,6 @@ class Home : Fragment(), ButtonClickListener{
                 requireActivity().runOnUiThread {
                     binding.apply {
                         val adapter = RadioAdapter(categories, this@Home, "category")
-
                         recyclerView.adapter = adapter
                     }
                 }
@@ -215,10 +214,12 @@ class Home : Fragment(), ButtonClickListener{
                     )
                 )
             }
-            requireActivity().runOnUiThread {
-                binding.apply {
-                    adapterFavourite.submitList(productsModel)
+            if (isAdded){
+                requireActivity().runOnUiThread {
+                    binding.apply {
+                        adapterFavourite.submitList(productsModel)
 
+                    }
                 }
             }
         }
