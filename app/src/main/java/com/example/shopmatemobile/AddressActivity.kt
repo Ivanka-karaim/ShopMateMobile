@@ -35,7 +35,12 @@ class AddressActivity : AppCompatActivity(), AddressClickListener {
             title = "Адреси"
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.baseline_arrow_back_brown_24) // Якщо потрібно змінити значок кнопки "назад"
-            toolbar.setTitleTextColor(ContextCompat.getColor(this@AddressActivity, R.color.dark_brown))
+            toolbar.setTitleTextColor(
+                ContextCompat.getColor(
+                    this@AddressActivity,
+                    R.color.dark_brown
+                )
+            )
         }
 
         toolbar.setNavigationOnClickListener {
@@ -48,8 +53,9 @@ class AddressActivity : AppCompatActivity(), AddressClickListener {
         recyclerView.adapter = adapter
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val addresses = AddressService(this@AddressActivity, this@AddressActivity).getAddress()
-                runOnUiThread{
+                val addresses =
+                    AddressService(this@AddressActivity, this@AddressActivity).getAddress()
+                runOnUiThread {
                     println(addresses)
                     adapter.submitList(addresses)
                 }
@@ -65,7 +71,8 @@ class AddressActivity : AppCompatActivity(), AddressClickListener {
 
     override fun deleteAddress(id: Int) {
         AddressService(this, this).deleteAddress(id)
-        recreate()
+        finish()
+        startActivity(intent)
     }
 
     override fun editAddress(id: Int, city: String, street: String, house: String, flat: String?) {
@@ -108,7 +115,10 @@ class AddressActivity : AppCompatActivity(), AddressClickListener {
                 ) && AddressService(this, this).checkHouseAndFlat(
                     houseNew,
                     errorHouse
-                ) && (flatNew.text.toString().isEmpty() || AddressService(this, this).checkHouseAndFlat(
+                ) && (flatNew.text.toString().isEmpty() || AddressService(
+                    this,
+                    this
+                ).checkHouseAndFlat(
                     flatNew,
                     errorFlat
                 ))
@@ -122,7 +132,8 @@ class AddressActivity : AppCompatActivity(), AddressClickListener {
                     houseNew.text.toString(),
                     flatNew.text.toString()
                 )
-                recreate()
+                finish()
+                startActivity(intent)
             }
 
         }
@@ -141,7 +152,7 @@ class AddressActivity : AppCompatActivity(), AddressClickListener {
         closeButton.setOnClickListener {
             dialog.dismiss()
         }
-        if(!isFinishing) {
+        if (!isFinishing) {
             dialog.show()
         }
         val buttonChangeAddressSubmit =
@@ -169,7 +180,10 @@ class AddressActivity : AppCompatActivity(), AddressClickListener {
                 ) && AddressService(this, this).checkHouseAndFlat(
                     houseNew,
                     errorHouse
-                ) && (flatNew.text.toString().isEmpty() || AddressService(this, this).checkHouseAndFlat(
+                ) && (flatNew.text.toString().isEmpty() || AddressService(
+                    this,
+                    this
+                ).checkHouseAndFlat(
                     flatNew,
                     errorFlat
                 ))
@@ -181,7 +195,8 @@ class AddressActivity : AppCompatActivity(), AddressClickListener {
                     houseNew.text.toString(),
                     flatNew.text.toString()
                 )
-                recreate()
+                finish()
+                startActivity(intent)
             }
         }
     }

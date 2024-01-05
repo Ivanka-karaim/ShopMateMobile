@@ -73,6 +73,7 @@
             android:paddingEnd="12dp"
             android:paddingBottom="14dp"
             android:inputType="text"
+            android:textColor="@color/dark_brown"
             android:textColorHint="@color/brown"
             android:text=""
             android:hint="від">
@@ -97,6 +98,7 @@
             android:inputType="text"
             android:textColorHint="@color/brown"
             android:text=""
+            android:textColor="@color/dark_brown"
             android:hint="до">
 
         </EditText>

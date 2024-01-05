@@ -63,6 +63,7 @@
             android:inputType="text"
             android:textColorHint="@color/brown"
             android:text=""
+            android:textColor="@color/dark_brown"
             android:hint="@string/search"
             android:autofillHints="">
 

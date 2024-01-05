@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     app:layout_constraintBottom_toBottomOf="parent"
     android:backgroundTint="@color/background"
+    android:background="@color/background"
     android:layout_height="wrap_content">
 
     <ImageView
@@ -75,6 +76,7 @@
             android:paddingEnd="12dp"
             android:paddingBottom="14dp"
             android:text=""
+            android:textColor="@color/dark_brown"
             android:textColorHint="@color/light_beige"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -122,6 +124,7 @@
             android:paddingEnd="12dp"
             android:paddingBottom="14dp"
             android:text=""
+            android:textColor="@color/dark_brown"
             android:textColorHint="@color/light_beige"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -170,6 +173,7 @@
             android:paddingEnd="12dp"
             android:paddingBottom="14dp"
             android:text=""
+            android:textColor="@color/dark_brown"
             android:textColorHint="@color/light_beige"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"

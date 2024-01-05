@@ -46,11 +46,13 @@ class AddressService(var context: Context, var activity: Activity) {
 
                 )
             )
-            if(!response.isSuccessful){
-                if(response.code()==401){
-                    ErrorHandler.unauthorizedUser(context, activity)
-                }else{
-                    ErrorHandler.generalError(context)
+            withContext(Dispatchers.Main) {
+                if (!response.isSuccessful) {
+                    if (response.code() == 401) {
+                        ErrorHandler.unauthorizedUser(context, activity)
+                    } else {
+                        ErrorHandler.generalError(context)
+                    }
                 }
             }
 

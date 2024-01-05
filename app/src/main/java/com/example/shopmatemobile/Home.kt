@@ -175,6 +175,7 @@ class Home : Fragment(), ButtonClickListener{
 
         cancelButton.setOnClickListener {
             adapterFavourite.submitList(productsModel)
+            jsonSelectFilter = mutableMapOf<String, String>()
             dialog.dismiss()
         }
 

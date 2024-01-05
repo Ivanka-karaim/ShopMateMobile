@@ -182,6 +182,7 @@
                 android:paddingEnd="12dp"
                 android:paddingBottom="14dp"
                 android:text=""
+                android:textColor="@color/dark_brown"
                 android:textColorHint="@color/light_beige"
                 android:textSize="14dp"
                 app:layout_constraintEnd_toEndOf="parent"
