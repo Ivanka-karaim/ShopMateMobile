@@ -1,10 +1,13 @@
 package com.example.shopmatemobile
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.RadioButton
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopmatemobile.adapter.OrderAdapter
@@ -26,6 +29,19 @@ class OrdersActivity : AppCompatActivity() {
         binding = ActivityOrdersBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupExpandableListView()
+
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+
+        setSupportActionBar(toolbar)
+
+        supportActionBar?.apply {
+            title = "Мої замовлення"
+            setDisplayHomeAsUpEnabled(true)
+        }
+
+        toolbar.setNavigationOnClickListener {
+            onBackPressed()
+        }
 
         binding.ordersRadiogroup.setOnCheckedChangeListener{_, checkedId ->
             val radio = findViewById<RadioButton>(checkedId)

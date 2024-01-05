@@ -2,13 +2,16 @@
 package com.example.shopmatemobile.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.example.shopmatemobile.OrderActivity
 import com.example.shopmatemobile.databinding.ItemOrderInfoBinding
 import com.example.shopmatemobile.databinding.ItemOrderProductBinding
 import com.example.shopmatemobile.model.OrderInfoProducts
@@ -98,12 +101,19 @@ class OrderAdapter internal constructor(
             holder.label = groupBinding.orderDate
             holder.cost = groupBinding.orderCost
             convertView.tag = holder
+            holder.buttonMore = groupBinding.buttonMore
         } else {
             holder = convertView.tag as GroupViewHolder
         }
         val orderInfoProducts = dataList[listPosition]
         holder.label!!.text = orderInfoProducts.date
         holder.cost!!.text = orderInfoProducts.totalPrice.toString()
+        holder.buttonMore!!.setOnClickListener{
+            val intent = Intent(context, OrderActivity::class.java)
+            intent.putExtra("orderId", orderInfoProducts.orderId.toString())
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent)
+        }
         return convertView
     }
 
@@ -125,6 +135,7 @@ class OrderAdapter internal constructor(
     inner class GroupViewHolder {
         internal var label: TextView? = null
         internal var cost: TextView? = null
+        internal var buttonMore: Button? = null
     }
 }
 

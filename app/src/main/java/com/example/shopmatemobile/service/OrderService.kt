@@ -1,6 +1,7 @@
 package com.example.shopmatemobile.service
 
 import android.content.Context
+import com.example.shopmatemobile.R
 import com.example.shopmatemobile.addResources.RetrofitClient
 import com.example.shopmatemobile.addResources.RetrofitClient2
 import com.example.shopmatemobile.addResources.SharedPreferencesFactory
@@ -12,6 +13,7 @@ import com.example.shopmatemobile.model.OrderCreation
 import com.example.shopmatemobile.model.OrderInfo
 import com.example.shopmatemobile.model.OrderInfoProducts
 import com.example.shopmatemobile.model.OrderProduct
+import com.example.shopmatemobile.model.Status
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -19,8 +21,6 @@ object OrderService {
     suspend fun getOrderInfo(context: Context, productsIds: ArrayList<String>): OrderCreation {
 
         val orderApi = RetrofitClient.getInstance().create(OrderApi::class.java)
-        println(productsIds)
-        println("hereeeeeeee")
         val token = SharedPreferencesFactory(context).getToken()!!
         return withContext(Dispatchers.IO) {
             return@withContext orderApi.getOrderInfo("Bearer $token", productsIds);
@@ -87,6 +87,16 @@ object OrderService {
                 }
                 return@withContext orderInfoProducts;
         }
+
+    }
+    suspend fun getOrderStatus(context: Context, statusId:Int):Status{
+        val allStatuses = listOf(Status(0, "Замовлення оформлене", R.drawable.created), Status(1, "В обробці", R.drawable.container), Status(2, "Відправлено", R.drawable.truck), Status(3, "Доставлено", R.drawable.box), Status(4, "Скасовано", R.drawable.baseline_close_24))
+        for (status in allStatuses){
+            if (status.id == statusId){
+                return status
+            }
+        }
+        return allStatuses.last()
 
     }
 }

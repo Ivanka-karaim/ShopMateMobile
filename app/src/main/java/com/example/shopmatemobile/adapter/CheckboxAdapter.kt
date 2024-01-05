@@ -18,6 +18,7 @@ import com.example.shopmatemobile.api.BasketApi
 import com.example.shopmatemobile.databinding.ItemCheckboxBinding
 import com.example.shopmatemobile.model.Basket
 import com.example.shopmatemobile.model.OrderProduct
+import com.example.shopmatemobile.model.ProductId
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,6 +43,17 @@ class CheckboxAdapter(private val changedListener: CheckboxChangedListener, var 
         }
 
     }
+    fun removeItem(item: OrderProduct) {
+        val position = currentList.indexOf(item)
+        if (position != -1) {
+            val currentList = currentList.toMutableList()
+            currentList.remove(item)
+            submitList(currentList.toList())
+            notifyItemRemoved(position)
+        }
+    }
+
+
     fun getSelectedItems(): List<OrderProduct> {
         return currentSelectedItems.toList()
     }
@@ -49,7 +61,7 @@ class CheckboxAdapter(private val changedListener: CheckboxChangedListener, var 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_checkbox, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(view, this)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -57,8 +69,9 @@ class CheckboxAdapter(private val changedListener: CheckboxChangedListener, var 
         holder.bind(item, changedListener, context)
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, private val adapter: CheckboxAdapter) : RecyclerView.ViewHolder(view) {
         private val binding = ItemCheckboxBinding.bind(view)
+
 
         fun bind(item: OrderProduct, changedListener: CheckboxChangedListener, context: Context) = with(binding){
             addCheckbox(item)
@@ -75,7 +88,7 @@ class CheckboxAdapter(private val changedListener: CheckboxChangedListener, var 
                 val token = SharedPreferencesFactory(itemView.context).getToken()!!
                 if (item.count > 1) {
                     CoroutineScope(Dispatchers.IO).launch {
-                        basketApi.deleteFromBasket("Bearer $token", Basket(item.id, 1))
+
                         item.count -= 1
                         (itemView.context as? Activity)?.runOnUiThread {
                             binding.apply {
@@ -83,6 +96,7 @@ class CheckboxAdapter(private val changedListener: CheckboxChangedListener, var 
                             }
                             changedListener.onCheckboxChanged()
                         }
+                        basketApi.deleteFromBasket("Bearer $token", Basket(item.id, 1))
                     }
                 }
             }
@@ -90,7 +104,7 @@ class CheckboxAdapter(private val changedListener: CheckboxChangedListener, var 
                 val basketApi = RetrofitClient.getInstance().create(BasketApi::class.java)
                 val token = SharedPreferencesFactory(itemView.context).getToken()!!
                 CoroutineScope(Dispatchers.IO).launch {
-                    basketApi.addToBasket("Bearer $token", Basket(item.id, 1))
+
                     item.count+=1
                     (itemView.context as? Activity)?.runOnUiThread {
                         binding.apply {
@@ -98,6 +112,20 @@ class CheckboxAdapter(private val changedListener: CheckboxChangedListener, var 
                         }
                         changedListener.onCheckboxChanged()
                     }
+                    basketApi.addToBasket("Bearer $token", Basket(item.id, 1))
+                }
+            }
+            buttonDelete.setOnClickListener{
+                val basketApi = RetrofitClient.getInstance().create(BasketApi::class.java)
+                val token = SharedPreferencesFactory(itemView.context).getToken()!!
+                CoroutineScope(Dispatchers.IO).launch {
+                    item.count = 0
+                    removeCheckbox(item)
+                    (itemView.context as? Activity)?.runOnUiThread {
+                        adapter.removeItem(item)
+                        changedListener.onCheckboxChanged()
+                    }
+                    basketApi.removeFromBasket("Bearer $token", item.id)
                 }
             }
 
@@ -109,15 +137,19 @@ class CheckboxAdapter(private val changedListener: CheckboxChangedListener, var 
                 .into(productImage)
             binding.executePendingBindings()
         }
-    }
-}
-class CheckboxItemDiffCallback : DiffUtil.ItemCallback<OrderProduct>() {
-    override fun areItemsTheSame(oldItem: OrderProduct, newItem: OrderProduct): Boolean {
-        return oldItem.id == newItem.id
+
     }
 
-    override fun areContentsTheSame(oldItem: OrderProduct, newItem: OrderProduct): Boolean {
-        return oldItem == newItem
+
+    class CheckboxItemDiffCallback : DiffUtil.ItemCallback<OrderProduct>() {
+        override fun areItemsTheSame(oldItem: OrderProduct, newItem: OrderProduct): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: OrderProduct, newItem: OrderProduct): Boolean {
+            return oldItem == newItem
+        }
     }
+
 }
 

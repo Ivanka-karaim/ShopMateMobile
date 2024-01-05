@@ -2,6 +2,7 @@ package com.example.shopmatemobile
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopmatemobile.adapter.OrderProductAdapter
@@ -18,6 +19,19 @@ class OrderActivity : AppCompatActivity() {
         binding = ActivityOrderBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+
+        setSupportActionBar(toolbar)
+
+        supportActionBar?.apply {
+            title = "Замовлення"
+            setDisplayHomeAsUpEnabled(true)
+        }
+
+        toolbar.setNavigationOnClickListener {
+            onBackPressed()
+        }
+
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         val layoutManager = LinearLayoutManager(this)
         val adapter = OrderProductAdapter(this)
@@ -30,12 +44,14 @@ class OrderActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val order = OrderService.getOrderById(applicationContext, orderId!!.toInt())
             val products = OrderService.getOrderProducts(order.productBaskets)
+            val orderStatus = OrderService.getOrderStatus(applicationContext, order.status)
             runOnUiThread {
                 binding.apply {
                     adapter.submitList(products)
                     binding.orderDate.text = order.date
                     binding.orderCost.text = order.totalPrice.toString()
-                    binding.orderStatus.text = order.status.toString()
+                    binding.orderStatus.text = orderStatus.title
+                    binding.imageStatusIcon.setImageResource(orderStatus.image)
                 }
             }
         }
