@@ -11,6 +11,8 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import com.example.shopmatemobile.addResources.RetrofitClient
 import com.example.shopmatemobile.addResources.SharedPreferencesFactory
 import com.example.shopmatemobile.api.ProfileApi
@@ -33,6 +35,26 @@ class EditProfile : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEditProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+
+        setSupportActionBar(toolbar)
+
+        supportActionBar?.apply {
+            title = "Редагування профілю"
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.baseline_arrow_back_brown_24) // Якщо потрібно змінити значок кнопки "назад"
+            toolbar.setTitleTextColor(
+                ContextCompat.getColor(
+                    this@EditProfile,
+                    R.color.dark_brown
+                )
+            )
+        }
+
+        toolbar.setNavigationOnClickListener {
+            onBackPressed()
+        }
 
         val profileApi = RetrofitClient.getInstance().create(ProfileApi::class.java)
         val token = SharedPreferencesFactory(this).getToken()!!
@@ -110,7 +132,17 @@ class EditProfile : AppCompatActivity() {
 
             errorPassword1.text = ""
             errorPassword3.text = ""
-            if (newPassword.text.toString()==newRepeatPassword.text.toString()){
+            val uppercaseRegex = Regex("[A-Z]")
+            val lowercaseRegex = Regex("[a-z]")
+            val digitRegex = Regex("[0-9]")
+            if (!uppercaseRegex.containsMatchIn(newPassword.text.toString())) {
+                errorPassword3.text = "Має бути хоча б 1 велика літера"
+            } else if (!lowercaseRegex.containsMatchIn(newPassword.text.toString())) {
+                errorPassword3.text = "Має бути хоча б 1 маленька літера"
+            } else if (!digitRegex.containsMatchIn(newPassword.text.toString())) {
+                errorPassword3.text = "Має бути хоча б 1 цифра"
+            }
+            else if (newPassword.text.toString()==newRepeatPassword.text.toString()){
                 CoroutineScope(Dispatchers.IO).launch {
                     val response = profileApi.changePassword(
                         PasswordChange(oldPassword.text.toString(), newPassword.text.toString()),

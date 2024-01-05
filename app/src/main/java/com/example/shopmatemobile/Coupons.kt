@@ -3,7 +3,9 @@ package com.example.shopmatemobile
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.RadioButton
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil.setContentView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +25,26 @@ class Coupons : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCouponsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+
+        setSupportActionBar(toolbar)
+
+        supportActionBar?.apply {
+            title = "Мої купони"
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.baseline_arrow_back_brown_24) // Якщо потрібно змінити значок кнопки "назад"
+            toolbar.setTitleTextColor(
+                ContextCompat.getColor(
+                    this@Coupons,
+                    R.color.dark_brown
+                )
+            )
+        }
+
+        toolbar.setNavigationOnClickListener {
+            onBackPressed()
+        }
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         val layoutManager = LinearLayoutManager(this)
         val adapter = CouponsAdapter()

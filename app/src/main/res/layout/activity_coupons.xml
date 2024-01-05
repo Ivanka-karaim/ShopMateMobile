@@ -6,15 +6,18 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     tools:context=".Coupons">
+    <include
+        android:id="@+id/appBarLayout"
+        layout="@layout/app_bar"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout">
 
 
         <TextView
@@ -23,6 +26,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="45dp"
             android:text="@string/my_coupons"
+            android:textColor="@color/dark_brown"
             android:textSize="24sp" />
 
 <!--        <RadioGroup

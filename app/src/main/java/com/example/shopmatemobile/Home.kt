@@ -156,11 +156,13 @@ class Home : Fragment(), ButtonClickListener{
         CoroutineScope(Dispatchers.IO).launch {
             val categoriesApi = productApi.getCategories()
             categories = listOf("All") + categoriesApi
-            requireActivity().runOnUiThread {
-                binding.apply {
-                    val adapter = RadioAdapter(categories, this@Home, "category")
+            if (isAdded) {
+                requireActivity().runOnUiThread {
+                    binding.apply {
+                        val adapter = RadioAdapter(categories, this@Home, "category")
 
-                    recyclerView.adapter = adapter
+                        recyclerView.adapter = adapter
+                    }
                 }
             }
         }

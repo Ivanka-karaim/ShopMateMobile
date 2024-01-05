@@ -19,6 +19,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="45dp"
             android:text="@string/basket"
+            android:textColor="@color/dark_brown"
             android:textSize="24sp" />
         <TextView
             android:id="@+id/basket_error"
@@ -27,6 +28,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:text=""
+            android:textColor="@color/dark_brown"
             android:textSize="16sp" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -79,6 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
                     android:text="@string/cost"
+                    android:textColor="@color/dark_brown"
                     android:textSize="15sp" />
 
                 <TextView
@@ -86,6 +89,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
+                    android:textColor="@color/dark_brown"
                     android:textSize="17sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -104,12 +108,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
+                    android:textColor="@color/dark_brown"
                     android:text="@string/coupon"
                     android:textSize="15sp" />
 
                 <Spinner
                     android:id="@+id/spinnerCouponsBasket"
                     android:layout_width="150dp"
+                    android:textColor="@color/dark_brown"
                     android:layout_height="match_parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/layoutBasketInfo" />
@@ -129,6 +135,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
+                    android:textColor="@color/dark_brown"
                     android:text="@string/cost_discount"
                     android:textSize="15sp" />
 
@@ -137,6 +144,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TextView"
+                    android:textColor="@color/dark_brown"
                     android:textSize="17sp"
                     android:textStyle="bold" />
             </LinearLayout>

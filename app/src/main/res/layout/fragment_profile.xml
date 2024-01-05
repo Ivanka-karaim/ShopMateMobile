@@ -19,6 +19,7 @@
         android:layout_marginTop="45dp"
         android:text="@string/profile"
         android:textColor="@color/dark_brown"
+
         android:textSize="24sp" />
 
         <LinearLayout
@@ -137,9 +138,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
+                    android:textColor="@color/dark_brown"
                     android:layout_toEndOf="@+id/test_button_image"
                     android:gravity="center"
-                    android:textColor="@color/dark_brown"
                     android:text="@string/edit_profile"
                     android:textSize="16sp" />
 
