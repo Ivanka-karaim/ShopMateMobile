@@ -159,10 +159,15 @@ class Favourite : Fragment(), ButtonClickListener {
                                     )
                                 )
                             }else{
-                                if(responseGrade.code()==401){
-                                    ErrorHandler.unauthorizedUser(requireContext(), requireActivity())
-                                }else{
-                                    ErrorHandler.generalError(requireContext())
+                                withContext(Dispatchers.Main) {
+                                    if (responseGrade.code() == 401) {
+                                        ErrorHandler.unauthorizedUser(
+                                            requireContext(),
+                                            requireActivity()
+                                        )
+                                    } else {
+                                        ErrorHandler.generalError(requireContext())
+                                    }
                                 }
                             }
                         }
@@ -170,10 +175,12 @@ class Favourite : Fragment(), ButtonClickListener {
                 }
                 return@withContext productsShopMate;
             }else{
-                if(response.code()==401){
-                    ErrorHandler.unauthorizedUser(requireContext(), requireActivity())
-                }else{
-                    ErrorHandler.generalError(requireContext())
+                withContext(Dispatchers.Main) {
+                    if (response.code() == 401) {
+                        ErrorHandler.unauthorizedUser(requireContext(), requireActivity())
+                    } else {
+                        ErrorHandler.generalError(requireContext())
+                    }
                 }
                 return@withContext emptyList()
             }

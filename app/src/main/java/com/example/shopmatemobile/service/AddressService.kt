@@ -80,11 +80,13 @@ class AddressService(var context: Context, var activity: Activity) {
                     flatNew
                 )
             )
-            if(!response.isSuccessful){
-                if(response.code()==401){
-                    ErrorHandler.unauthorizedUser(context, activity)
-                }else{
-                    ErrorHandler.generalError(context)
+            withContext(Dispatchers.Main) {
+                if (!response.isSuccessful) {
+                    if (response.code() == 401) {
+                        ErrorHandler.unauthorizedUser(context, activity)
+                    } else {
+                        ErrorHandler.generalError(context)
+                    }
                 }
             }
         }
@@ -94,11 +96,13 @@ class AddressService(var context: Context, var activity: Activity) {
         var token = SharedPreferencesFactory(context).getToken()!!
         CoroutineScope(Dispatchers.IO).launch {
             var response = addressApi.deleteAddresses("Bearer " + token, id)
-            if(!response.isSuccessful){
-                if(response.code()==401){
-                    ErrorHandler.unauthorizedUser(context, activity)
-                }else{
-                    ErrorHandler.generalError(context)
+            withContext(Dispatchers.Main) {
+                if (!response.isSuccessful) {
+                    if (response.code() == 401) {
+                        ErrorHandler.unauthorizedUser(context, activity)
+                    } else {
+                        ErrorHandler.generalError(context)
+                    }
                 }
             }
         }

@@ -69,10 +69,12 @@ class ProductActivity : AppCompatActivity() {
             if(response.isSuccessful){
                 isFavourite = response.body()!!
             }else{
-                if(response.code()==401){
-                    ErrorHandler.unauthorizedUser(this@ProductActivity, this@ProductActivity)
-                }else {
-                    ErrorHandler.generalError(this@ProductActivity)
+                withContext(Dispatchers.Main) {
+                    if (response.code() == 401) {
+                        ErrorHandler.unauthorizedUser(this@ProductActivity, this@ProductActivity)
+                    } else {
+                        ErrorHandler.generalError(this@ProductActivity)
+                    }
                 }
             }
             val productDB = productApi.getProductById(productId)
@@ -91,10 +93,12 @@ class ProductActivity : AppCompatActivity() {
                     grade = responseGrade.body()!!
                 )
             }else{
-                if(response.code()==401){
-                    ErrorHandler.unauthorizedUser(this@ProductActivity, this@ProductActivity)
-                }else{
-                    ErrorHandler.generalError(this@ProductActivity)
+                withContext(Dispatchers.Main) {
+                    if (response.code() == 401) {
+                        ErrorHandler.unauthorizedUser(this@ProductActivity, this@ProductActivity)
+                    } else {
+                        ErrorHandler.generalError(this@ProductActivity)
+                    }
                 }
                 product = ProductShopMate(
                     id = productDB.id,
@@ -204,12 +208,17 @@ class ProductActivity : AppCompatActivity() {
                         itemView.findViewById<Button>(R.id.deleteReview).setOnClickListener {
                             CoroutineScope(Dispatchers.IO).launch {
                                 val responseDeleteReview = reviewApi.deleteReview("Bearer " + token, review.id);
-                                if(!responseDeleteReview.isSuccessful){
-                                    if(responseDeleteReview.code()==401){
-                                        ErrorHandler.unauthorizedUser(this@ProductActivity, this@ProductActivity)
+                                withContext(Dispatchers.Main) {
+                                    if (!responseDeleteReview.isSuccessful) {
+                                        if (responseDeleteReview.code() == 401) {
+                                            ErrorHandler.unauthorizedUser(
+                                                this@ProductActivity,
+                                                this@ProductActivity
+                                            )
 
-                                    }else{
-                                        ErrorHandler.generalError(this@ProductActivity)
+                                        } else {
+                                            ErrorHandler.generalError(this@ProductActivity)
+                                        }
                                     }
                                 }
                             }
@@ -242,6 +251,7 @@ class ProductActivity : AppCompatActivity() {
 
                     }
                 }else{
+
                     if (responseReview.code() == 401){
                         ErrorHandler.unauthorizedUser(this@ProductActivity, this@ProductActivity)
                     }else{
