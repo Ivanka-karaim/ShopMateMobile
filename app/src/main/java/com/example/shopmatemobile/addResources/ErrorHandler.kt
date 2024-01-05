@@ -12,6 +12,7 @@ object ErrorHandler {
         activity.finishAffinity()
         val intent = Intent(context, SignIn::class.java)
         context.startActivity(intent)
+
     }
     fun generalError(context: Context){
         Toast.makeText(

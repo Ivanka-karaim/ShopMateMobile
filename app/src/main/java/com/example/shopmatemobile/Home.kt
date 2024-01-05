@@ -37,6 +37,7 @@ import com.example.shopmatemobile.model.ProductShopMate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -85,16 +86,17 @@ class Home : Fragment(), ButtonClickListener{
         CoroutineScope(Dispatchers.IO).launch {
             val response = favouriteApi.getFavourites("Bearer " + token)
             if (response.isSuccessful) {
-                println(1112121212)
                 favourites = response.body()!!
             }else{
-                if(response.code()==401){
-                    println(5435435345)
-                    ErrorHandler.unauthorizedUser(requireContext(), requireActivity())
-                }else{
-                    ErrorHandler.generalError(requireContext())
+                withContext(Dispatchers.Main){
+                    if(response.code()==401){
+                        ErrorHandler.unauthorizedUser(requireContext(), MainActivity())
+                    }else{
+                        ErrorHandler.generalError(requireContext())
 
-                     }
+                    }
+                }
+
             }
         }
         getProducts(productApi)

@@ -30,6 +30,7 @@ import com.example.shopmatemobile.service.BasketService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Response
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -288,11 +289,25 @@ class ProductActivity : AppCompatActivity() {
                         grade.toDouble()
                     )
                     val responseAddReview = reviewApi.addReview("Bearer " + token, review)
-                    if(!responseAddReview.isSuccessful){
-                        if(responseAddReview.code()==401){
-                            ErrorHandler.unauthorizedUser(this@ProductActivity, this@ProductActivity)
-                        }else{
-                            ErrorHandler.generalError(this@ProductActivity)
+                    withContext(Dispatchers.Main) {
+                        if (!responseAddReview.isSuccessful) {
+                            if (responseAddReview.code() == 401) {
+                                ErrorHandler.unauthorizedUser(
+                                    this@ProductActivity,
+                                    this@ProductActivity
+                                )
+                            } else if (responseAddReview.errorBody()?.string().toString()
+                                    .contains("ThereAreAlreadyReviews")
+                            ) {
+                                Toast.makeText(
+                                    this@ProductActivity,
+                                    "Неможливо додати більше ніж 5 коментарів",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                recreate()
+                            } else {
+                                ErrorHandler.generalError(this@ProductActivity)
+                            }
                         }
                     }
                 }

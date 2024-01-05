@@ -26,9 +26,6 @@ object RetrofitClient {
             val sslContext: SSLContext = SSLContext.getInstance("TLS")
             sslContext.init(null, arrayOf(trustManager), null)
 
-
-
-
             val client = OkHttpClient.Builder()
                 .sslSocketFactory(sslContext.socketFactory, trustManager as X509TrustManager)
                 .hostnameVerifier { _, _ -> true }.addInterceptor(interceptor).build()
